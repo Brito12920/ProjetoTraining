@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+           <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+    </b:navbarLinks>
+     </b:navBar>          
+                <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+    </h:head>
+    <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+    <h:body >
+        <h:form id="form_cadControle">
+             <p:growl id="growl" showDetail="true" />
+            <b:panel title="Cadastro de Descrição de Avaliação do Treinador" look="primary" style="background: gainsboro; color: red;  ">
+               
+            
+             <p:linkButton outcome="SelecionarFuncionarios" value="Criar uma lista" style="margin-right:20px;">
+             <f:param name="cricar" value="10"/>
+             </p:linkButton> 
+           
+             <p:panelGrid columns="3">
+                <h:outputLabel value="Digite uma lista" onfocus="true"></h:outputLabel>
+             
+               
+            
+                    <b:selectOneMenu id="consultaUnit" value="#{DocTreinamentoMB.texto1Buscar}"   label="Nome do Treinamento" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaNomeTreinamento}" var="f" />
+                 </b:selectOneMenu>
+                
+
+                  <p:commandButton id="bntBuscar"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por lista" action="#{DocTreinamentoMB.buscarDocumentos()}"
+                                  process="tabela consultaUnit @this"
+                                 update="tabela"></p:commandButton>         
+                
+                                                  
+                 </p:panelGrid>
+                   
+            
+            
+               	 	
+               <p:dataTable id="tabela" widgetVar="dtProducts" var="lista" value="#{DocTreinamentoMB.avaliacao2}"
+                     reflow="true" styleClass="products-table"
+                     rowKey="#{lista.codigo}" paginator="true"
+                     rows="15" rowSelectMode="add" paginatorPosition="bottom"> 
+                           
+                
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{lista.descricao}" />
+                </p:column>
+
+                <p:column headerText="Documentos de Treinamentos">
+                    <p:rating value="#{lista.nota}" readonly="true"/>
+                </p:column>
+
+                                               
+                   
+            </p:dataTable>
+            
+             </b:panel>
+            <h:panelGrid columns="2" columnClasses="left,right"
+                style="width:100%">
+                <p:chart id="bar" type="bar" model="#{chartView.barModel}"
+                    style="width:600px;height:600px">
+                    <p:ajax event="itemSelect" listener="#{chartView.itemSelect}"
+                        update="growl" />
+                </p:chart>
+            </h:panelGrid>
+                     </h:form>
+     
+    </h:body>
+</html>

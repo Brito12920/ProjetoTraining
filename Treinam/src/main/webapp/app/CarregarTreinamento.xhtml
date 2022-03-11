@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{funcionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+          <p:messages/>
+      
+        
+          <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+    </h:head>
+    <h:body >
+        
+           <p:fieldset legend="Tela de cadastro de treinamento por avaliações individuais - Carregamento através de planilhas XLS">
+
+               <h:form id="form_cadModelo" enctype="multipart/form-data">
+            <p:messages/>
+         
+            <p:toolbarGroup>
+                <h:inputFile value="#{FileUploadViewBean.file}" rendered="true" requiredMessage="O arquivo é obrigatorio"/> 
+            </p:toolbarGroup>
+            
+            <br/>    
+           
+         
+           
+  
+            <p:panelGrid columns="2" style="width: 50%" >
+                
+                     <p:commandButton value="Carregar" ajax="false"  action="#{FileUploadViewBean.upload()}"  styleClass="p-mt-3 ui-button-outlined p-d-block" />  
+               
+         
+          
+            
+            
+     
+               
+                    <p:commandButton value="Gravar" ajax="false" action="#{FileUploadViewBean.gravar()}" styleClass="p-mt-3 ui-button-outlined p-d-block"/> 
+                
+
+      </p:panelGrid>
+  
+       
+               
+            
+            
+            <p:dataTable id="tabela" var="modelo" value="#{FileUploadViewBean.listaAvaliacoes}" tableStyle="table-layout: auto;" resizableColumns="true" showGridlines="true"
+		paginator="true" rows="10" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{modelo.cod_obt}" selection="#{modelo}" selectionMode="single" >	
+		<f:facet name="header">Lista de Modelos</f:facet>	
+	 	 
+                             
+                <p:column headerText="Nome do Treinamento"  width="300" sortBy="#{modelo.cod_obt}">
+                    <h:outputText value="#{modelo.cod_obt}" />
+                </p:column>
+
+
+
+                <p:column headerText="QuantAlternativas" sortBy="#{modelo.quantPeguntas}">
+                    <h:outputText value="#{modelo.quantPeguntas}" />
+                </p:column>
+
+                 <p:column headerText="Descrição" sortBy="#{modelo.descricao}">
+                     <h:outputText value="#{modelo.descricao}" />
+                </p:column>
+
+                 <p:column headerText="Revisão" sortBy="#{modelo.revisao}">
+                     <h:outputText value="#{modelo.revisao}" />
+                </p:column>              
+                  
+                 <p:column headerText="Descrição do Curso" sortBy="#{modelo.desc_obt}">
+                     <h:outputText value="#{modelo.desc_obt}" />
+                </p:column> 
+                  
+                <p:column headerText="Alternativa A" sortBy="#{modelo.alternativaA}">
+                    <h:outputText value="#{modelo.alternativaA}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoA}">
+                    <h:outputText value="#{modelo.corretoA}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem A" sortBy="#{modelo.imagem1}">
+                    <h:outputText value="#{modelo.imagem1}" />
+                </p:column> 
+                   
+                 <p:column headerText="Alternativa B" sortBy="#{modelo.alternativaB}">
+                    <h:outputText value="#{modelo.alternativaB}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoB}">
+                    <h:outputText value="#{modelo.corretoB}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem B" sortBy="#{modelo.imagem2}">
+                    <h:outputText value="#{modelo.imagem2}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa C" sortBy="#{modelo.alternativaC}">
+                    <h:outputText value="#{modelo.alternativaC}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoC}">
+                    <h:outputText value="#{modelo.corretoC}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem C" sortBy="#{modelo.imagem3}">
+                    <h:outputText value="#{modelo.imagem3}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa D" sortBy="#{modelo.alternativaD}">
+                    <h:outputText value="#{modelo.alternativaD}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoD}">
+                    <h:outputText value="#{modelo.corretoD}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem D" sortBy="#{modelo.imagem4}">
+                    <h:outputText value="#{modelo.imagem4}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa E" sortBy="#{modelo.alternativaE}">
+                    <h:outputText value="#{modelo.alternativaE}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoE}">
+                    <h:outputText value="#{modelo.corretoE}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem E" sortBy="#{modelo.imagem5}">
+                    <h:outputText value="#{modelo.imagem5}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa F" sortBy="#{modelo.alternativaF}">
+                    <h:outputText value="#{modelo.alternativaF}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoF}">
+                    <h:outputText value="#{modelo.corretoF}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem F" sortBy="#{modelo.imagem6}">
+                    <h:outputText value="#{modelo.imagem6}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa G" sortBy="#{modelo.alternativaG}">
+                    <h:outputText value="#{modelo.alternativaG}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoG}">
+                    <h:outputText value="#{modelo.corretoG}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem G" sortBy="#{modelo.imagem7}">
+                    <h:outputText value="#{modelo.imagem7}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa H" sortBy="#{modelo.alternativaH}">
+                    <h:outputText value="#{modelo.alternativaH}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoH}">
+                    <h:outputText value="#{modelo.corretoH}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem H" sortBy="#{modelo.imagem8}">
+                    <h:outputText value="#{modelo.imagem8}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa I" sortBy="#{modelo.alternativaI}">
+                    <h:outputText value="#{modelo.alternativaI}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoI}">
+                    <h:outputText value="#{modelo.corretoI}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem I" sortBy="#{modelo.imagem9}">
+                    <h:outputText value="#{modelo.imagem9}" />
+                </p:column> 
+                
+                 <p:column headerText="Alternativa J" sortBy="#{modelo.alternativaJ}">
+                    <h:outputText value="#{modelo.alternativaJ}" />
+                </p:column> 
+                
+                <p:column headerText="Verificação/Correta" sortBy="#{modelo.corretoJ}">
+                    <h:outputText value="#{modelo.corretoJ}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem J" sortBy="#{modelo.imagem10}">
+                    <h:outputText value="#{modelo.imagem10}" />
+                </p:column> 
+                
+                <p:column headerText="Avaliacao final" sortBy="#{modelo.nomeAvaliacao}">
+                    <h:outputText value="#{modelo.nomeAvaliacao}" />
+                </p:column> 
+                
+                </p:dataTable>
+            <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+             
+                     </h:form>
+      </p:fieldset>
+    </h:body>
+</html>

@@ -1,0 +1,81 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 01/06/2021, 14:12:33
+    Author     : v103760
+*/
+
+
+.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 13px; }
+.ui-autocomplete{
+width: 90% !important;
+}
+.ui-autocomplete-input{
+width: 90% !important;
+}
+.ui-autocomplete-multiple {
+width: 98% !important;
+}
+.p-autocomplete {
+width: 98% !important;
+}
+.ui-autocomplete-multiple-container {
+width: 90% !important;
+}
+.colunaDireita{ text-align: left; } .colunaEsquerda{ text-align: right; } .colunaCenter { text-align: center;}
+
+.column0Class {
+    width: 5%;
+}
+.column1Class {
+    width: 75%;
+}
+.column2Class {
+    width: 15%;
+}
+.column3Class {
+    width: 5%;
+}
+
+.columnT0Class {
+    width: 10%;
+}
+.columnT1Class {
+    width: 30%;
+}
+.columnT2Class {
+    width: 50%;
+}
+
+.columnAv0Class {
+    width: 30%;
+}
+.columnAv1Class {
+    width: 60%;
+}
+.columnAv2Class {
+    width: 10%;
+}
+
+.column1ClassD {
+    width: 75%;
+}
+.column2ClassD {
+    width: 15%;
+}
+.column3ClassD {
+    width: 10%;
+}
+.column3ClassTitulo {
+    text-align: center;
+    width: 100%;
+}
+body .ui-panelgrid .ui-panelgrid-cell {
+    border: 1px  #dee2e6;
+    background: #f5f4f4;
+    color: #495057;
+    padding: 1rem;
+}

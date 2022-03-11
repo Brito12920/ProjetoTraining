@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:b="http://bootsfaces.net/ui"
+     xmlns:f="http://xmlns.jcp.org/jsf/core"
+     xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+   <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+          <p:messages/>
+      
+        
+          <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+</h:head>
+
+<h:body>
+ <h:form>
+     
+  <p:messages id="messages" />
+  
+  <b:panel style=" align-content:  center"></b:panel>
+  
+      
+        
+ </h:form>
+</h:body>
+</html>

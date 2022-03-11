@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Sistema de Avaliação</title>
+          <h:outputStylesheet name="estilo.css" library="css" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />  
+         <style>
+             .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              }
+         </style>
+       </h:head>
+    
+     
+    
+    <h:body style="Avaliação" >
+        
+        <h:form >
+            <b:panel title="Avaliação" look="warning" style="background-color: #f5f4f4"  styleClass="stilo" > 
+           
+            <h:messages/>  
+        <p:growl id="msg"/>
+        <h1 align="center" style="color:orange">AVALIAÇÃO</h1>
+        <p:panelGrid columns="1" style="width: 100%" columnClasses="colunaCenter">
+            <h:outputLabel value="#{ObtMB.nomeAvalicao} - #{SelectBooleanView.revisao}"      style="width:20%"  > </h:outputLabel>
+        </p:panelGrid>
+        <p:panelGrid columns="2" style="width: 100%" columnClasses="column3ClassTitulo">
+            <h:outputLabel value="Quantidade de questões :  #{SelectBooleanView.totalPer}"   style="width:20%"> </h:outputLabel>
+           <h:outputLabel value="Questão numero: #{SelectBooleanView.ordem}"      style="width:40%" > </h:outputLabel>
+         
+           <h:outputLink  value="#{SelectBooleanView.video}" style="width: 100%"  rendered="#{SelectBooleanView.video != null}" target="_blank" >
+
+               <font face="arial" size="5" style="waitingForConnection">
+                   Assista o vídeo através desse link para responder as questões!!
+               </font>
+              
+        <f:param name="productId" value="10"/>
+  
+           </h:outputLink>
+        </p:panelGrid>  
+        
+      
+       
+       
+            <b:panel>    
+        <h:outputLabel value="Nome da avaliação :"   style="width:20%"  > </h:outputLabel>
+        <p:inputText id="nomeTreinamento" value="#{ObtMB.nomeAvalicao}"  onkeyup="this.value" />
+        <p:watermark for="nomeTreinamento" value="#{ObtMB.nomeAvalicao}" />     
+            </b:panel>
+          
+            <p:toolbar style="background-color: #DFDFDF">
+                <p:toolbarGroup style="width:40%">
+                    <b:panelGrid columns="2">
+                <p:commandButton id="inicii"
+                                 icon="ui-icon-disk"
+                                 value="Iniciar" action="#{SelectBooleanView.carregar()}"
+                                 update="@form"  disabled="#{SelectBooleanView.botaoInicio}"
+                                 styleClass="ui-button-warning"
+                                  style="width: 100%"
+                                 ></p:commandButton>
+                    
+                <p:commandButton id="Confirmar"
+                                 icon="ui-icon-disk"
+                                 value="Confirmar" action="#{SelectBooleanView.listarAlternativa()}"
+                                 update="@form"
+                                 styleClass="ui-button-success"
+                                  style="width: 100%"
+                                   ></p:commandButton>
+                     </b:panelGrid>
+            </p:toolbarGroup>
+            <p:toolbarGroup align="right" style="width:20%" >
+                <p:commandButton id="Finalizar"
+                                 icon="ui-icon-disk"
+                                 value="Finalizar" action="#{SelectBooleanView.finalizar()}"
+                                 update="@form" disabled="#{SelectBooleanView.botaoFinalizar}"
+                                  styleClass="ui-button-warning"
+                                  style="width: 50%"
+                                   ></p:commandButton>
+       
+            
+            </p:toolbarGroup>
+                <p:toolbarGroup style="width:40%">
+                   
+                    <b:panelGrid columns="3">
+                     <p:commandButton id="voltar"
+                                 icon="ui-icon-seek-next"
+                                 value="Voltar" action="#{SelectBooleanView.carregarRev()}"
+                                 update="@form" disabled="#{SelectBooleanView.botaoVoltar}"
+                                 style="width: 100%"
+                                   ></p:commandButton>
+                   
+                    
+                    
+                     <p:commandButton id="proximo"
+                                 icon="ui-icon-disk"
+                                 value="Proxima" action="#{SelectBooleanView.carregarProxi()}"
+                                 update="@form" disabled="#{SelectBooleanView.botaoProximo}"
+                                 style="width: 100%;text-align: center"
+                                   ></p:commandButton>
+                        
+                         <p:commandButton id="Alterar"
+                                 icon="ui-icon-disk"
+                                 value="Alterar" action="#{SelectBooleanView.uptade()}"
+                                 update="@form" disabled="#{SelectBooleanView.botaoAlterar}"
+                                 styleClass="ui-button-secondary"
+                                 style="width: 100%"
+                                   ></p:commandButton>
+                    </b:panelGrid>
+          
+                </p:toolbarGroup>
+        </p:toolbar>
+          
+       <p:panelGrid columns="3" style="width: 100%" columnClasses="column1Class, column2Class, column3Class" >
+        <p:inputTextarea  id="titulo" autoResize="true" value="#{SelectBooleanView.pergunta.descricao}" style="text-align: center; width:90%; color: white;background-color: gray;font-size: 18px !important;" >
+                     
+                 </p:inputTextarea>   
+      
+           
+            <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.descricao != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image}" var="image" >
+                        <p:graphicImage  value="/#{image}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+            <p:commandButton type="button" value="Show" onclick="PF('dlg1D').show()" icon="pi pi-search" styleClass="myCustomStyle"  rendered="#{SelectBooleanView.pergunta.descricao != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg1D" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.descricao != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image}" var="image">
+                            <p:graphicImage  value="/#{image}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                   
+                 </p:dialog>
+            
+            </p:panelGrid>
+        
+                 
+
+        <p:panelGrid columns="1" style="width:100%" >
+
+            <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" >
+
+                <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuA}"   itemLabel="A" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" >
+                    <p:ajax update="msg B" listener="#{SelectBooleanView.listarAlternativa()}"  event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="A" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaA}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image1}" var="image1" >
+                        <p:graphicImage  value="/#{image1}" width="80%" height="80%" />
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg1').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg1" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image1}" var="image1">
+                            <p:graphicImage  value="/#{image1}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                </p:panelGrid>
+            </h:panelGroup>
+            
+            
+            
+            <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaB != ''}" >
+                <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuB}"   itemLabel="B" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaB != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="B" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaB}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image2}" var="image2" >
+                        <p:graphicImage  value="/#{image2}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg2').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg2" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image2}" var="image2">
+                            <p:graphicImage  value="/#{image2}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+
+             <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaC != ''}" >
+                 <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuC}"   itemLabel="C" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaC != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="C" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaC}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image3}" var="image3" >
+                        <p:graphicImage  value="/#{image3}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg3').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg3" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image3}" var="image3">
+                            <p:graphicImage  value="/#{image3}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+          
+
+             <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" >
+                  <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuD}"   itemLabel="D" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="D" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaD}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image4}" var="image4" >
+                        <p:graphicImage  value="/#{image4}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg4').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg4" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image4}" var="image4">
+                            <p:graphicImage  value="/#{image4}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+            
+            <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaE != ''}" >
+                <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuE}"   itemLabel="E" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaE != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="E" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaE}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image5}" var="image5" >
+                        <p:graphicImage  value="/#{image5}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg5').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg5" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image5}" var="image5">
+                            <p:graphicImage  value="/#{image5}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+             
+            
+            <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaF != ''}" >
+                   <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuF}"   itemLabel="F" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaF != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="F" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaF}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image6}" var="image6" >
+                        <p:graphicImage  value="/#{image}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg6').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg6" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image6}" var="image6">
+                            <p:graphicImage  value="/#{image6}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+            
+             <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaG != ''}" >
+                   <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuG}"   itemLabel="G" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaG != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="G" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaG}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image7}" var="image7" >
+                        <p:graphicImage  value="/#{image7}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg7').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg7" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image7}" var="image7">
+                            <p:graphicImage  value="/#{image7}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+            
+            <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaH != ''}" >
+                  <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuH}"   itemLabel="H" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaH != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="H" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaH}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image8}" var="image8" >
+                        <p:graphicImage  value="/#{image8}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg8').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg8" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image8}" var="image8">
+                            <p:graphicImage  value="/#{image8}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+             <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaI != ''}" >
+                 <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuI}"   itemLabel="I" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaI != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="I" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaI}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image9}" var="image9" >
+                        <p:graphicImage  value="/#{image9}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg9').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg9" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image9}" var="image9">
+                            <p:graphicImage  value="/#{image9}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+            
+             <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" >
+                    <p:panelGrid columns="4" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class">
+                <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuJ}"   itemLabel="J" style="width:100%"  rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" >
+                    <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="j" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaJ}" style="width:90%;background: #DFDFDF;font-size: 16px !important" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}">
+                    <ui:repeat value="#{SelectBooleanView.image10}" var="image10" >
+                        <p:graphicImage  value="/#{image10}" width="80%" height="80%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg10').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg10" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{SelectBooleanView.image10}" var="image10">
+                            <p:graphicImage  value="/#{image10}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+                 </p:panelGrid>
+            </h:panelGroup>
+            
+            </p:panelGrid>
+                
+            
+            </b:panel> 
+            
+             <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+        </h:form>
+     
+    </h:body>
+</html>

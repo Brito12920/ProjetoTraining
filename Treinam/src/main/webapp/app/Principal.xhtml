@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+     
+          <style type="text/css">
+    .ui-panel, div.ui-state-hover {
+        margin: 10px;
+        width: 200px;
+    }
+
+    .ui-dashboard-column {
+        width: 220px;
+    }
+     .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+</style>
+        
+       </h:head>
+    <h:body>
+    <h:form>
+     <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+    <b:dropMenu value="Programar um Treinamento(QUIZ)"   iconAlign="right">
+        <b:navLink value="Cadastrar" iconAwesome="fa-file-text" href="InclusaoControleAvaliacao.jsf"></b:navLink>
+        <b:navLink value="Consultar" iconAwesome="fa-search" href="AlteraAvaliacao.jsf"></b:navLink>
+        <b:navLink value="Relatorio Controle" iconAwesome="fa-list-alt" href="RelatorioAvaliacao.jsf"></b:navLink>
+        <b:navLink value="Relatorio da Avaliações Feitas" iconAwesome="fa-list-alt" href="RelatorioObt.jsf"></b:navLink>
+     </b:dropMenu>
+   
+    <b:dropMenu value="Registrar um Treinamento"  iconAlign="right">
+        <b:navLink value="Cadastrar"  iconAwesome="fa-pencil" href="InclusaoControleTreinamento.jsf"></b:navLink>
+        <b:navLink value="Consultar" iconAwesome="fa-search" href="AlteraAvaliacao.jsf"></b:navLink>
+        
+     </b:dropMenu>
+    
+            
+      <b:dropMenu value="Funcionarios" iconAlign="right">
+        <b:navLink value="Cadastrar" iconAwesome="fa-user-plus" href="Funcionarios.jsf"></b:navLink>
+       </b:dropMenu>
+      
+     <b:dropMenu value="Graficos" iconAlign="right">
+        <b:navLink value="Dashboard" iconAwesome="fa-dashboard" href="Dashboard.jsf"></b:navLink>  
+        <b:navLink value="Dashboard Avaliacao" iconAwesome="fa-area-chart" href="Dashboard_avaliacao.jsf"></b:navLink> 
+     </b:dropMenu>
+    
+       <b:dropMenu value="Utilitarios" iconAlign="right">
+        <b:navLink value="Cadastro de imagens"  iconAwesome="fa-image" href="Imagem.jsf"></b:navLink>
+        <b:navLink value="Cadastrar uma lista" iconAwesome="fa-list" href="SelecionarFuncionarios.jsf"></b:navLink>
+        <b:navLink value="Consulta/Alterar lista" iconAwesome="fa-list-alt" href="CadastroLista.jsf"></b:navLink>
+        <b:navLink value="Testar Avaliação" iconAwesome="fa-th-list" href="QuestionarioTeste.jsf"></b:navLink>  
+        <b:navLink value="Avaliação do treinamento" iconAwesome="fa-list-ul" href="ListaAvaliacao.jsf"></b:navLink> 
+        <b:navLink value="Cadastro Descrição de Avalição" iconAwesome="fa-plus-square" href="DescricaoAvaliacao.jsf"></b:navLink> 
+        <b:navLink value="Carregar Funcionários"  iconAwesome="fa-building" href="CarregarFuncionarios.jsf" />
+        <b:navLink value="Carregar Treinamento"  iconAwesome="fa-building" href="CarregarTreinamento.jsf" />
+        
+     </b:dropMenu>
+      
+       <b:dropMenu value="Configurações" iconAlign="right">
+           <b:navLink value="Cadastrar Departamento" iconAwesome="fa-building" href="CadastroDepartamento.jsf"/>
+           <b:navLink value="Cadastrar Unidade" iconAwesome="fa-building-o" href="CadastroUnidade.jsf" />
+           <b:navLink value="Cadastrar Instrutor de treinamendos" iconAwesome="fa-building-o" href="Treinamento.jsf" />
+           <b:navLink value="Cadastrar Gestor" iconAwesome="fa-building-o" href="Gestor.jsf" />
+           <b:navLink value="Cadastrar Modelo de avaliação" iconAwesome="fa-gears" href="CadastroModelo.jsf" />
+           <b:navLink value="Cadastrar Tipo de avaliação" iconAwesome="fa-gears" href="CadastroTipoTreinamento.jsf"/>
+           <b:navLink value="Cadastrar Localde avaliação" iconAwesome="fa-gears" href="CadastroTipo.jsf" />
+           <b:navLink value="Cadastrar Status" iconAwesome="fa-gears" href="CadastroStatus.jsf"  />
+           <b:navLink value="Cadastrar Número de documento"  iconAwesome="fa-building" href="CadastroNumeroDocumento.jsf" />
+          
+          
+           
+     </b:dropMenu>
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+   
+        
+        
+    
+   
+  </b:navbarLinks>
+    
+</b:navBar>
+   
+         
+   
+        <b:commandButton value="LOG OUT" type="button"  action="#{FuncionarioMB.logAut()}" ajax="true" update="@none"  style="height: 30px; width: 10%;  float: right; background-color: #000000; color: #ffffff  " styleClass="ui-button-warning"/>       
+       
+    </h:form>
+         <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus>  
+       
+
+        
+    </h:body>
+</html>
+

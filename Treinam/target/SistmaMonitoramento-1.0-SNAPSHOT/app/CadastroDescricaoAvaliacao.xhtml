@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+     <h:head>
+         
+         <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+    </b:navbarLinks>
+     </b:navBar>        
+    </h:head>
+   
+    <h:body>
+         <b:form id="form_cadAvaliacao" horizontal="true">
+              <p:messages id="messagesLogin"/> 
+            
+             <div class="container h-100">
+                 <div class="d-flex justify-content-center h-100" style="color: captiontext">
+                      <b:panel title="Cadastro de Descrição de Avaliação do Treinador" look="warning" style="background: gainsboro; color: red;  ">
+                     <b:panelGrid columns="1" size="xs" >
+
+                         <b:inputText value="#{CadastroDecAvalicaoMB.buscar}" placeholder="Digite o código para buscar" typeahead="true" tiny-screen="one-fourth" />    
+                         <b:commandButton value="Pesquisar" action="#{CadastroDecAvalicaoMB.buscar}" ajax="true" update="tabela codigo desc nomeAvaliacao cat desc_categoria unidade messagesLogin" look="info" style="width:80px"/>
+                         
+                          <b:selectOneMenu id="consultaUnit" value="#{CadastroDecAvalicaoMB.buscar}"   label="Nome do Treinamento" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{CadastroDecAvalicaoMB.listaAvaliacoes}" var="f" />
+                 </b:selectOneMenu>
+                         
+                         
+                     </b:panelGrid>
+                     
+                    
+                     <b:panelGrid columns="3" tooltip-position="hight" size="lg" >
+              <b:commandButton value="Salvar" ajax="true" action="#{CadastroDecAvalicaoMB.cadastraDescricaoAvaliacao()}" update="@form" look="primary" style="width:100px"/>
+              <b:commandButton value="Alteração" ajax="true"  action="#{CadastroDecAvalicaoMB.alterarDescricaoAvaliacao()}" update="@form" look="success" style="width:100px"/>
+              <b:commandButton value="Exclusão" ajax="true" action="#{CadastroDecAvalicaoMB.excluirDescricaoAvaliacao()}"  update="@form" look="danger" style="width:100px"/>
+             </b:panelGrid>
+                   </b:panel>         
+              
+ 
+             <b:panel title="Tabela de Descrição de Avaliação do Treinador" look="primary" style="background: gainsboro; color: black">
+                            
+                 
+                 <p:dataTable id="tabela" var="desc" value="#{CadastroDecAvalicaoMB.descricaoAvalicacoes}"  
+		paginator="true" rows="10" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{desc.codigo}" selection="#{desc}" selectionMode="single"
+                styleClass="tabela"    
+               
+                >	
+		<f:facet name="header">Lista de Avaliações</f:facet>	
+	 	 
+                
+                
+                <p:column headerText="Codigo" sortBy="#{desc.codigo}">
+                    <h:outputText value="#{desc.codigo}" />
+                </p:column>
+
+
+
+                <p:column headerText="Descrição" sortBy="#{desc.descricao}">
+                    <h:outputText value="#{desc.descricao}" />
+                </p:column>
+
+
+                <p:column headerText="Nome da avalição" sortBy="#{desc.nomeAvaliacao}">
+                    <h:outputText value="#{desc.nomeAvaliacao}" />
+                     </p:column>
+
+                
+                                    
+                <p:column style="width:32px;text-align: center">
+                             <p:commandButton icon="pi pi-pencil" update=":form_cadAvaliacao:manage-product-content"
+                                              oncomplete="PF('dialogGerCliente').show()"
+                                              styleClass="ui-button-warning" process="@this">
+                                 <f:setPropertyActionListener value="#{desc}" target="#{CadastroDecAvalicaoMB.descricaoAvaliacao}"/>
+                                 <p:resetInput target=":form_cadAvaliacao:manage-product-content"/>
+                             </p:commandButton>
+                         </p:column>  
+                  
+                                   
+                
+                </p:dataTable>
+                 
+                 
+                         </b:panel>
+                     
+                      <p:dialog id="modalDialog" header="Cadastro de Avaliações" responsive="true"
+				widgetVar="dialogGerCliente" modal="true" height="500" width="900"
+                                showEffect="side"  style="background-color: #90a4ae ">
+                         <b:inputText id="codigo" value="#{CadastroDecAvalicaoMB.descricaoAvaliacao.codigo}" placeholder="Código" typeahead="true"  tiny-screen="one-fourth" />
+                         <b:inputText id="desc" value="#{CadastroDecAvalicaoMB.descricaoAvaliacao.descricao}" placeholder="Descrição" typeahead="true"  tiny-screen="two-thirds" />
+                         <b:inputText id="nomeAvaliacao" value="#{CadastroDecAvalicaoMB.descricaoAvaliacao.nomeAvaliacao}" placeholder="Nome da avaliação" typeahead="true"  tiny-screen="two-thirds" />
+                         <b:inputText id="cat" value="#{CadastroDecAvalicaoMB.descricaoAvaliacao.categoria}" placeholder="Categoria" typeahead="true"  tiny-screen="two-thirds" />
+                         <b:inputText id="desc_categoria"  value="#{CadastroDecAvalicaoMB.descricaoAvaliacao.desc_categoria}" placeholder="Descrição da categoria" typeahead="true"  tiny-screen="two-thirds" />
+                         <b:inputText id="unidade" value="#{CadastroDecAvalicaoMB.descricaoAvaliacao.unidade}" placeholder="Unidade" typeahead="true"    tiny-screen="one-fourth"/>
+                         <p:watermark for="unidade" value="#{CadastroDecAvalicaoMB.unidade}" /> 
+                    </p:dialog>
+              </div>
+                 </div>
+              
+              <p:ajaxStatus styleClass="ajax-status">
+                    <f:facet name="start">
+                        <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+                    <f:facet  name="complete">
+                        <h:outputText value=""/>
+                    </f:facet>
+                </p:ajaxStatus> 
+              
+         </b:form>     
+            
+    </h:body>
+</html>
+

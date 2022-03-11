@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        
+        <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+        
+             <link rel="stylesheet" type="text/css" href="css/estilo.css" />    
+             <style type="text/css">
+           .cheap {
+                      background-color:  #C8E6C9 !important;
+                      background-image: none !important;
+                      color: #000 !important;
+                      
+              }
+              .repro {
+                  background-color: #ee2200  !important;
+                  background-image: none !important;
+                  color: #FFFFFF !important;
+
+              }
+              .progra {
+                  background-color: #DFDFDF !important;
+                  background-image: none !important;
+                  color: #000 !important;
+
+              }   
+
+              .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              } 
+            
+        </style>
+        
+        <p:growl id="messages" showDetail="true"/>
+    </h:head>
+    <h:body>
+        
+        <h:form id="form">
+             
+             <b:messages/>
+             <p:panelGrid columns="2">
+               
+                 <p:commandButton value="Imprimir" icon="pi pi-print" action="#{ConsultaEspecificaControleBean.imprimeLista()}" ajax="false" onclick="this.form.target = '_blank';"/>
+             </p:panelGrid>
+        <p:panelGrid columns="3">
+                                        
+                         <b:selectOneMenu  id="select" value="#{ConsultaEspecificaControleBean.texto1Buscar}" select2="true"  style="width:100%;"  label="Registro de Treinamento" >
+                             <f:selectItem itemLabel="(Please select)" itemValue="" />
+                             <f:selectItems value="#{ConsultaControleMB.listaNumeroDocumento}" var="f" />
+                         </b:selectOneMenu>
+
+                  <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por Documento" action="#{ConsultaEspecificaControleBean.buscarNumeroTreinamento()}"
+                                 process="tabela select @this"
+                                 styleClass="ui-button-warning"
+                                 update="tabela @form">
+                  
+                  </p:commandButton>         
+                
+                <p:commandButton id="bntCarregarTudo"
+                                 icon="ui-icon-trash"
+                                 value="CarregarTudo" action="#{ConsultaEspecificaControleBean.carregarTudo()}"
+                                 process="tabela @this"
+                                 styleClass="ui-button-warning"
+                                 update="@form">
+                  
+                  </p:commandButton>    
+                
+                 
+                  <p:commandButton id="BotaoStatusConcluido"
+                                 icon="ui-icon-trash"
+                                 value="Alterar Status Concluido" action="#{ConsultaControleMB.statusConcluido()}"
+                                 styleClass="ui-button-warning"
+                                 process="bntPesquisarMapa tabela @this"
+                                 update=":form:tabela"
+                                 >
+                  </p:commandButton>      
+                 <p:commandButton id="BotaoStatusProgramado"
+                                 icon="ui-icon-trash"
+                                 value="Alterar Status Programado" action="#{ConsultaControleMB.statusProgramado()}"
+                                 styleClass="ui-button-warning"
+                                 process="bntPesquisarMapa tabela @this"
+                                 update="@form"
+                                 ></p:commandButton>  
+                  <p:commandButton id="BotaoStatusCancelado"
+                                 icon="ui-icon-trash"
+                                 value="Alterar Status Cancelado" action="#{ConsultaControleMB.statusCancelado()}"
+                                 styleClass="ui-button-warning"
+                                  update="tabela"
+                                 ></p:commandButton>                  
+                 </p:panelGrid>
+        
+         <p:dataTable id="tabela" var="controle" value="#{ConsultaEspecificaControleBean.controles}"
+                                  reflow="true" styleClass="products-table" style="margin-bottom:0" 
+                                  selection="#{ConsultaControleMB.selectedControles}" rowKey="#{controle.registro}" paginator="true"
+                                  rows="10"  rowSelectMode="add" paginatorPosition="bottom" rowStyleClass="#{controle.status eq 'Cancelado' ? 'repro' : 
+                                                                                                                         controle.status eq 'Programado' ? 'progra' : 'cheap'}">   
+
+             
+                         <p:column selectionMode="multiple" style="width:16px;text-align:center"/>   
+
+
+                         <p:column style="width:32px;text-align: center">
+                             <p:commandButton icon="pi pi-pencil" update=":form:manage-product-content :form:tabPdf"
+                                              oncomplete="PF('dialogGerCliente').show()"
+                                              styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                 <f:setPropertyActionListener value="#{controle}" target="#{ControleMB.control}"/>
+                                 <p:resetInput target=":form:manage-product-content"/>
+                             </p:commandButton>
+                         </p:column>
+
+               <p:column headerText="Codigo" filterBy="#{controle.codigo}"  style="width:100px"  resizable="true">
+                    <h:outputText value="#{controle.codigo}" />
+                    
+                </p:column>
+                 
+                <p:column headerText="Codigo do OBT" filterBy="#{controle.codigoObt}"  style="width:200px"  resizable="true">
+                    <h:outputText value="#{controle.codigoObt}" />
+                </p:column>
+                
+                <p:column headerText="Registro de Treinamento" filterBy="#{controle.registroTreinamento}"  style="width:200px" resizable="true">
+                    <h:outputText value="#{controle.registroTreinamento}" />
+                </p:column>
+                
+                <p:column headerText="Registro" filterBy="#{controle.registro}" style="width:200px">
+                    <h:outputText value="#{controle.registro}" />
+                </p:column>
+                
+                <p:column headerText="Nome" filterBy="#{controle.nome}" style="width:400px">
+                    <h:outputText value="#{controle.nome}" />
+                </p:column>
+                
+                <p:column headerText="Data da Inclusão" filterBy="#{controle.data_inclusao}">
+                    <h:outputText value="#{controle.data_inclusao}" />
+                </p:column>
+                
+                <p:column headerText="Hora de Inclusão" filterBy="#{controle.hora_inclusao}" style="width:200px">
+                    <h:outputText value="#{controle.hora_inclusao}" />
+                </p:column>
+                
+                <p:column headerText="Status" filterBy="#{controle.status}" style="width:200px">
+                   
+                     <span class="customer-badge status-#{controle.status.toLowerCase()}">#{controle.status}</span>
+                </p:column>
+              
+            
+               
+               
+                <p:column headerText="Data do Curso" filterBy="#{controle.data_curso}" style="width:200px">
+                    <h:outputText value="#{controle.hora_curso}" />
+                </p:column>
+                
+                <p:column headerText="Tempo" filterBy="#{controle.tempo}">
+                    <h:outputText value="#{controle.tempo}" />
+                </p:column>
+                
+                <p:column headerText="Data de Validade" filterBy="#{controle.dataValidade}" style="width:200px">
+                    <h:outputText value="#{controle.dataValidade}" />
+                </p:column>
+                
+                <p:column headerText="Modelo" filterBy="#{controle.obtModelo}" style="width:400px">
+                    <h:outputText value="#{controle.obtModelo}" />
+                </p:column>
+                
+                <p:column headerText="Sub Modelo" filterBy="#{controle.obtModeloSub}" style="width:400px">
+                    <h:outputText value="#{controle.obtModeloSub}" />
+                </p:column>
+                
+                <p:column headerText="Departamento" filterBy="#{controle.departamento}" style="width:250px">
+                    <h:outputText value="#{controle.departamento}" />
+                </p:column>
+                
+                <p:column headerText="Unidade" sortBy="#{controle.unidade}" style="width:200px">
+                    <h:outputText value="#{controle.unidade}" />
+                </p:column>
+                
+                <p:column headerText="Mapa de Processo" filterBy="#{controle.mapaProcesso}" style="width:400px">
+                    <h:outputText value="#{controle.mapaProcesso}" />
+                </p:column>
+                
+                <p:column headerText="Sub Processo" filterBy="#{controle.subProcesso}" style="width:400px">
+                    <h:outputText value="#{controle.subProcesso}" />
+                </p:column>
+                
+                <p:column headerText="Gestor" filterBy="#{controle.gestor}" style="width:400px">
+                    <h:outputText value="#{controle.gestor}" />
+                </p:column>
+                
+                <p:column headerText="Treinamento" filterBy="#{controle.treinamento}" style="width:300px">
+                    <h:outputText value="#{controle.treinamento}" />
+                </p:column>
+                
+                <p:column headerText="Tipo de Trainamento" filterBy="#{controle.tipoTreinamento}" style="width:300px">
+                    <h:outputText value="#{controle.tipoTreinamento}" />
+                </p:column>
+                
+                <p:column headerText="Nome do Treinamento" filterBy="#{controle.nomeTrainamento}" style="width:400px">
+                    <h:outputText value="#{controle.nomeTrainamento}" />
+                </p:column>
+                
+                <p:column headerText="Descrição do Treinamemto" filterBy="#{controle.desc_treinamento}" style="width:400px">
+                    <h:outputText value="#{controle.desc_treinamento}" />
+                </p:column>
+                
+                <p:column headerText="Tema" filterBy="#{controle.tema}" style="width:500px">
+                    <h:outputText value="#{controle.tema}" />
+                </p:column>
+                
+                <p:column headerText="Observações" filterBy="#{controle.obs}" style="width:500px">
+                    <h:outputText value="#{controle.obs}" />
+                </p:column>
+                
+                <p:column headerText="Tipo" filterBy="#{controle.tipo}" style="width:200px">
+                    <h:outputText value="#{controle.tipo}" />
+                </p:column>
+                
+                <p:column headerText="Custo do Treinamento" filterBy="#{controle.custoTreinamento}" style="width:200px">
+                    <h:outputText value="#{controle.custoTreinamento}" />
+                </p:column>
+                
+                <p:column headerText="Fornecedor" filterBy="#{controle.fornecedor}" style="width:300px">
+                    <h:outputText value="#{controle.fornecedor}" />
+                </p:column>
+                
+                <p:column headerText="Horas" filterBy="#{controle.ch}" style="width:200px">
+                    <h:outputText value="#{controle.ch}" />
+                </p:column>
+                
+                <p:column headerText="Avaliação de Reação" filterBy="#{controle.avaliacaoReacao}" style="width:200px">
+                    <h:outputText value="#{controle.avaliacaoReacao}" />
+                </p:column>
+                
+                <p:column headerText="Criterio Kpi Avalicao Eficácia" filterBy="#{controle.criterio_kpi_avalicao_eficacia}" style="width:200px">
+                    <h:outputText value="#{controle.criterio_kpi_avalicao_eficacia}" />
+                </p:column>
+                
+                <p:column headerText="Avaliação de Eficácia" filterBy="#{controle.avalicaoEficacia}" style="width:200px">
+                    <h:outputText value="#{controle.avalicaoEficacia}" />
+                </p:column>
+                
+                <p:column headerText="Data da Avalilação de Eficácia" filterBy="#{controle.dataAvaliaEficacia}" style="width:200px">
+                    <h:outputText value="#{controle.avalicaoEficacia}" />
+                </p:column>
+                
+                <p:column headerText="Certificado" filterBy="#{controle.certificado}" style="width:200px">
+                    <h:outputText value="#{controle.certificado}" />
+                </p:column>
+                
+                <p:column headerText="Número de Documento" filterBy="#{controle.numeroDocumento}" style="width:200px">
+                    <h:outputText value="#{controle.numeroDocumento}" />
+                </p:column>
+                 <p:column headerText="Anexo" filterBy="#{controle.numeroDocumento}" style="width:200px">
+                     <h:outputText value="#{controle.anexo}" />
+                </p:column>
+                
+
+
+                
+
+                              
+                       <p:column style="width:32px;text-align: center">
+                        <p:commandButton update="@form" icon="pi pi-pencil" title="Editar" process="@this "  >
+                            <p:ajax  update="tabela"  />
+                            <f:setPropertyActionListener value="#{controle}" target="#{ControleMB.control}"  />
+                            </p:commandButton>
+                        
+                    </p:column>
+               
+                  
+                                   
+                
+                </p:dataTable>
+                
+                   <p:dialog id="modalDialog" header="Alteração de Avaliações"
+				widgetVar="dialogGerCliente" modal="true" height="800" width="1000"
+				showEffect="side"  style="background-color: #90a4ae ">
+                <p:outputPanel id="manage-product-content" class="ui-fluid" >
+                                  
+                                  
+                    <b:panel title="Alterar dados individuais" showCollapseLink="false"  style="background: #DFDFDF  " collapsed="true" look="warning">
+                     
+                        
+                        <p:panelGrid columns="2" layout="grid"  style="background: #DFDFDF "
+                columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4"
+                contentStyleClass="p-align-baseline ui-fluid">
+            
+                            <b:panel styleClass="painel" style="background-color:  #DFDFDF">            
+                <h:outputLabel value="Codigo" for="codigo"  style="width:50%"  > </h:outputLabel>
+                <p:inputText id="codigo" value="#{ControleMB.control.codigo}" style="width: 40%;margin: 10px"> </p:inputText>
+                </b:panel>  
+                 
+                <b:panel style="background-color:  #DFDFDF">            
+                <h:outputLabel value="Registro" for="registro"  style="width:50%"  > </h:outputLabel>
+                <p:inputText id="registro" value="#{ControleMB.control.registro}" style="width: 40%"> </p:inputText>
+                </b:panel>  
+                 
+                 <b:panel style="background-color:  #DFDFDF">            
+                <h:outputLabel value="Registro de Treinamento" for="registroTreina"  style="width:50%"  > </h:outputLabel>
+                <p:inputText id="registroTreina" value="#{ControleMB.control.registroTreinamento}" style="width: 40%"> </p:inputText>
+                </b:panel>             
+                            
+                        <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Nome" for="nome"  style="width:80%"  > </h:outputLabel>
+                 <p:inputText id="nome" value="#{ControleMB.control.nome}" style="width: 90%"> </p:inputText>
+                 </b:panel>  
+                  
+                        <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Unidade" for="unidade"  style="width:50%"  > </h:outputLabel>
+                 <p:inputText id="unidade" value="#{ControleMB.control.unidade}" style="width: 90%"> </p:inputText>
+                                
+                  </b:panel>  
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Departamento" for="departamento"  style="width:80%"  > </h:outputLabel>
+                 <p:inputText id="departamento" value="#{ControleMB.control.departamento}" style="width: 90%"> </p:inputText>
+               
+                  </b:panel>  
+                      </p:panelGrid>   
+                      
+                          <p:commandButton id="bntAlterarpessoa"
+                                 icon="ui-icon-star"
+                                 value="Alterar" action="#{ControleMB.alterarControlePessoa()}"
+                                 update="@form"
+                                 styleClass="ui-button-warning" style="width: 30%"
+                                 onclick="PF('dialogGerCliente').hide()"
+                                  >
+                                 <p:ajax  update="tabela"  /> 
+                                
+                </p:commandButton>     
+                      
+               </b:panel>
+                            <b:panel title="Alteração dados da Avaliação(Treinamento)" look="warning" collapsed="true">         
+                  <b:panel style="background-color:  #DFDFDF">   
+                <b:selectOneMenu value="#{ControleMB.control.mapaProcesso}"  label="Mapa de Processo" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaMapaProcesso}" var="a" />
+                 </b:selectOneMenu>
+                 </b:panel>  
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                      <b:selectOneMenu value="#{ControleMB.control.subProcesso}"  style="width: 100%"  label="Mapa de Sub-Processo" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaSubprocesso}" var="b"  />
+                 </b:selectOneMenu>
+                 </b:panel>  
+
+                  <b:panel style="background-color:  #DFDFDF">   
+                  <b:selectOneMenu value="#{ControleMB.control.gestor}"   label="Gestor" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaGestor}" var="c" />
+                 </b:selectOneMenu>
+                  </b:panel>  
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                <b:selectOneMenu value="#{ControleMB.control.treinamento}"  label="Intrutor/Agente Multiplicador" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaTreinamento}" var="d" />
+                 </b:selectOneMenu>
+                  </b:panel>  
+                        
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <b:selectOneMenu value="#{ControleMB.control.tipoTreinamento}" style="width:100%;margin: 10px"   label="Tipo de Treinamento  " >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaTipoTreinamento}" var="e" />
+                 </b:selectOneMenu>    
+                 
+                  </b:panel>  
+                        
+                  <b:panel style="background-color:  #DFDFDF">   
+                  <b:selectOneMenu value="#{ControleMB.control.nomeTrainamento}"  style="width:100%;" label="Nome do Treinamento" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaNomeTreinamento}" var="f" />
+                 </b:selectOneMenu>
+                
+                  </b:panel>  
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                     <p:commandButton id="bntDescricao"
+                                 icon="ui-icon-disk"
+                                 value="Buscar descrição" action="#{ControleMB.ordenarNome()}"
+                                 update="desc_treinamento revisao" style="width:40%;" styleClass="ui-button-warning"
+                                   ></p:commandButton>
+                 </b:panel>
+                 
+                                <b:panel style="background-color:  #DFDFDF">
+                                    <h:outputLabel value="Descrição do Treinamento:" for="desc_treinamento"  > </h:outputLabel>
+                                    <p:inputText id="desc_treinamento"  value="#{ControleMB.control.desc_treinamento}" style="width: 50%;margin: 10px" > 
+                                        <p:ajax  listener="#{ControleMB.ordenarNome()}"  />
+                                    </p:inputText>
+                                </b:panel>
+                
+                                <b:panel style="background-color:  #DFDFDF">
+                                    <h:outputLabel value="Revisao" for="revisao:"  > </h:outputLabel>
+                                    <p:inputText id="revisao" value="#{ControleMB.control.revisao}" style="width: 30%;margin: 10px"> </p:inputText>
+                                </b:panel>
+
+
+                                <b:panel style="background-color:  #DFDFDF">   
+                                    <h:outputLabel value="Tema" for="tema"  style="width:50%"  > </h:outputLabel>
+                                    <p:inputText id="tema" value="#{ControleMB.control.tema}" style="width: 100%"> </p:inputText>
+                                </b:panel>  
+
+                                <b:panel style="background-color:  #DFDFDF">   
+                                    <h:outputLabel value="Observações" for="observacoes"  style="width:20%"  > </h:outputLabel>
+                                    <p:inputTextarea  id="observacoes" autoResize="true" value="#{ControleMB.control.obs}">
+                                    </p:inputTextarea>
+                                </b:panel>   
+
+                                <b:panel style="background-color:  #DFDFDF">   
+                                    <b:selectOneMenu value="#{ControleMB.control.tipo}"  style="width:50%;"  label="Tipo" >
+                                        <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                        <f:selectItems value="#{ControleMB.listaTipo}" var="t" />
+                                    </b:selectOneMenu>
+                                </b:panel>  
+
+                                <b:panel style="background-color:  #DFDFDF">   
+                                    <h:outputLabel value="Número do Documento" for="numeroDocumento"  style="width:100%"  > </h:outputLabel>
+
+                                    <p:autoComplete id="compleNumeroDoc"  value="#{ControleMB.control.numeroDocumento}" forceSelection="true" onkeyup="this.value"
+                                                    completeMethod="#{ControleMB.completarNumeroDocumento(consulta)}" scrollHeight="250"/>
+                                </b:panel>  
+
+                                <b:panel style="background-color:  #DFDFDF">   
+                                    <h:outputLabel value="Custro do Treinamento" for="custo"  style="width:50%"  > </h:outputLabel>
+                                    <p:inputText id="custo" value="#{ControleMB.control.custoTreinamento}" style="width: 40%"> </p:inputText>
+                                </b:panel>  
+
+                                <b:panel style="background-color:  #DFDFDF">   
+                                    <h:outputLabel value="Tempo" for="tempo"  style="width:50%"  > </h:outputLabel>
+                                    <p:inputText id="tempo" value="#{ControleMB.control.tempo}" style="width: 40%"> </p:inputText>
+                                </b:panel>  
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Fornecedor" for="fornecedor"  style="width:50%"  > </h:outputLabel>
+                 <p:inputText id="fornecedor" value="#{ControleMB.control.fornecedor}" style="width: 90%"> </p:inputText>
+                 </b:panel>  
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Status" for="status"  style="width:50%"  > </h:outputLabel>
+                 <p:inputText id="status" value="#{ControleMB.control.status}" style="width: 40%"> </p:inputText>
+                  </b:panel>  
+                
+     
+                 
+                <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Data da Inclusão" for="dataInclusao"  style="width:50%"  > </h:outputLabel>
+                 <p:inputMask id="dataInclusao" value="#{ControleMB.control.data_inclusao}" mask="9999/99/99"/>
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Data do curso" for="dataCurso"  style="width:50%"  > </h:outputLabel>
+                  <p:inputMask id="dadaCurso" value="#{ControleMB.control.data_curso}" mask="9999/99/99"/> 
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Data de validade" for="dataValidade"  style="width:50%"  > </h:outputLabel>
+                 <p:inputMask id="dataValidade" value="#{ControleMB.control.dataValidade}" mask="9999/99/99"/> 
+                                  </b:panel>  
+
+                 
+                 <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Avaliação de reação" for="avaliacaoReacao"  style="width:50%"  > </h:outputLabel>
+                 <p:inputText id="avaliacaoReacao" value="#{ControleMB.control.avaliacaoReacao}" style="width: 40%"> </p:inputText>
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="criterio Kpi de Avalicao de Eficacia" for="criterio_kpi_avalicao_eficacia"  style="width:100%"  > </h:outputLabel>
+                 <p:inputText id="criterio_kpi_avalicao_eficacia" value="#{ControleMB.control.criterio_kpi_avalicao_eficacia}" style="width: 40%"> </p:inputText>
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Avaliação de Eficácia" for="avaliaEficacia"  style="width:100%"  > </h:outputLabel>
+                 <p:inputText id="avaliaEficacia" value="#{ControleMB.control.avalicaoEficacia}" style="width: 40%"> </p:inputText>
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Data da Avaliação de Eficácia" for="dataAvaliaEficacia"  style="width:100%"  > </h:outputLabel>
+                 <p:inputMask id="dataAvaliaEficacia" value="#{ControleMB.control.dataAvaliaEficacia}" mask="9999/99/99"/> 
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Certificado" for="certificado"  style="width:50%"  > </h:outputLabel>
+                 <p:inputText id="certificado" value="#{ControleMB.control.certificado}" style="width: 40%"> </p:inputText>
+                                  </b:panel>  
+
+                 
+                  <b:panel style="background-color:  #DFDFDF">   
+                 <h:outputLabel value="Anexo" for="anexo"  style="width:50%"  > </h:outputLabel>
+                 <p:inputText id="anexo" value="#{ControleMB.control.anexo}" style="width: 40%"> </p:inputText>
+                                 </b:panel>  
+                    </b:panel>   
+                   
+                        </p:outputPanel>
+                <p:panelGrid columns="6">
+              
+                <p:commandButton id="bntAlterar"
+                                 icon="ui-icon-star"
+                                 value="Alterar" action="#{ControleMB.alterarControle()}"
+                                 update="@form"
+                                 styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                 onclick="PF('dialogGerCliente').hide()"
+                                  >
+                                 <p:ajax  update="tabela"  /> 
+                                
+                </p:commandButton>                 
+                <p:commandButton id="bntExcluir"
+                                 icon="ui-button-danger"
+                                 value="Excluir Funcionário" action="#{ControleMB.excluirControleFunc()}"
+                                 immediate="tabela"
+                                 styleClass="ui-button-danger"
+                                 update="@form">
+                 </p:commandButton> 
+                
+                  <p:commandButton id="bntExcluirAvaliacao"
+                                 icon="ui-button-danger"
+                                 value="Excluir Avaliação" action="#{ControleMB.excluirControle()}"
+                                 immediate="tabela"
+                                 styleClass="ui-button-raised ui-button-danger ui-button-flat"
+                                 update="@form">
+                 </p:commandButton>   
+                    
+                    <b:button value="Anexo"  outcome="AnexoPdf" iconAwesome="fa-file-pdf-o"/>
+                  
+                    <p:commandButton value="Carregar" icon="ui-icon-star"
+                                     process=":form:Imagem :form:tabAnexo :form:modalDialog @this"
+                                     styleClass="rounded-button ui-button-info ui-button-outlined"  action="#{LocalPdfMB.carregarImagem()}">
+                                     
+                    </p:commandButton>
+               </p:panelGrid>
+                       
+                       <b:panel id="tabAnexo" title="Tabela de anexo" look="warning" collapsed="false">       
+
+                           <p:dataTable id="tabPdf" widgetVar="dtProducts" var="pdf" value="#{ConsultaEspecificaControleBean.ima}"
+                                        reflow="true" styleClass="products-table"
+                                        selection="#{ConsultaEspecificaControleBean.selectPdf}" rowKey="#{pdf.codigo}" paginator="true"
+                                        rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+                                <p:column headerText="Codigo">
+                                    <h:outputText value="#{pdf.codigo}" />
+                               </p:column>
+                               
+                               <p:column headerText="Nome">
+                                   <h:outputText value="#{pdf.nome}" />
+                               </p:column>
+
+                               <p:column headerText="Registro">
+                                   <h:outputText value="#{pdf.registroTreinamento}" />
+                               </p:column>
+
+                               <p:column headerText="Anexo">
+                                   <p:commandButton icon="pi pi-search" title="Anexo PDF"
+                                                    update=":form:Imagem :form:tabAnexo"
+                                                    process=":form:Imagem @this">
+                                       <f:setPropertyActionListener value="#{pdf}" target="#{ConsultaEspecificaControleBean.selectPdf}"/>
+
+                                   </p:commandButton>
+
+
+                               </p:column>    
+                               
+                               
+                               <p:column exportable="false">
+
+                                   <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                    oncomplete="PF('deleteProductDialog').show()">
+                                       <f:setPropertyActionListener value="#{pdf}" target="#{ConsultaEspecificaControleBean.selectPdf}"/>
+                                   </p:commandButton>
+                               </p:column>
+                   
+        </p:dataTable>
+                       
+                          
+                           
+                           
+                       <h5>PDF</h5>
+                       <p:media  id = "Imagem" value="/#{ConsultaEspecificaControleBean.selectPdf.nome}.pdf" width="100%" height="600px">
+                           Your browser can't display pdf , <h:outputLink
+                               value="#{request.contextPath}/resources/demo/media/guide.pdf">click</h:outputLink> to download pdf instead.
+                       </p:media>   
+                     </b:panel> 
+			</p:dialog>   
+             
+              <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                         message="Delete anexo?" header="Confirm" severity="warn">
+                               <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{ConsultaEspecificaControleBean.excluirAnexo()}"
+                             process="@this" update="@form tabAnexo" oncomplete="PF('deleteProductDialog').hide()"/>
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteProductDialog').hide()" update="@form"/>
+        </p:confirmDialog>
+             
+              <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+             
+            </h:form>
+    </h:body>
+</html>
+

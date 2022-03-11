@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+     <!--Import Google Icon Font-->
+     <h:outputStylesheet name="logincss.css" library="css" />
+      <!--Import materialize.css-->
+    
+      <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+            /* reset on the showcase style*/
+           .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+        text-align: center;
+    }
+</style>
+      
+    </h:head>
+    
+    <h:body>
+          <b:panel title="Tela de Login" look="primary" style="color: black" >
+         <div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+                                       
+                
+             
+
+					</div>
+				</div>
+        <h:form id="formLogin">
+            
+          
+            <p:messages id="messagesLogin"/>    
+      <div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				
+				<div class="d-flex justify-content-center form_container">
+                                   
+                      <b:image library="Imagem" name="continentalLog.png" />
+                        <b:row>
+                            <b:column medium-screen="2">
+                                <h:outputText value="Username:"/>
+                            </b:column>
+                            <b:column medium-screen="4">
+                                <b:inputText placeholder="Username" value="#{FuncionarioMB.login.login}" />
+                               
+                            </b:column>
+                            <b:column medium-screen="6">
+                                <b:message/>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column medium-screen="2">
+                                <h:outputText value="Password:" />
+                            </b:column>
+                            <b:column medium-screen="4">
+                                <b:inputSecret placeholder="Password" value="#{FuncionarioMB.login.senha}"/>
+                            </b:column>
+                            <b:column medium-screen="6">
+                                <b:message />
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="2" offset="2">
+                                <b:commandButton value="login" look="primary" action="#{FuncionarioMB.logarNoSistema()}"  style="width:100%" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:commandButton value="New user" look="danger" style="width:100%" 
+                                    action="#{UsuarioBean.habilitarTela()}"
+                                 process="usuario,departamento,unidade,tipo,password @this"
+                                 update="@form"></b:commandButton>             
+                            </b:column>
+                        </b:row>
+                    
+
+                                     <br/>
+                                     <br/>   
+                    <b:panelGrid columns="2" style="width: 90%" rendered="#{UsuarioBean.telaCad}" size="xs">
+                       
+                          <b:panel style="background-color:  #DFDFDF">               
+                              <b:selectOneMenu id = "selectUnidade" value="#{UsuarioBean.funcionario.unidade}"  style="width:50%;margin: 10px" label="Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="u" />
+                        </b:selectOneMenu> 
+                              <b:inputText id="usuario" required="false"  placeholder="Usuario" value="#{UsuarioBean.funcionario.registro}" style="width: 60%"/> 
+                      </b:panel> 
+                        
+                  
+                       
+                   
+                       <b:commandButton value="Buscar" action="#{UsuarioBean.verificar()}" look="primary"  process="selectUnidade,usuario,departamento,unidade,tipo,password @this" update=" @form messagesLogin"/>
+                   
+                 </b:panelGrid>
+                            <b:panel title="Cadastro de usuários" rendered="#{UsuarioBean.telaCad2}" collapsible="false">
+                    <b:panelGrid columns="2" style="width: 90%" rendered="#{UsuarioBean.telaCad2}">
+                    <h:outputLabel value="departamento" for="departamento"></h:outputLabel>
+                    <b:inputText id="departamento" value="#{UsuarioBean.funcionario.departamento}" readonly="true" style="width:40%"></b:inputText>
+               
+                
+                    <h:outputLabel value="Unidade" for="unidade" style="width:90%"></h:outputLabel>
+                    <b:inputText id="unidade" readonly="true" value="#{UsuarioBean.funcionario.unidade}"></b:inputText>
+
+                    <h:outputLabel value="Tipo" for="tipo" style="width:70%"></h:outputLabel>
+                    <b:inputText id="tipo" readonly="true" value="Padrao"></b:inputText>
+                    
+                    <h:outputLabel value="Password" for="password" style="width:40%" ></h:outputLabel>
+                    <p:password id="password" value="#{UsuarioBean.usuario.senha}"></p:password>
+                   
+                     <b:commandButton id="bntSalvar"
+                                 icon="ui-icon-disk"
+                                 value="Salvar" action="#{UsuarioBean.cadastraUser()}"
+                                 process="usuario,departamento,unidade,tipo,password @this"
+                                 look="primary"
+                                 update="@form"></b:commandButton>
+                   
+                    </b:panelGrid>
+               
+                    </b:panel>
+           
+                                      
+          </div>
+					
+				</div>
+                    </div>
+          </div>
+          
+               </h:form>
+               <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="seguranca"  value="load.gif"/>
+                   <p:graphicImage value="load.gif" library="resource"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+          </b:panel>
+    </h:body>
+    
+</html>

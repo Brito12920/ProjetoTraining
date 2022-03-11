@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+       <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+            <p:menuitem value="Manu Principal" outcome="#{TelaMB.tela}" icon="pi pi-fw pi-home"/>
+           
+            <p:menuitem  value="#{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+        </p:breadCrumb>
+          <p:messages/>
+       </h:form>
+       <p:messages for="MessageLista" showDetail="true" closable="true"/>  
+    </h:head>
+    <style type="text/css">
+      .cheap {
+        background-color: #54a90a !important;
+        background-image: none !important;
+        color: #ffffff !important;
+        
+    }
+     .repro {
+        background-color: #FF0000 !important;
+        background-image: none !important;
+        color: #FFFFFF !important;
+                  
+    }
+     .progra {
+        background-color: #1E90FF !important;
+        background-image: none !important;
+        color: #FFFFFF !important;
+                  
+    }
+</style>    
+    <h:body >
+           <p:fieldset legend="Controle de Avaliações">
+
+        <h:form id="form_cadModelo">
+            <p:messages/>
+         
+                          
+                  
+           
+                           
+            <p:panelGrid columns="3">
+                <h:outputLabel value="Digite um Registro" onfocus="true"></h:outputLabel>
+                <p:inputText id="consultaUnit" value="#{ConsultaEspecificaObtBean.texto1Buscar}"></p:inputText>
+            
+
+                  <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por Registro" action="#{ConsultaEspecificaObtBean.ordenarObt()}"
+                                  process="tabela consultaUnit @this"
+                                 update="@form"></p:commandButton>         
+                
+                 
+                                  
+                 </p:panelGrid>
+                           
+                 <p:dataTable id="tabela" var="obt" value="#{ConsultaEspecificaObtBean.listaobt}"
+		paginator="true" rows="10" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{obt.re}" selection="#{re}" selectionMode="single" 
+               	
+		
+                 rowStyleClass="#{obt.status eq 'Programado' ? 'progra': 
+                 obt.nota >= 7.5  ? 'cheap' :
+                 obt.status eq 'Concluido' ? 'repro' :
+                 
+                 null}">
+                     
+                 <f:facet name="header">Lista de Departamento</f:facet>	
+	 	 
+                   
+                
+                <p:column headerText="Codigo" sortBy="#{obt.codigo}">
+                    <h:outputText value="#{obt.codigo}" />
+                </p:column>
+                
+                <p:column headerText="Registro" sortBy="#{obt.re}">
+                    <h:outputText value="#{obt.re}" />
+                </p:column>
+
+
+
+                <p:column headerText="Nome" sortBy="#{obt.nome}">
+                    <h:outputText value="#{obt.nome}" />
+                </p:column>
+                  
+                <p:column headerText="Avaliação" sortBy="#{obt.obtModelo}">
+                    <h:outputText value="#{obt.obtModelo}" />
+                </p:column>
+               
+                <p:column headerText="Data inclusão" sortBy="#{obt.data}">
+                    <h:outputText value="#{obt.data}" />
+                </p:column>
+                     
+                <p:column headerText="status" sortBy="#{obt.status}">
+                    <h:outputText value="#{obt.status}" />
+                </p:column>
+                    
+                <p:column headerText="Nota" sortBy="#{obt.nota}">
+                    <h:outputText value="#{obt.nota}" />
+                </p:column>
+                <p:column headerText="Chave" sortBy="#{obt.codigoObt}">
+                    <h:outputText value="#{obt.codigoObt}" />
+                </p:column>
+                <p:column headerText="Unidade" sortBy="#{obt.unidade}">
+                    <h:outputText value="#{obt.unidade}" />
+                </p:column>
+                             
+                  <p:column headerText="Consultar Avaliação" style="width:100px;text-align: center">
+                     <p:commandButton id="conferir" update="@form"  action="QuestionarioConferir" icon="pi pi-book" title="Consultar Avaliação" process="@this"  rendered="#{obt.status eq 'Concluido'}" >
+                            <p:ajax  update="tabela"  />
+                            <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}" />
+                      </p:commandButton>
+                        
+                    </p:column>
+                 <p:column headerText="Excluir Avaliação"  exportable="false">  
+                   
+                      <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                  oncomplete="PF('deleteProductDialog').show()">
+                           <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}"/>
+                 </p:commandButton>   
+              </p:column>      
+                                   
+                
+                </p:dataTable>
+                
+            
+               <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                              message="Atenção será excluido a avaliação e o controle tem certeza? #{ObtMB.obt.obtModelo}" header="Confirm" severity="warn">
+                  <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{ObtMB.deleteSelectedFunc()}"
+                       update="@form tabela" process="tabela @this"  oncomplete="PF('deleteProductDialog').hide()"/>
+                
+            <p:commandButton value="No"  type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteProductDialog').hide()" update="tabela" process="tabela @this"/>
+        </p:confirmDialog>
+                     </h:form>
+      </p:fieldset>
+    </h:body>
+</html>

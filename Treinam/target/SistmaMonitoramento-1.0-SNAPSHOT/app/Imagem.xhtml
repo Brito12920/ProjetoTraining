@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:b="http://bootsfaces.net/ui"
+     xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+ <h:head>
+      
+        
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+             
+</b:navBar>
+     <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+     
+     
+       <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+            /* reset on the showcase style*/
+           .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+        text-align: center;
+    }
+
+      </style>
+     
+     
+  
+     
+  </h:head>   
+   
+<h:body>
+  <p:growl id="messages" showDetail="true"/>        
+ <h:form>
+   
+     <b:panel title="Cadastro de Descrição de Avaliação do Treinador" look="warning" style="background: gainsboro; color: red;  ">
+  <p:panelGrid columns="1" style="width: 100%">
+       <p:outputLabel value="Selecione uma imagem a ser gravada:" />
+       <p:fileUpload listener="#{LocalMB.handleFileUpload}" 
+        mode="advanced" dragDropSupport="false"
+        update="messages botaoGravar" process="botaoGravar @this" sizeLimit="1000000" fileLimit="3"
+        allowTypes="/(\.|\/)(gif|jpe?g|png)$/">
+       
+       </p:fileUpload>
+      </p:panelGrid >
+         
+         <p:panelGrid columns="4" style="width: 100%">  
+        <p:outputLabel for="nome" value="Nome da imagem:" />
+        <p:inputText id="nome" value="#{LocalMB.local.nomeImagem}"/>
+
+        <p:outputLabel for="Unidade" value="Unidade:" />
+        <p:inputText id="Unidade" value="#{LocalMB.unidade}" />
+         
+      </p:panelGrid>       
+      
+                               
+      
+        
+         
+     <p:panelGrid columns="6">
+        
+         <p:commandButton id="botaoGravar" value="Cadastrar" icon="ui-icon-star"
+        action="#{LocalMB.cadastraLocal}" styleClass="ui-button-warning" update="messages">
+         </p:commandButton>
+   
+
+        
+          
+        
+         <p:commandButton  id="bntExcluir"
+                                 icon="ui-icon-trash"
+                                 value="Excluir" action="#{LocalMB.excluirModelo()}"
+                                 immediate="basicDT" styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton> 
+         
+          <p:commandButton value="Carregar a Tabela" icon="ui-icon-star"
+                           action="#{LocalMB.carregarTabela()}" styleClass="ui-button-warning"
+                           update="basicDT"
+                          
+                           >
+        </p:commandButton>
+         
+         </p:panelGrid>
+         
+           
+        
+     <p:graphicImage id="Imagem"  value="/#{LocalMB.nomeExibido}" width="40%" height="40%"/>
+  
+  
+  <p:dataTable id="basicDT" var="imagem" value="#{LocalMB.imagemTabela}" selectionMode="single"
+                selection="#{LocalMB.selectedImagem}" rowKey="#{imagem.codigo}">
+                    
+      <p:ajax event="rowSelect" listener="#{LocalMB.onRowSelect}" update="messages" />
+            <p:ajax event="rowUnselect" listener="#{LocalMB.onRowUnselect}"/>    
+            <p:column headerText="Code">
+                <h:outputText value="#{imagem.codigo}" />
+            </p:column>
+
+             <p:column headerText="Name">
+                <h:outputText value="#{imagem.nomeImagem}" />
+            </p:column>
+
+           
+            <p:column style="width:3rem;text-align: center">
+                <p:commandButton update="@form" 
+                               
+                                 icon="pi pi-search" title="Exibir imagem" styleClass="ui-button-warning" >
+                               
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+ 
+     
+         
+  </b:panel>
+      <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus>   
+ </h:form>
+</h:body>
+</html>

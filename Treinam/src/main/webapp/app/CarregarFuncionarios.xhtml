@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+                <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{funcionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+          <p:messages/>
+      
+        
+       
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+    </h:head>
+    <h:body >
+        
+           <p:fieldset legend="Tela de cadastro de Funcionarios - Carregamento através de planilhas XLS">
+
+               <h:form id="form_cadModelo" enctype="multipart/form-data">
+                   <p:growl id="growl"/>
+            <p:messages/>
+         
+            <p:toolbarGroup>
+                <h:inputFile value="#{FileUploadViewBean.file}" rendered="true" requiredMessage="O arquivo é obrigatorio"/> 
+            </p:toolbarGroup>
+            
+            <br/>    
+           
+         
+           
+  
+            <p:panelGrid columns="2" style="width: 50%" >
+                
+                <p:commandButton value="Carregar" ajax="false" onclick="PF('pbAjax').start();PF('startButton2').disable()" widgetVar="startButton2"   action="#{FileUploadViewBean.uploadFuncionarios()}"  styleClass="p-mt-3 ui-button-outlined p-d-block" />  
+               
+         
+          
+                <p:progressBar widgetVar="pbAjaxLong" ajax="true" value="#{FileUploadViewBean.progress1}"
+                       labelTemplate="{value}%" styleClass="p-mt-3" global="false" interval="500">
+            <p:ajax event="complete" listener="#{FileUploadViewBean.onComplete}" update="growl"
+                    oncomplete="PF('startButton2').enable()" />
+        </p:progressBar>
+            
+     
+               
+                <p:commandButton value="Gravar" ajax="false" action="#{FileUploadViewBean.gravarFuncionarios()}"  update="@forme" styleClass="p-mt-3 ui-button-outlined p-d-block"/> 
+                
+
+      </p:panelGrid>
+  
+       
+               
+            
+            
+            <p:dataTable id="tabela" var="modelo" value="#{FileUploadViewBean.listaFuncionarios}" tableStyle="table-layout: auto;" resizableColumns="true" showGridlines="true"
+		paginator="true" rows="10" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{modelo.codigo}" selection="#{modelo}" selectionMode="single" >	
+		<f:facet name="header">Lista de Modelos</f:facet>	
+	 	 
+                             
+                <p:column headerText="Registro"  width="300" sortBy="#{modelo.registro}">
+                    <h:outputText value="#{modelo.registro}" />
+                </p:column>
+
+
+
+                <p:column headerText="Nome" sortBy="#{modelo.nome}">
+                    <h:outputText value="#{modelo.nome}" />
+                </p:column>
+
+                <p:column headerText="Departamento" sortBy="#{modelo.departamento}">
+                    <h:outputText value="#{modelo.departamento}" />
+                </p:column>
+
+                <p:column headerText="Função" sortBy="#{modelo.funcao}">
+                    <h:outputText value="#{modelo.funcao}" />
+                </p:column>              
+                  
+                <p:column headerText="Unidade" sortBy="#{modelo.unidade}">
+                    <h:outputText value="#{modelo.unidade}" />
+                </p:column> 
+                  
+                <p:column headerText="Status" sortBy="#{modelo.status}">
+                    <h:outputText value="#{modelo.status}" />
+                </p:column> 
+                
+                <p:column headerText="Imagem" sortBy="#{modelo.imagem}">
+                    <h:outputText value="#{modelo.imagem}" />
+                </p:column> 
+                
+               
+                
+                
+                </p:dataTable>
+            
+                  <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+             
+                     </h:form>
+      </p:fieldset>
+    </h:body>
+</html>

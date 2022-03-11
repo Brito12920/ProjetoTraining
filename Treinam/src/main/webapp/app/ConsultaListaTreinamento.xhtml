@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        
+         <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+        <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+           <p:menuitem value="Manu Principal" outcome="#{TelaMB.tela}" icon="pi pi-fw pi-home"/>
+           
+            <p:menuitem  value="#{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+        </p:breadCrumb>
+          <p:messages/>
+       </h:form>
+       
+    </h:head>
+    <h:body >
+        <style type="text/css">
+    .ui-datatable-frozenlayout-left {
+        width: 20%;
+    }
+
+    .ui-datatable-frozenlayout-right {
+        width: 80%;
+    }
+</style>
+    <style type="text/css">
+    .cheap {
+        background-color: #54a90a !important;
+        background-image: none !important;
+        color: #ffffff !important;
+    }
+</style>    
+        <h:form >
+           <p:menubar>
+            <p:submenu label="File" icon="pi pi-fw pi-file">
+                <p:submenu label="Novo" icon="pi pi-fw pi-plus">
+                    <p:menuitem value="Cadastro Controle de Treinamento"  outcome="InclusaoControleTreinamento" icon="pi pi-fw pi-bookmark"/>
+                    <p:menuitem value="Video" icon="pi pi-fw pi-video"/>
+                </p:submenu>
+                <p:menuitem value="Delete" icon="pi pi-fw pi-trash"/>
+               
+                <p:menuitem value="Export" icon="pi pi-fw pi-external-link"/>
+            </p:submenu>
+                </p:menubar>
+      </h:form>  
+           <p:fieldset legend="Cadastro de Controle de Avaliações">
+
+        <h:form id="form_cadControle">
+              <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+          
+            <p:panelGrid columns="4" style="width: 80%">
+            
+                   
+                <h:outputLabel value="Codigo" for="codigo"  style="width:20%"  > </h:outputLabel>
+                <p:inputText id="codigo" value="#{ControleMB.control.codigo}" style="width: 40%"> </p:inputText>
+
+                <h:outputLabel value="Registro" for="registro"  style="width:20%"  > </h:outputLabel>
+                <p:inputText id="registro" value="#{ControleMB.control.registro}" style="width: 40%"> </p:inputText>
+               
+                 <h:outputLabel value="Nome" for="nome"  style="width:80%"  > </h:outputLabel>
+                 <p:inputText id="nome" value="#{ControleMB.control.nome}" style="width: 90%"> </p:inputText>
+                
+                 <h:outputLabel value="Unidade" for="unidade"  style="width:20%"  > </h:outputLabel>
+                 <p:autoComplete id="unidade" value="#{ControleMB.control.unidade}"  forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarUnidade}" scrollHeight="250"/>
+                 
+                 <h:outputLabel value="Departamento" for="departamento"  style="width:80%"  > </h:outputLabel>
+                 <p:autoComplete id="departamento" value="#{ControleMB.control.departamento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarDepartamento}" scrollHeight="250"/>
+
+                 <p:outputLabel value ="Mapa de Processo" for = "mapaprocesso" style="width:80%"/>
+                 <p:autoComplete id="mapaprocesso" value="#{ControleMB.control.mapaProcesso}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarMapa}" scrollHeight="250"/>
+
+                 <p:outputLabel value ="Mapa de Sub Processo" for = "subprocesso" style="width:80%"/>
+                 <p:autoComplete id="subprocesso" value="#{ControleMB.control.subProcesso}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarSubMapa}" scrollHeight="250"/>   
+
+
+
+                 <h:outputLabel value="Gestor" for="gestor"  style="width:20%"  > </h:outputLabel>
+                 <p:autoComplete id="gestor" value="#{ControleMB.control.gestor}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarGestor(consulta)}" scrollHeight="250"/>
+                 
+                 
+                 <h:outputLabel value="Intrutor/Agente Multiplicador" for="treinamento"  style="width:20%"  > </h:outputLabel>
+                 <p:autoComplete id="treinamento" value="#{ControleMB.control.treinamento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarTreinamento}" scrollHeight="250"/>
+                 
+                 
+                 <h:outputLabel value="Tipo de Treinamento" for="tipoTreinamento"  style="width:20%"  > </h:outputLabel>
+                 <p:autoComplete id="tipoTreinamento" value="#{ControleMB.control.tipoTreinamento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarTipoTreinamento}" scrollHeight="250"/>
+                 
+                 
+                 <h:outputLabel value="Nome do Treinamento" for="nomeTreinamento"  style="width:20%"  > </h:outputLabel>
+                
+                 <p:autoComplete id="nomeTreinamento" value="#{ControleMB.control.nomeTrainamento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarObt}"  autocomplete="true" scrollHeight="250"/>
+                 
+                 
+                 
+                 <h:outputLabel value="Descrição do Treinamento" for="desc_treinamento"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="desc_treinamento" value="#{ControleMB.control.desc_treinamento}" style="width: 90%"> </p:inputText>
+                
+                 <h:outputLabel value="Tema" for="tema"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="tema" value="#{ControleMB.control.tema}" style="width: 100%"> </p:inputText>
+                
+                 
+                 <h:outputLabel value="Observações" for="observacoes"  style="width:20%"  > </h:outputLabel>
+               
+                 <p:inputTextarea  id="observacoes" autoResize="true" value="#{ControleMB.control.obs}">
+                     
+                 </p:inputTextarea>
+               
+                 <h:outputLabel value="Modelo" for="tipo"  style="width:20%"  > </h:outputLabel>
+                 <p:autoComplete id="tipo" value="#{ControleMB.control.tipo}" 
+                                 completeMethod="#{ControleMB.completarModelo}" scrollHeight="250"/>
+                 
+                 <h:outputLabel value="Número do Documento" for="numeroDocumento"  style="width:60%"  > </h:outputLabel>
+                 <p:autoComplete id="numeroDocumento" value="#{ControleMB.control.numeroDocumento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarNumeroDocumento(consulta)}" scrollHeight="250"/>
+                 
+                 
+                 <h:outputLabel value="Custro do Treinamento" for="custo"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="custo" value="#{ControleMB.control.custoTreinamento}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Tempo" for="tempo"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="tempo" value="#{ControleMB.control.tempo}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Fornecedor" for="fornecedor"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="fornecedor" value="#{ControleMB.control.fornecedor}" style="width: 90%"> </p:inputText>
+                
+                 <h:outputLabel value="Status" for="status"  style="width:20%"  > </h:outputLabel>
+                 <h:panelGroup>
+                 <p:autoComplete id="status" value="#{ControleMB.control.status}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarStatus}" scrollHeight="250"/>
+                    <p:commandButton id="AlterarStatus"
+                                 icon="ui-icon-trash"
+                                 value="Alterar Status" action="#{ControleMB.salvar2()}"
+                                 
+                                 ></p:commandButton>      
+                 </h:panelGroup>
+                 <h:outputLabel value="Data da Inclusão" for="dataInclusao"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="dataInclusao" value="#{ControleMB.control.data_inclusao}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Data do curso" for="dadaCurso"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="dataCurso" value="#{ControleMB.control.data_curso}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Data de validade" for="dataValidade"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="dataValidade" value="#{ControleMB.control.dataValidade}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Tipo" for="tip"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="tip" value="#{ControleMB.control.tipo}" style="width: 40%"> </p:inputText>
+                
+                 
+                 <h:outputLabel value="Avaliação de reação" for="avaliacaoReacao"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="avaliacaoReacao" value="#{ControleMB.control.avaliacaoReacao}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="criterio Kpi de Avalicao de Eficacia" for="criterio_kpi_avalicao_eficacia"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="criterio_kpi_avalicao_eficacia" value="#{ControleMB.control.criterio_kpi_avalicao_eficacia}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Avaliação de Eficácia" for="avaliaEficacia"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="avaliaEficacia" value="#{ControleMB.control.avalicaoEficacia}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Data da Avaliação de Eficácia" for="dataAvaliaEficacia"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="dataAvaliaEficacia" value="#{ControleMB.control.dataAvaliaEficacia}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Certificado" for="certificado"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="certificado" value="#{ControleMB.control.certificado}" style="width: 40%"> </p:inputText>
+                
+                 <h:outputLabel value="Anexo" for="anexo"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="anexo" value="#{ControleMB.control.certificado}" style="width: 40%"> </p:inputText>
+               
+                 </p:panelGrid>                 
+                
+                    
+          
+
+                
+            
+           
+            
+            <p:panelGrid columns="6">
+                <p:commandButton id="bntSalvar"
+                                 icon="ui-icon-disk"
+                                 value="Salvar" action="#{ControleMB.cadastraControle()}"
+                                 update="@form"
+                                   ></p:commandButton>
+                <p:commandButton id="bntAlterar"
+                                 icon="ui-icon-star"
+                                 value="Alterar" action="#{ControleMB.alterarControle()}"
+                                 update="@form"
+                                  >
+                                 <p:ajax  update="tabela"  /> 
+                                
+                </p:commandButton>                 
+                <p:commandButton id="bntExcluir"
+                                 icon="ui-icon-trash"
+                                 value="Excluir" action="#{ControleMB.excluirControle()}"
+                                 immediate="tabela"
+                                 update="@form"></p:commandButton> 
+                  <p:commandButton id="Relatorio"
+                                 icon="ui-icon-trash"
+                                 value="Excluir" action="#{ControleMB.excluirControle()}"
+                                 immediate="tabela"
+                                 update="@form"></p:commandButton> 
+                  
+               </p:panelGrid>
+                     <h:button value="Ir" outcome="SelecionarFuncionarios"></h:button>       
+                     <h:button value="Lista" outcome="CadastroLista"></h:button>   
+                     <h:button value="Anexo" outcome="Pdf"></h:button>   
+            <p:panelGrid columns="3">
+                <h:outputLabel value="Digite um valor" onfocus="true"></h:outputLabel>
+                <p:autoComplete id="consultaUnit" value="#{ConsultaEspecificaControleBean.texto1Buscar}" forceSelection="true" onkeyup="this.value"
+                                completeMethod="#{ConsultaControleMB.completarNumeroTreinamento(consulta)}" scrollHeight="250"
+                                   
+                                 />
+
+                  <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por Documento" action="#{ConsultaEspecificaControleBean.ordenarMapa()}"
+                                  process="tabela consultaUnit @this"
+                                 update="@form">
+                  
+                  </p:commandButton>         
+                
+                 
+                  <p:commandButton id="BotaoPesquisar"
+                                 icon="ui-icon-trash"
+                                 value="Alterar Status Lista" action="#{ConsultaControleMB.teste()}"
+                                 
+                                 ></p:commandButton>      
+                 
+                                  
+                 </p:panelGrid>
+                           
+                
+            
+               
+                <p:dataTable id="tabela" var="controle" value="#{ConsultaEspecificaControleBean.listaControle}"
+                             rowKey="#{controle.registroTreinamento}" selection="#{ConsultaControleMB.selectedControles}"
+                             filteredValue="#{ConsultaEspecificaControleBean.filteredControle}"
+                             paginator="true" rows="10"   style="max-width: 1900px; min-width: 1900px"  rowStyleClass="#{controle.status eq 'Concluido' ? 'cheap' : null}">
+                             
+                            
+                             
+                   
+                      
+                  <p:column selectionMode="multiple" style="width:16px;text-align:center"  />   
+                  
+                                 
+                <p:column style="width:32px;text-align: center">
+                        <p:commandButton update="@form" icon="pi pi-search" title="Editar" process="@this "  >
+                            <p:ajax  update="tabela"  />
+                            <f:setPropertyActionListener value="#{controle}" target="#{ControleMB.control}"  />
+                            </p:commandButton>
+                        
+                    </p:column>
+               
+               <p:column headerText="Codigo" filterBy="#{controle.codigo}"  style="width:100px"  resizable="true">
+                    <h:outputText value="#{controle.codigo}" />
+                    
+                </p:column>
+                 
+                <p:column headerText="Codigo do OBT" filterBy="#{controle.codigoObt}"  style="width:200px"  resizable="true">
+                    <h:outputText value="#{controle.codigoObt}" />
+                </p:column>
+                
+                <p:column headerText="Registro de Treinamento" filterBy="#{controle.registroTreinamento}"  style="width:200px" resizable="true">
+                    <h:outputText value="#{controle.registroTreinamento}" />
+                </p:column>
+                
+                <p:column headerText="Registro" filterBy="#{controle.registro}" style="width:200px">
+                    <h:outputText value="#{controle.registro}" />
+                </p:column>
+                
+                <p:column headerText="Nome" filterBy="#{controle.nome}" style="width:400px">
+                    <h:outputText value="#{controle.nome}" />
+                </p:column>
+                
+                <p:column headerText="Data da Inclusão" filterBy="#{controle.data_inclusao}">
+                    <h:outputText value="#{controle.data_inclusao}" />
+                </p:column>
+                
+                <p:column headerText="Hora de Inclusão" filterBy="#{controle.hora_inclusao}" style="width:200px">
+                    <h:outputText value="#{controle.hora_inclusao}" />
+                </p:column>
+                
+                <p:column headerText="Status" filterBy="#{controle.status}" style="width:200px">
+                   
+                     <span class="customer-badge status-#{controle.status.toLowerCase()}">#{controle.status}</span>
+                </p:column>
+              
+            
+               
+               
+                <p:column headerText="Data do Curso" filterBy="#{controle.data_curso}" style="width:200px">
+                    <h:outputText value="#{controle.hora_curso}" />
+                </p:column>
+                
+                <p:column headerText="Tempo" filterBy="#{controle.tempo}">
+                    <h:outputText value="#{controle.tempo}" />
+                </p:column>
+                
+                <p:column headerText="Data de Validade" filterBy="#{controle.dataValidade}" style="width:200px">
+                    <h:outputText value="#{controle.dataValidade}" />
+                </p:column>
+                
+                <p:column headerText="Modelo" filterBy="#{controle.obtModelo}" style="width:400px">
+                    <h:outputText value="#{controle.obtModelo}" />
+                </p:column>
+                
+                <p:column headerText="Sub Modelo" filterBy="#{controle.obtModeloSub}" style="width:400px">
+                    <h:outputText value="#{controle.obtModeloSub}" />
+                </p:column>
+                
+                <p:column headerText="Departamento" filterBy="#{controle.departamento}" style="width:250px">
+                    <h:outputText value="#{controle.departamento}" />
+                </p:column>
+                
+                <p:column headerText="Unidade" sortBy="#{controle.unidade}" style="width:200px">
+                    <h:outputText value="#{controle.unidade}" />
+                </p:column>
+                
+                <p:column headerText="Mapa de Processo" filterBy="#{controle.mapaProcesso}" style="width:400px">
+                    <h:outputText value="#{controle.mapaProcesso}" />
+                </p:column>
+                
+                <p:column headerText="Sub Processo" filterBy="#{controle.subProcesso}" style="width:400px">
+                    <h:outputText value="#{controle.subProcesso}" />
+                </p:column>
+                
+                <p:column headerText="Gestor" filterBy="#{controle.gestor}" style="width:400px">
+                    <h:outputText value="#{controle.gestor}" />
+                </p:column>
+                
+                <p:column headerText="Treinamento" filterBy="#{controle.treinamento}" style="width:300px">
+                    <h:outputText value="#{controle.treinamento}" />
+                </p:column>
+                
+                <p:column headerText="Tipo de Trainamento" filterBy="#{controle.tipoTreinamento}" style="width:300px">
+                    <h:outputText value="#{controle.tipoTreinamento}" />
+                </p:column>
+                
+                <p:column headerText="Nome do Treinamento" filterBy="#{controle.nomeTrainamento}" style="width:400px">
+                    <h:outputText value="#{controle.nomeTrainamento}" />
+                </p:column>
+                
+                <p:column headerText="Descrição do Treinamemto" filterBy="#{controle.desc_treinamento}" style="width:400px">
+                    <h:outputText value="#{controle.desc_treinamento}" />
+                </p:column>
+                
+                <p:column headerText="Tema" filterBy="#{controle.tema}" style="width:500px">
+                    <h:outputText value="#{controle.tema}" />
+                </p:column>
+                
+                <p:column headerText="Observações" filterBy="#{controle.obs}" style="width:500px">
+                    <h:outputText value="#{controle.obs}" />
+                </p:column>
+                
+                <p:column headerText="Tipo" filterBy="#{controle.tipo}" style="width:200px">
+                    <h:outputText value="#{controle.tipo}" />
+                </p:column>
+                
+                <p:column headerText="Custo do Treinamento" filterBy="#{controle.custoTreinamento}" style="width:200px">
+                    <h:outputText value="#{controle.custoTreinamento}" />
+                </p:column>
+                
+                <p:column headerText="Fornecedor" filterBy="#{controle.fornecedor}" style="width:300px">
+                    <h:outputText value="#{controle.fornecedor}" />
+                </p:column>
+                
+                <p:column headerText="Horas" filterBy="#{controle.ch}" style="width:200px">
+                    <h:outputText value="#{controle.ch}" />
+                </p:column>
+                
+                <p:column headerText="Avaliação de Reação" filterBy="#{controle.avaliacaoReacao}" style="width:200px">
+                    <h:outputText value="#{controle.avaliacaoReacao}" />
+                </p:column>
+                
+                <p:column headerText="Criterio Kpi Avalicao Eficácia" filterBy="#{controle.criterio_kpi_avalicao_eficacia}" style="width:200px">
+                    <h:outputText value="#{controle.criterio_kpi_avalicao_eficacia}" />
+                </p:column>
+                
+                <p:column headerText="Avaliação de Eficácia" filterBy="#{controle.avalicaoEficacia}" style="width:200px">
+                    <h:outputText value="#{controle.avalicaoEficacia}" />
+                </p:column>
+                
+                <p:column headerText="Data da Avalilação de Eficácia" filterBy="#{controle.dataAvaliaEficacia}" style="width:200px">
+                    <h:outputText value="#{controle.avalicaoEficacia}" />
+                </p:column>
+                
+                <p:column headerText="Certificado" filterBy="#{controle.certificado}" style="width:200px">
+                    <h:outputText value="#{controle.certificado}" />
+                </p:column>
+                
+                <p:column headerText="Número de Documento" filterBy="#{controle.numeroDocumento}" style="width:200px">
+                    <h:outputText value="#{controle.numeroDocumento}" />
+                </p:column>
+                
+                
+
+
+                
+
+                              
+                       <p:column style="width:32px;text-align: center">
+                        <p:commandButton update="@form" icon="pi pi-search" title="Editar" process="@this "  >
+                            <p:ajax  update="tabela"  />
+                            <f:setPropertyActionListener value="#{controle}" target="#{ControleMB.control}"  />
+                            </p:commandButton>
+                        
+                    </p:column>
+               
+                  
+                                   
+                
+                </p:dataTable>
+                
+            
+             <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+                     </h:form>
+      </p:fieldset>
+    </h:body>
+</html>

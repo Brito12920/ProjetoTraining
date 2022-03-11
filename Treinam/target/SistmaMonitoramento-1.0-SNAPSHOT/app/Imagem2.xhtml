@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+ <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+           <p:menuitem value="Manu Principal" outcome="#{TelaMB.tela}" icon="pi pi-fw pi-home"/>
+           
+            <p:menuitem  value="#{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+        </p:breadCrumb>
+       </h:form>
+         <p:messages/>
+          <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+         
+</h:head>
+
+<h:body>
+    
+    
+ <h:form>
+    <h:outputLink  value="https://web.microsoftstream.com/video/55724b81-9475-4c3b-8f2b-d650bc6ec08d?channelId=0363b26a-4149-4fef-950a-3524f5e247c1" target="_blank" >Vai pro google, rapaiz!
+        <f:param name="productId" value="10"/>
+   </h:outputLink>
+       
+     <p:commandButton value="Imprimir" icon="pi pi-print" action="#{ControleMB.imprimeLista()}" />
+         
+     
+ </h:form>
+</h:body>
+</html>

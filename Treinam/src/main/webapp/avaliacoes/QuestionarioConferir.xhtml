@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Sistema de Avaliação</title>
+          <h:outputStylesheet name="questionario.css" library="css" />
+          
+          <style>
+             .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              }
+         </style>
+    </h:head>
+         
+     
+    <h:body style="teste" >
+        <h:form >
+          
+            <h:messages/>  
+        <p:growl id="msg"/>
+       
+        <b:panel title="Cadastro de Avaliação" look="warning"  style="background-color: #f5f4f4" >
+       
+        <p:panelGrid columns="6" style="width: 90%">
+         <h:outputLabel value="Nota" for="nota"  style="width:20%"  > </h:outputLabel>    
+         <b:label value="#{ConferirBean.nota}" severity="success"></b:label>
+        <h:outputLabel value="Status" for="status"  style="width:20%"  > </h:outputLabel>    
+        <b:label value="#{ConferirBean.status}"  severity="#{ConferirBean.status eq 'REPROVADO' ? 'danger' : 'success'}"></b:label>
+        <h:outputLabel value="CONFERÊNCIA" for="conferencia"  style="width:20%"  > </h:outputLabel>    
+        <b:label value="#{ConferirBean.respond}" severity="#{ConferirBean.respond eq 'ERROU' ? 'danger' : 'success'}"></b:label>
+        </p:panelGrid>
+       
+        
+        <h:outputLabel value="Nome do Treinamento" for="nomeTreinamento"  style="width:20%"  > </h:outputLabel>
+           
+        <p:autoComplete id="nomeTreinamento" value="#{ConferirBean.treinamento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarObt}"  autocomplete="true" scrollHeight="250"/>
+        <p:inputText value="#{ConferirBean.ordem}"/>  
+      
+        
+            <h:outputLink  value="#{ConferirBean.video}" style="width: 100%"  rendered="#{ConferirBean.video != null}" target="_blank" >
+
+               <font face="arial" size="5" style="waitingForConnection">
+                   Existe um video vinculado a essa questão para assistir acesse através deste link!!
+               </font>
+              
+        <f:param name="productId" value="10"/>
+  
+           </h:outputLink>
+        
+        
+        <p:panelGrid columns="3" style="width: 50%">
+        <p:commandButton id="inicii"
+                                 icon="ui-icon-disk"
+                                 value="Iniciar a Conferência" action="#{ConferirBean.carregar()}"
+                                 update="@form"
+                                   ></p:commandButton>
+          <p:commandButton id="voltar"
+                                 icon="ui-icon-disk"
+                                 value="Voltar" action="#{ConferirBean.carregarRev()}"
+                                 update="@form"
+                                   ></p:commandButton>
+        
+        <p:commandButton id="proximo"
+                                 icon="ui-icon-disk"
+                                 value="Proxima" action="#{ConferirBean.carregarProxi()}"
+                                  update="@form"
+                                   ></p:commandButton>
+         
+        
+      </p:panelGrid>
+            
+        
+        <p:panelGrid columns="3" style="width: 100%" columnClasses="column1Class, column2Class, column3Class">
+       
+            <p:inputTextarea  id="titulo" autoResize="true" value="#{ConferirBean.pergunta.pergunta}" style="width:90%; color: white;background-color: gray " >
+                     
+                 </p:inputTextarea>   
+      
+           
+            <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.pergunta != '' || ConferirBean.pergunta.pergunta != 'null' }">
+                    <ui:repeat value="#{ConferirBean.image}" var="image" >
+                        <p:graphicImage  value="/#{image}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+            <p:commandButton type="button" value="Show" onclick="PF('dlg1D').show()" icon="pi pi-search" styleClass="myCustomStyle"  rendered="#{ConferirBean.pergunta.pergunta != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg1D" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.pergunta != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image}" var="image">
+                            <p:graphicImage  value="/#{image}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                   
+                 </p:dialog>
+            
+            </p:panelGrid>
+        
+          
+
+        <p:panelGrid columns="4" style="width: 100%"  rendered="#{ConferirBean.pergunta.resposta_A != ''}" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+
+           
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respA}"   itemLabel="A"  rendered="#{ConferirBean.pergunta.resposta_A != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"  event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="A" autoResize="true" value="#{ConferirBean.pergunta.resposta_A}" style="#{ConferirBean.campoA}" rendered="#{ConferirBean.pergunta.resposta_A != ''}">
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_A != ''}">
+                    <ui:repeat value="#{ConferirBean.image1}" var="image1" >
+                        <p:graphicImage  value="/#{image1}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg1').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_A != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg1" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_A != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image1}" var="image1">
+                            <p:graphicImage  value="/#{image1}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+            
+            </p:panelGrid>
+            
+            
+             <p:panelGrid columns="4" rendered="#{ConferirBean.pergunta.resposta_B != ''}"  style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+            
+          
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respB}"   itemLabel="B"  rendered="#{ConferirBean.pergunta.resposta_B != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="B" autoResize="true" value="#{ConferirBean.pergunta.resposta_B}" style="#{ConferirBean.campoB}" rendered="#{ConferirBean.pergunta.resposta_B != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_B != ''}">
+                    <ui:repeat value="#{ConferirBean.image2}" var="image2" >
+                        <p:graphicImage  value="/#{image2}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg2').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_B != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg2" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_B != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image2}" var="image2">
+                            <p:graphicImage  value="/#{image2}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+           
+            
+            </p:panelGrid>
+           
+             <p:panelGrid columns="4" rendered="#{ConferirBean.pergunta.resposta_C != ''}" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+            
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respC}"   itemLabel="C"  rendered="#{ConferirBean.pergunta.resposta_C != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                 <p:inputTextarea  id="C" autoResize="true" value="#{ConferirBean.pergunta.resposta_C}" style="#{ConferirBean.campoC}" rendered="#{ConferirBean.pergunta.resposta_C != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_C != ''}">
+                    <ui:repeat value="#{ConferirBean.image3}" var="image3" >
+                        <p:graphicImage  value="/#{image3}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg3').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_C != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg3" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_C != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image3}" var="image3">
+                            <p:graphicImage  value="/#{image3}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+           
+          </p:panelGrid>
+            <p:panelGrid columns="4" rendered="#{ConferirBean.pergunta.resposta_D != '' || ConferirBean.pergunta.resposta_D != 'null'}"  style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+
+            
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respD}"   itemLabel="D"  rendered="#{ConferirBean.pergunta.resposta_D != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="D" autoResize="true" value="#{ConferirBean.pergunta.resposta_D}" style="#{ConferirBean.campoD}" rendered="#{ConferirBean.pergunta.resposta_D != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_D != ''}">
+                    <ui:repeat value="#{ConferirBean.image4}" var="image4" >
+                        <p:graphicImage  value="/#{image4}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg4').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_D != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg4" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_D != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image4}" var="image4">
+                            <p:graphicImage  value="/#{image4}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+            
+            
+            </p:panelGrid>
+            <p:panelGrid columns="4" rendered="#{ConferirBean.pergunta.resposta_E != ''}" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+          
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respE}"   itemLabel="E"  rendered="#{ConferirBean.pergunta.resposta_E != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="E" autoResize="true" value="#{ConferirBean.pergunta.resposta_E}" style="#{ConferirBean.campoE}" rendered="#{ConferirBean.pergunta.resposta_E != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_E != ''}">
+                    <ui:repeat value="#{ConferirBean.image5}" var="image5" >
+                        <p:graphicImage  value="/#{image5}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg5').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_E != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg5" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_E != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image5}" var="image5">
+                            <p:graphicImage  value="/#{image5}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+            
+             </p:panelGrid>
+            <p:panelGrid columns="4" style="width: 100%" rendered="#{ConferirBean.pergunta.resposta_F != ''}" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+            
+           
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respF}"   itemLabel="F"  rendered="#{ConferirBean.pergunta.resposta_F != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="F" autoResize="true" value="#{ConferirBean.pergunta.resposta_F}" style="#{ConferirBean.campoF}" rendered="#{ConferirBean.pergunta.resposta_F != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_F != ''}">
+                    <ui:repeat value="#{ConferirBean.image6}" var="image6" >
+                        <p:graphicImage  value="/#{image6}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg6').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_F != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg6" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_F != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image6}" var="image6">
+                            <p:graphicImage  value="/#{image6}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+           
+            </p:panelGrid>
+            <p:panelGrid columns="4" style="width: 100%" rendered="#{ConferirBean.pergunta.resposta_G != ''}" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+            
+             
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respG}"   itemLabel="G"  rendered="#{ConferirBean.pergunta.resposta_G != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="G" autoResize="true" value="#{ConferirBean.pergunta.resposta_G}" style="#{ConferirBean.campoG}" rendered="#{ConferirBean.pergunta.resposta_G != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_G != ''}">
+                    <ui:repeat value="#{ConferirBean.image7}" var="image7" >
+                        <p:graphicImage  value="/#{image7}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg7').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_G != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg7" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_G != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image7}" var="image7">
+                            <p:graphicImage  value="/#{image7}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+            
+            
+            </p:panelGrid>
+            <p:panelGrid columns="4" style="width: 100%" rendered="#{ConferirBean.pergunta.resposta_H != ''}"  columnClasses="column0Class,column1Class, column2Class, column3Class" >
+           
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respH}"   itemLabel="H"  rendered="#{ConferirBean.pergunta.resposta_H != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="H" autoResize="true" value="#{ConferirBean.pergunta.resposta_H}" style="#{ConferirBean.campoH}" rendered="#{ConferirBean.pergunta.resposta_H != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_H != ''}">
+                    <ui:repeat value="#{ConferirBean.image8}" var="image8" >
+                        <p:graphicImage  value="/#{image8}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg8').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_H != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg8" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_H != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image8}" var="image8">
+                            <p:graphicImage  value="/#{image8}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+           
+            </p:panelGrid>
+            <p:panelGrid columns="4" style="width: 100%" rendered="#{ConferirBean.pergunta.resposta_I != ''}"  columnClasses="column0Class,column1Class, column2Class, column3Class" >
+             
+
+                <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respI}"   itemLabel="I"  rendered="#{ConferirBean.pergunta.resposta_I != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                <p:inputTextarea  id="I" autoResize="true" value="#{ConferirBean.pergunta.resposta_I}" style="#{ConferirBean.campoI}" rendered="#{ConferirBean.pergunta.resposta_I != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_I != ''}">
+                    <ui:repeat value="#{ConferirBean.image9}" var="image9" >
+                        <p:graphicImage  value="/#{image9}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg9').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_I != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg9" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_I != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image9}" var="image9">
+                            <p:graphicImage  value="/#{image9}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+          
+            
+            </p:panelGrid>
+            <p:panelGrid columns="4" rendered="#{ConferirBean.pergunta.resposta_J != ''}" style="width: 100%" columnClasses="column0Class,column1Class, column2Class, column3Class" >
+             
+
+                 <p:selectBooleanCheckbox value="#{ConferirBean.pergunta.respJ}"   itemLabel="J"  rendered="#{ConferirBean.pergunta.resposta_J != ''}" >
+                    <p:ajax update="msg" listener="#{ConferirBean.addMessage()}"   event="click"/>
+                </p:selectBooleanCheckbox>
+                 <p:inputTextarea  id="j" autoResize="true" value="#{ConferirBean.pergunta.resposta_J}" style="#{ConferirBean.campoJ}" rendered="#{ConferirBean.pergunta.resposta_J != ''}" >
+
+                </p:inputTextarea>   
+
+                      <p:imageSwitch effect="zoom" rendered="#{ConferirBean.pergunta.resposta_J != ''}">
+                    <ui:repeat value="#{ConferirBean.image10}" var="image10" >
+                        <p:graphicImage  value="/#{image10}" width="50%" height="50%"/>
+                    </ui:repeat>
+                </p:imageSwitch>
+
+                <p:commandButton type="button" value="Show" onclick="PF('dlg10').show()" icon="pi pi-search" styleClass="myCustomStyle" rendered="#{ConferirBean.pergunta.resposta_J != ''}" />
+
+                <p:dialog header="Images" widgetVar="dlg10" modal="true"
+                          draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{ConferirBean.pergunta.resposta_J != ''}">
+
+                    <p:imageSwitch effect="fade">
+                        <ui:repeat value="#{ConferirBean.image10}" var="image10">
+                            <p:graphicImage  value="/#{image10}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
+                </p:dialog>
+          
+            
+            </p:panelGrid>
+                
+            </b:panel>
+         <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+            
+        </h:form>
+     
+    </h:body>
+</html>

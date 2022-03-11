@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+            <p:menuitem  value="Bem vindo : #{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+            <p:menuitem  value="Sair" action="#{FuncionarioMB.logAut()}" icon="pi pi-fw pi-power-off"/>
+           
+        </p:breadCrumb>
+          <p:messages/>
+       </h:form>
+       <p:messages for="MessageLista" showDetail="true" closable="true"/> 
+       <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+       <style type="text/css">
+     .cheap {
+        background-color: #C8E6C9 !important;
+        background-image: none !important;
+        color: #ffffff !important;
+        
+    }
+     .repro {
+        background-color: #ee2200 !important;
+        background-image: none !important;
+        color: #FFFFFF !important;
+                  
+    }
+     .progra {
+        background-color: #1E90FF !important;
+        background-image: none !important;
+        color: #FFFFFF !important;
+                  
+    }
+    .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              }
+       </style>    
+    </h:head>
+    <p:ajaxStatus styleClass="ajax-status">
+        <f:facet name="start">
+            <h:graphicImage library="resource"  value="load.gif"/>
+        </f:facet>
+        <f:facet  name="complete">
+            <h:outputText value=""/>
+        </f:facet>
+    </p:ajaxStatus> 
+    <h:body >
+           <p:fieldset legend="Controle de Avaliações">
+
+        <h:form id="form_cadModelo">
+            <b:panel title="Lista de avaliações" look="warning">
+            <p:messages/>
+         
+                     <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Buscar avaliações" action="#{ConsultaEspecificaObtBean.ordenarLogin()}"
+                                  process="tabela @this"
+                                 update="@form"></p:commandButton>         
+                
+                 
+                               
+                                         
+                
+            <p:dataTable id="tabela" var="obt" value="#{ConsultaEspecificaObtBean.listaobt}"
+		paginator="true" rows="10" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{obt.re}" selection="#{re}" selectionMode="single"     rowStyleClass="#{obt.status eq 'Programado' ? 'progra': 
+                 obt.nota >= 7.5  ? 'cheap':
+                 obt.status eq 'Concluido' ? 'repro':  
+                 null}"> 	
+		<f:facet name="header">Lista de Departamento</f:facet>	
+	 	 
+                   
+                
+                <p:column headerText="Codigo" sortBy="#{obt.codigo}">
+                    <h:outputText value="#{obt.codigo}" />
+                </p:column>
+                
+                <p:column headerText="Registro" sortBy="#{obt.re}">
+                    <h:outputText value="#{obt.re}" />
+                </p:column>
+
+
+
+                <p:column headerText="Nome" sortBy="#{obt.nome}">
+                    <h:outputText value="#{obt.nome}" />
+                </p:column>
+                  
+                <p:column headerText="Avaliação" sortBy="#{obt.obtModelo}">
+                    <h:outputText value="#{obt.obtModelo}" />
+                </p:column>
+               
+                <p:column headerText="Data inclusão" sortBy="#{obt.data}">
+                    <h:outputText value="#{obt.data}" />
+                </p:column>
+                     
+                <p:column headerText="status" sortBy="#{obt.status}">
+                    <h:outputText value="#{obt.status}" />
+                </p:column>
+                    
+                <p:column headerText="Nota" sortBy="#{obt.nota}">
+                    <h:outputText value="#{obt.nota}" />
+                </p:column>
+                <p:column headerText="Chave" sortBy="#{obt.codigoObt}">
+                    <h:outputText value="#{obt.codigoObt}" />
+                </p:column>
+                
+                                            
+                 <p:column headerText="Fazer Avaliação" style="width:90px;text-align: center">
+                     <p:commandButton id="avalia" update="@form"  styleClass="ui-button-success" action="/avaliacoes/Questionario?faces-redirect=true" icon="pi pi-sign-in" title="Fazer Avaliação" process="@this"  rendered="#{obt.status eq 'Programado'}" >
+                            <p:ajax  update="tabela"  />
+                            <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}" />
+                      </p:commandButton>
+                        
+                    </p:column>
+                <p:column headerText="Consultar Avaliação" style="width:90px;text-align: center" rendered="#{obt.botao}">
+                     <p:commandButton id="conferir" update="@form" styleClass="ui-button-warning"  action="/avaliacoes/QuestionarioConferir?faces-redirect=true" icon="pi pi-book" title="Consultar Avaliação" process="@this"  rendered="#{obt.status eq 'Concluido'}" >
+                            <p:ajax  update="tabela"  />
+                            <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}" />
+                      </p:commandButton>
+                        
+                    </p:column>
+                    
+                                   
+                
+                </p:dataTable>
+                </b:panel>
+            
+                  </h:form>
+      </p:fieldset>
+    </h:body>
+</html>

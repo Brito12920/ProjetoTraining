@@ -1,0 +1,196 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 01/06/2021, 14:12:33
+    Author     : v103760
+*/
+
+
+.ui-widget { font-size: 10px !important;
+
+
+}
+
+.ui-autocomplete{
+width: 90% !important;
+}
+.ui-autocomplete-input{
+width: 90% !important;
+}
+.ui-autocomplete-multiple {
+width: 98% !important;
+}
+.p-autocomplete {
+width: 98% !important;
+}
+.ui-autocomplete-multiple-container {
+width: 90% !important;
+}
+.colunaDireita{ text-align: left; } .colunaEsquerda{ text-align: right; } .colunaCenter { text-align: center;}
+
+.column0Class {
+    width: 10%;
+}
+.column1Class {
+    width: 75%;
+}
+.column2Class {
+    width: 10%;
+}
+.column3Class {
+    width: 5%;
+}
+
+.columnT0Class {
+    width: 10%;
+}
+.columnT1Class {
+    width: 30%;
+}
+.columnT2Class {
+    width: 50%;
+}
+
+.columnAv0Class {
+    width: 30%;
+}
+.columnAv1Class {
+    width: 60%;
+}
+.columnAv2Class {
+    width: 10%;
+}
+.button,
+input {
+  overflow: visible;
+}
+
+.button,
+
+.panel{
+    font-size: 10px !important; 
+    
+}
+.button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+.button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  padding: 0;
+  border-style: none;
+}
+.stilo{
+        background: #F5F5F5; 
+       color: #ffffff;
+        border-color: #F5F5F5;
+    }
+    
+    .panel-title{
+       background: orange; 
+       background-color: orange
+    }
+    .panel-heading{
+        background: orange; 
+        background-color: orange
+    }
+    .commandButton{
+    cursor: pointer;
+    margin-top: 3%;
+    border: 0;
+    outline: 0;
+    padding: 0.8rem;
+    border-radius: 0.2rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    background: orange;
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+tr.ui-widget-content:hover{
+  background-color:white;
+  cursor:pointer;
+}
+
+#myButton .ui-button{
+    cursor: pointer;
+    margin-top: 3%;
+    border: 0;
+    outline: 0;
+    padding: 0.8rem;
+    border-radius: 0.2rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    background: orange;
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+
+#myButton .ui-button-text-only {
+    padding: .5em .10em;
+}
+.ui-button .ui-widget .ui-state-default .ui-corner-all .ui-button-text-icon-left .mygreen {
+     background-color: green !important;
+}
+ .cheap {
+                  background-color: #54a90a !important;
+                  background-image: none !important;
+                  color: #ffffff !important;
+
+              }
+              .repro {
+                  background-color: #FF0000 !important;
+                  background-image: none !important;
+                  color: #FFFFFF !important;
+
+              }
+              .progra {
+                  background-color: #1E90FF !important;
+                  background-image: none !important;
+                  color: #FFFFFF !important;
+
+              }   
+
+              .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              }
+              /* reset on the showcase style*/
+              .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+                  text-align: center;
+              }
+
+              .customPanelGrid .ui-panelgrid-content {
+                  align-items: center;
+              }
+              .stilo{
+                  background: #F5F5F5; 
+                  color: #ffffff;
+                  border-color: #F5F5F5;
+                  .panel-heading {
+                      background-color: #ececb0 !important;
+                  }
+              }
+              .tabela {
+
+                  border: 1px solid black;
+                  color: orange;
+                  background-color: orange;
+
+              }
+              .loginPanel.ui-panel, .loginPanel.ui-panel-content {
+                  border: 0;
+                  background: red;
+                  padding: 0.5em 1em;
+              }

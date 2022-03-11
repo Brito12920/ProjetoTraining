@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+          <p:messages for="MessageLista" showDetail="true" closable="true"/>  
+         <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+            <p:menuitem value="Manu Principal" outcome="#{TelaMB.tela}" icon="pi pi-fw pi-home"/>
+           
+            <p:menuitem  value="#{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+        </p:breadCrumb>
+       </h:form>
+                <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+    </h:head>
+    <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+    <h:body >
+        <h:form id="form_cadControle">
+       
+               
+            
+             <p:linkButton outcome="SelecionarFuncionarios" value="Criar uma lista" style="margin-right:20px;">
+             <f:param name="cricar" value="10"/>
+             </p:linkButton> 
+           
+             <p:panelGrid columns="3">
+                <h:outputLabel value="Digite uma lista" onfocus="true"></h:outputLabel>
+             
+               
+            
+                <p:autoComplete id="consultaUnit" value="#{ControleMB.texto1Buscar}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ListaBeanMB.completarLista}"  autocomplete="true" scrollHeight="250" dropdown="true"/>
+                
+
+                  <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por lista" action="#{ControleMB.ordenarLista()}"
+                                  process="tabela consultaUnit @this"
+                                 update="tabela"></p:commandButton>         
+                
+                  <p:commandButton id="bntExcluir"
+                                 icon="ui-icon-trash"
+                                 value="Excluir lista" action="#{ControleMB.deleteLista()}"
+                                  process="tabela consultaUnit @this"
+                                 update="tabela"></p:commandButton> 
+                                  
+                 </p:panelGrid>
+                   
+            
+            
+            <p:dataTable id="tabela" var="lista" value="#{ControleMB.listaFunc}"
+		paginator="true" rows="30" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{lista.lista}" selection="#{lista}" selectionMode="single" >	
+		<f:facet name="header">Lista de Departamento</f:facet>	
+	 	 
+                             
+                <p:column headerText="Codigo" sortBy="#{lista.codigo}">
+                    <h:outputText value="#{lista.codigo}" />
+                </p:column>
+
+
+
+                <p:column headerText="Registro" sortBy="#{lista.registro}">
+                    <h:outputText value="#{lista.registro}" />
+                </p:column>
+                   
+                <p:column headerText="Nome" sortBy="#{lista.nome}">
+                    <h:outputText value="#{lista.nome}" />
+                </p:column>
+                
+                <p:column headerText="Departamento" sortBy="#{lista.departamento}">
+                    <h:outputText value="#{lista.departamento}" />
+                </p:column>
+                
+                <p:column headerText="Unidade" sortBy="#{lista.unidade}">
+                    <h:outputText value="#{lista.unidade}" />
+                </p:column>
+                
+                <p:column headerText="Lista" sortBy="#{lista.lista}">
+                    <h:outputText value="#{lista.lista}" />
+                </p:column>
+                
+                   <p:column exportable="false">  
+                       <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                  oncomplete="PF('deleteProductDialog').show()">
+                           <f:setPropertyActionListener value="#{lista}" target="#{ControleMB.selectedFun}"/>
+                </p:commandButton>   
+              </p:column>          
+         </p:dataTable>
+              <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                         message="Delete Funcionario?" header="Confirm" severity="warn">
+                  <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{ControleMB.deleteSelectedFunc()}"
+                       update="@form" process="@this"  oncomplete="PF('deleteProductDialog').hide()"/>
+                
+            <p:commandButton value="No"  type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteProductDialog').hide()" update="tabela" process="tabela @this"/>
+        </p:confirmDialog>
+             
+                     </h:form>
+     
+    </h:body>
+</html>

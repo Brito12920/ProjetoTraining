@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+
+
+            <b:navbarLinks>
+                <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+
+
+                <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+
+            </b:navbarLinks>
+
+        </b:navBar>
+        <p:messages/>
+        <style>
+          .ajax-status{
+              width: 35px;
+              height: 35px;
+              position: fixed;
+              right: 1060px;  
+              top: 560px;
+          }
+            
+          /* Definição de estilos para toda a tabela*/
+
+
+ 
+
+/* Definição de estilos para linha de cabeçalho da tabela*/
+
+
+            
+        </style>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+    </h:head>
+
+    <h:body >
+
+        <p:fieldset legend="Cadastro de Departamento">
+
+            <h:form id="form_cadDepartamento">
+                <p:messages/>
+
+                <p:toolbarGroup>
+                    <p:commandButton value="New" icon="pi pi-plus" update=":form_cadDepartamento:manage-product-content"
+                                     oncomplete="PF('dialogGerCliente').show()"
+                                     styleClass="ui-button-success" style="margin-right: .5rem" process="@this">
+
+                        <p:resetInput target=":form_cadDepartamento:manage-product-content"/>
+                    </p:commandButton>
+
+                </p:toolbarGroup>
+
+
+                <p:panelGrid columns="3">
+                    <h:outputLabel value="Digite um Departamento" onfocus="true"></h:outputLabel>
+                    <p:inputText id="consultaRegistro" value="#{ConsultaEspecificaDepbean.registroBuscar}"></p:inputText>
+
+
+                    <p:commandButton id="bntPesquisar"
+                                     icon="ui-icon-trash"
+                                     value="Pesquisar por Departamento" action="#{ConsultaEspecificaDepbean.ordenarDepartamento()}"
+                                     process="tabela consultaRegistro @this"
+                                     styleClass="ui-button-warning"
+                                     update="@form"></p:commandButton>         
+
+
+                    <h:outputLabel value="Digite uma Unidade"></h:outputLabel>
+                    <p:inputText id="consultaUnidade" value="#{ConsultaEspecificaDepbean.textoBuscar}"></p:inputText>
+
+
+                    <p:commandButton id="bntPesquisarUnidade"
+                                     icon="ui-icon-trash"
+                                     value="Pesquisar por Unidade" action="#{ConsultaEspecificaDepbean.ordenarUnidade()}"
+                                     process="tabela tabela2 consultaUnidade @this"
+                                     styleClass="ui-button-warning"
+                                     update="@form"></p:commandButton>   
+
+                </p:panelGrid>
+
+
+                <p:dataTable id="tabela" var="departamento" value="#{ConsultaEspecificaDepbean.listaDepartamento}"  
+                             paginator="true" rows="10" emptyMessage="Não há registros na lista"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{departamento.departamento}" selection="#{departamento}" selectionMode="single"
+                             styleClass="tabela"    
+
+                             >	
+                    <f:facet name="header">Lista de Departamento</f:facet>	
+
+                    <p:ajax  event="rowSelect" listener="#{ConsultaEspecificaDepbean.onRowSelect}" update="@form" />
+
+
+
+
+                    <p:ajax event="rowUnselect" listener="#{DepartamentoMB.depart}" update="@form"/>
+
+                    <p:column headerText="Codigo" sortBy="#{departamento.codigo}">
+                        <h:outputText value="#{departamento.codigo}" />
+                    </p:column>
+
+
+
+                    <p:column headerText="Departamento" sortBy="#{departamento.departamento}">
+                        <h:outputText value="#{departamento.departamento}" />
+                    </p:column>
+
+
+                    <p:column headerText="Unidade" sortBy="#{departamento.unidade}">
+                        <h:outputText value="#{departamento.unidade}" />
+                    </p:column>
+
+
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton icon="pi pi-pencil" update=":form_cadDepartamento:manage-product-content"
+                                         oncomplete="PF('dialogGerCliente').show()"
+                                         styleClass="ui-button-warning" process="@this">
+                            <f:setPropertyActionListener value="#{departamento}" target="#{DepartamentoMB.depart}"/>
+                            <p:resetInput target=":form_cadDepartamento:manage-product-content"/>
+                        </p:commandButton>
+                    </p:column>  
+
+
+
+                </p:dataTable>
+
+
+
+                <b:dataTable id="tabela2" value="#{ConsultaEspecificaDepbean.listaDepartamento}"
+                             var="departamento"
+                             excel="true"
+                             csv="true"
+                             pdf="true"
+                             columnVisibility="true"
+                             copy="true"
+                             print="true"
+                             rendered="false"
+                             >
+                    <b:dataTableColumn value="#{departamento.codigo}" />
+                    <b:dataTableColumn value="#{departamento.departamento}" />
+                    <b:dataTableColumn value="#{departamento.unidade}" />
+                </b:dataTable>
+
+
+                <p:dialog id="modalDialog" header="Cadastro de Departamento" responsive="true"
+                          widgetVar="dialogGerCliente" modal="true" height="500" width="900"
+                          showEffect="side"  style="background-color: #90a4ae ">
+                    <b:panel> 
+                        <p:outputPanel id="manage-product-content" class="ui-fluid" >
+
+
+                            <b:panel title="Cadastro de Departamento" showCollapseLink="false" style="background: #DFDFDF  " collapsed="false" look="warning">
+
+                                <p:panelGrid columns="2" style="width: 60%">
+
+                                    <h:outputLabel value="Registro" for="registro"  style="width:20%"  > </h:outputLabel>
+                                    <p:inputText id="codigo" value="#{DepartamentoMB.depart.codigo}" style="width: 40%" > </p:inputText>
+
+
+                                    <h:outputLabel value="Departamento" for="departamento"></h:outputLabel>
+                                    <p:inputText id="departamento" required="true" value="#{DepartamentoMB.depart.departamento}" style="width:70%"></p:inputText>
+
+
+                                    <p:outputLabel value ="Unidade" for = "unidade"/>
+                                    <p:selectOneMenu id ="unidade" required="true" value="#{DepartamentoMB.depart.unidade}" >
+
+                                        <f:selectItem itemLabel="Selecione" />
+                                        <f:selectItems value="#{UnidadeMB.unidades}" var="unidade" 
+                                                       itemLabel="#{unidade.unidade}" itemValue="#{unidade.unidade}"
+
+                                                       />
+                                        <p:ajax update="unidadeL"/>
+                                    </p:selectOneMenu>
+
+
+                                    <h:outputLabel value="Unidade" for="unidadeL" style="width:90%"></h:outputLabel>
+                                    <p:inputText id="unidadeL" value="#{DepartamentoMB.depart.unidade}"></p:inputText>
+
+
+
+
+
+                                </p:panelGrid>
+
+
+
+
+
+                                <p:panelGrid columns="6">
+                                    <p:commandButton id="bntSalvar"
+                                                     icon="ui-icon-disk"
+                                                     value="Salvar" action="#{DepartamentoMB.cadastraDepartamento()}"
+                                                     update="@form"
+                                                     styleClass="ui-button-warning"
+                                                     ></p:commandButton>
+                                    <p:commandButton id="bntAlterar"
+                                                     icon="ui-icon-star"
+                                                     value="Alterar" action="#{DepartamentoMB.alterarDepartamento()}"
+                                                     update="@form"
+                                                     styleClass="ui-button-warning"
+                                                     >
+                                        <p:ajax  update="tabela"  /> 
+
+                                    </p:commandButton>                 
+                                    <p:commandButton id="bntExcluir"
+                                                     icon="ui-icon-trash"
+                                                     value="Excluir" action="#{DepartamentoMB.excluirDepartamento()}"
+                                                     immediate="tabela"
+                                                     styleClass="ui-button-warning"
+                                                     update="@form"></p:commandButton> 
+
+                                </p:panelGrid>
+
+
+
+
+                            </b:panel>
+
+
+                        </p:outputPanel>
+                    </b:panel>  
+
+                    <p:ajaxStatus styleClass="ajax-status">
+                        <f:facet name="start">
+                            <h:graphicImage library="resource"  value="load.gif"/>
+                        </f:facet>
+                        <f:facet  name="complete">
+                            <h:outputText value=""/>
+                        </f:facet>
+                    </p:ajaxStatus> 
+                </p:dialog> 
+
+
+                <p:ajaxStatus styleClass="ajax-status">
+                    <f:facet name="start">
+                        <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+                    <f:facet  name="complete">
+                        <h:outputText value=""/>
+                    </f:facet>
+                </p:ajaxStatus> 
+
+            </h:form>
+        </p:fieldset>
+    </h:body>
+</html>

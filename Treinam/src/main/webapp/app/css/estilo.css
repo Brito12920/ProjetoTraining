@@ -1,0 +1,121 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 01/06/2021, 14:12:33
+    Author     : v103760
+*/
+
+.ui-widget,
+.ui-widget .ui-widget {
+    font-size: 14px !important;
+}
+
+.ui-autocomplete{
+width: 90% !important;
+}
+.ui-autocomplete-input{
+width: 90% !important;
+}
+.ui-autocomplete-multiple {
+width: 98% !important;
+}
+.p-autocomplete {
+width: 98% !important;
+}
+.ui-autocomplete-multiple-container {
+width: 90% !important;
+}
+.colunaDireita{ text-align: left; } .colunaEsquerda{ text-align: right; } .colunaCenter { text-align: center;}
+
+.column0Class {
+    width: 5%;
+     background-color: #e4e4e4
+}
+.column1Class {
+    width: 75%;
+}
+.column2Class {
+    width: 15%;
+}
+.column3Class {
+    width: 5%;
+}
+
+.columnT0Class {
+    width: 10%;
+}
+.columnT1Class {
+    width: 30%;
+}
+.columnT2Class {
+    width: 50%;
+}
+
+.columnAv0Class {
+    width: 30%;
+}
+.columnAv1Class {
+    width: 60%;
+}
+.columnAv2Class {
+    width: 10%;
+}
+.button,
+input {
+  overflow: visible;
+}
+
+.button,
+select {
+  text-transform: none;
+}
+
+.button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+.button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  padding: 0;
+  border-style: none;
+}
+.stilo{
+        background: #696969; 
+       color: #ffffff;
+        border-color: #F5F5F5;
+    }
+    
+    .panel-title{
+       background: orange; 
+    }
+    .button{
+    cursor: pointer;
+    margin-top: 3%;
+    border: 0;
+    outline: 0;
+    padding: 0.8rem;
+    border-radius: 0.2rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    background: blue;
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+tr.ui-widget-content:hover{
+  background-color:white;
+  cursor:pointer;
+}
+tr.ui-datatable-even{
+  background-color:#ccac;
+}
+tr.ui-datatable-odd{
+  background-color:#ccc;
+}

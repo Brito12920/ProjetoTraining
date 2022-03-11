@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+        
+        
+        <style type="text/css">
+    .ui-panel, div.ui-state-hover {
+        margin: 10px;
+        width: 200px;
+    }
+
+    .ui-dashboard-column {
+        width: 220px;
+    }
+     .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+</style>
+    </h:head>
+    
+    <h:body>
+       
+
+
+
+
+        <h:form id="form" style="background: #DFDFDF">
+        
+       <b:panel style="background-color:  #DFDFDF">  
+           <p:panelGrid columns="5" style="width: 100%">
+           <b:selectOneMenu id="unidade" value="#{GraficoLinhaMB.unidade}" style="width:100%;margin: 10px" label="1º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="a" />
+                        </b:selectOneMenu> 
+           
+            <b:selectOneMenu id="unidade2" value="#{GraficoLinhaMB.unidade2}" style="width:100%;margin: 10px" label="2º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="b" />
+                        </b:selectOneMenu> 
+           
+           <b:selectOneMenu id="unidade3" value="#{GraficoLinhaMB.unidade3}" style="width:100%;margin: 10px" label="3º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="c" />
+                        </b:selectOneMenu> 
+           
+            <b:selectOneMenu id="unidade4" value="#{GraficoLinhaMB.unidade4}" style="width:100%;margin: 10px" label="4º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="d" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade5" value="#{GraficoLinhaMB.unidade5}" style="width:100%;margin: 10px" label="5º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="e" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade6" value="#{GraficoLinhaMB.unidade6}" style="width:100%;margin: 10px" label="6º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="f" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade7" value="#{GraficoLinhaMB.unidade7}" style="width:100%;margin: 10px" label="7º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="g" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade8" value="#{GraficoLinhaMB.unidade8}" style="width:100%;margin: 10px" label="8º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="h" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade9" value="#{GraficoLinhaMB.unidade9}" style="width:100%;margin: 10px" label="9º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="i" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade10" value="#{GraficoLinhaMB.unidade10}" style="width:100%;margin: 10px" label="01º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="j" />
+                        </b:selectOneMenu> 
+            </p:panelGrid>
+           <h:outputLabel value="Ano" for="ano"></h:outputLabel>
+           <p:inputText id="ano" value="#{GraficoLinhaMB.ano}"></p:inputText>
+          
+           <h:outputLabel value="Range" rendered="false" for="range"></h:outputLabel>
+           <p:inputText id="range" rendered="false" value="#{GraficoLinhaMB.range}"></p:inputText>
+           
+           <p:selectBooleanCheckbox id="basic" value="#{GraficoLinhaMB.value1}" itemLabel="Basic"/>
+
+                    </b:panel>  
+        
+        
+      <p:toolbarGroup>
+        
+                                                             
+                            
+          <p:commandButton value="Atualizar" action="#{GraficoLinhaMB.carregarGrafico()}" process="unidade unidade2 unidade3 unidade4  unidade5 unidade6 unidade7 unidade8 unidade9 unidade10 ano grafico grafico2 grafico3 grafico4 grafico5 basic range  @this" 
+                           update=" grafico grafico2 grafico3 grafico4
+                           grafico5 grafico6 grafico7 grafico8 grafico9  grafico10 grafico11 grafico12 grafico13 grafico14 graficoPie" icon="pi pi-plus">
+                                                             
+                             </p:commandButton>
+                
+            </p:toolbarGroup>  
+
+       
+            <b:panelGrid columns="1" style="align-content: center; align-items: center">       
+    
+        
+        
+    <f:facet name="Avaliações">
+        Simple Card
+    </f:facet>
+
+     
+        <p:chart id="graficoPie" type="pie"
+                 responsive="true"
+                 model="#{jobMarketBean.model}" style="height:350px;width:700px" />
+        
+        </b:panelGrid> 
+       
+ 
+        <b:panelGrid columns="2">
+        <p:chart id="grafico" type="line" model="#{GraficoLinhaMB.lineModel1}"
+                 style="#{GraficoLinhaMB.grafico1};" />
+
+        
+        <p:chart id="grafico2" type="line" model="#{GraficoLinhaMB.lineModel2}"
+                style="#{GraficoLinhaMB.grafico2};" />
+        </b:panelGrid>
+        <b:panelGrid columns="2">
+          <p:chart id="grafico3" type="line" model="#{GraficoLinhaMB.lineModel3}"
+                style="#{GraficoLinhaMB.grafico3};" />
+          
+            <p:chart id="grafico4" type="line" model="#{GraficoLinhaMB.lineModel4}"
+                style="#{GraficoLinhaMB.grafico4};" />
+           </b:panelGrid>   
+       
+        <b:panel title="Programadas X Concluidas X Canceladas -  Unidades 1 e 2" showCollapseLink="false" collapsed="true" look="warning">
+        <p:panelGrid columns="2">
+           <p:chart id="grafico5" type="line" model="#{GraficoLinhaMB.lineModel5}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+           
+           
+           <p:chart id="grafico6" type="line"    model="#{GraficoLinhaMB.lineModel6}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+       </p:panelGrid>
+            </b:panel> 
+    
+         <b:panel title="Programadas X Concluidas X Canceladas -  Unidades 3 e 4" showCollapseLink="false" collapsed="true" look="warning">
+        <p:panelGrid columns="2">
+           <p:chart id="grafico7" type="line" model="#{GraficoLinhaMB.lineModel7}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+           
+           
+           <p:chart id="grafico8" type="line"    model="#{GraficoLinhaMB.lineModel8}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+       </p:panelGrid>
+            </b:panel> 
+    
+         <b:panel title="Programadas X Concluidas X Canceladas -  Unidades 5 e 6" showCollapseLink="false" collapsed="true" look="warning">
+        <p:panelGrid columns="2">
+           <p:chart id="grafico9" type="line" model="#{GraficoLinhaMB.lineModel9}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+           
+           
+           <p:chart id="grafico10" type="line"    model="#{GraficoLinhaMB.lineModel10}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+       </p:panelGrid>
+            </b:panel> 
+        
+        <b:panel title="Programadas X Concluidas X Canceladas -  Unidades 7 e 8" showCollapseLink="false" collapsed="true" look="warning">
+        <p:panelGrid columns="2">
+           <p:chart id="grafico11" type="line" model="#{GraficoLinhaMB.lineModel1}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+           
+           
+           <p:chart id="grafico12" type="line"    model="#{GraficoLinhaMB.lineModel12}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+       </p:panelGrid>
+            </b:panel> 
+        
+        <b:panel title="Programadas X Concluidas X Canceladas -  Unidades 9 e 10" showCollapseLink="false" collapsed="true" look="warning">
+        <p:panelGrid columns="2">
+           <p:chart id="grafico13" type="line" model="#{GraficoLinhaMB.lineModel3}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+           
+           
+           <p:chart id="grafico14" type="line"    model="#{GraficoLinhaMB.lineModel13}"
+               style="#{GraficoLinhaMB.grafico5};" />
+       
+       </p:panelGrid>
+            </b:panel> 
+        
+    </h:form>
+
+        <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+        
+    </h:body>
+</html>
+

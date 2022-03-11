@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    
+    
+    <h:head>
+       
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+        
+        
+        <style type="text/css">
+    .ui-panel, div.ui-state-hover {
+        margin: 10px;
+        width: 200px;
+    }
+
+    .ui-dashboard-column {
+        width: 220px;
+    }
+     .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+</style>
+    </h:head>
+    
+    <h:body>
+       
+
+
+
+
+        <h:form id="form" style="background: #DFDFDF">
+         <p:growl id="growl" showDetail="true" />
+       <b:panel style="background-color:  #DFDFDF">  
+           <p:panelGrid columns="5" style="width: 100%">
+               <b:selectOneMenu id="unidade" value="#{jobMarketBeanAvaliacao.unidade}" style="width:100%;margin: 10px" label="1º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="a" />
+                        </b:selectOneMenu> 
+           
+            <b:selectOneMenu id="unidade2" value="#{GraficoLinhaMB.unidade2}" style="width:100%;margin: 10px" label="2º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="b" />
+                        </b:selectOneMenu> 
+           
+           <b:selectOneMenu id="unidade3" value="#{GraficoLinhaMB.unidade3}" style="width:100%;margin: 10px" label="3º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="c" />
+                        </b:selectOneMenu> 
+           
+            <b:selectOneMenu id="unidade4" value="#{GraficoLinhaMB.unidade4}" style="width:100%;margin: 10px" label="4º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="d" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade5" value="#{GraficoLinhaMB.unidade5}" style="width:100%;margin: 10px" label="5º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="e" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade6" value="#{GraficoLinhaMB.unidade6}" style="width:100%;margin: 10px" label="6º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="f" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade7" value="#{GraficoLinhaMB.unidade7}" style="width:100%;margin: 10px" label="7º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="g" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade8" value="#{GraficoLinhaMB.unidade8}" style="width:100%;margin: 10px" label="8º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="h" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade9" value="#{GraficoLinhaMB.unidade9}" style="width:100%;margin: 10px" label="9º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="i" />
+                        </b:selectOneMenu> 
+            <b:selectOneMenu id="unidade10" value="#{GraficoLinhaMB.unidade10}" style="width:100%;margin: 10px" label="01º Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="j" />
+                        </b:selectOneMenu> 
+            </p:panelGrid>
+           <h:outputLabel value="Ano" for="ano"></h:outputLabel>
+           <p:inputText id="ano" value="#{GraficoLinhaMB.ano}"></p:inputText>
+          
+           <h:outputLabel value="Range" rendered="false" for="range"></h:outputLabel>
+           <p:inputText id="range" rendered="false" value="#{GraficoLinhaMB.range}"></p:inputText>
+           
+           <p:selectBooleanCheckbox id="basic" value="#{GraficoLinhaMB.value1}" itemLabel="Basic"/>
+
+                    </b:panel>  
+        
+        
+      <p:toolbarGroup>
+        
+                                                             
+                            
+          <p:commandButton value="Atualizar" action="#{jobMarketBeanAvaliacao.carregarGrafico()}" process="unidade unidade2 unidade3 unidade4  unidade5 unidade6 unidade7 unidade8 unidade9 unidade10 ano @this" 
+                           update="graficoPie,graficoPie2,graficoPie3 bar " icon="pi pi-plus">
+                                         
+                             </p:commandButton>
+                
+            </p:toolbarGroup>  
+
+       
+            <b:panelGrid columns="2" style="align-content: center; align-items: center">       
+    
+        
+        
+    <f:facet name="Avaliações">
+        Simple Card
+    </f:facet>
+
+     
+        <p:chart id="graficoPie" type="pie"
+                 responsive="true"
+                 model="#{jobMarketBeanAvaliacao.model}" style="height:550px;width:900px"  />
+        
+       
+        <p:chart id="graficoPie2" type="pie"
+                 responsive="true"
+                 model="#{jobMarketBeanAvaliacaoCat.model}" style="height:550px;width:900px" />
+        
+       
+       
+            <p:chart id="graficoPie3" type="pie"
+                 responsive="true"
+                 model="#{jobMarketBeanAvaliacaoTrein.model}" style="height:550px;width:900px" />
+            
+            
+                          
+                     
+        </b:panelGrid> 
+ 
+          <h:panelGrid columns="2" columnClasses="left,right"
+                style="width:100%">
+                <p:chart id="bar" type="bar" model="#{chartView.barModel}"
+                    style="width:600px;height:600px">
+                    <p:ajax event="itemSelect" listener="#{chartView.itemSelect}"
+                        update="growl" />
+                </p:chart>
+            </h:panelGrid>
+    
+                  </h:form>
+
+        <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+        
+    </h:body>
+</html>
+

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+          <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{funcionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+       
+          <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+    </h:head>
+     <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+    <h:body >
+        <h:form id="dt-products">
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+     
+                         
+        <p:dataTable id="checkboxDT" var="product" value="#{EmployeeBeanMB.employeeList}"
+                     selection="#{EmployeeBeanMB.selectedEmployees}" rowKey="#{product.registro}"
+                     filteredValue="#{EmployeeBeanMB.filteredEmployeeList}"
+                     style="margin-bottom:0" paginator="true" rows="20">
+            
+            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+            
+            
+            
+            <p:column headerText="Code" filterBy="#{product.registro}" >
+                <h:outputText value="#{product.registro}"  />
+                
+            </p:column>
+             
+            <p:column headerText="Name" filterBy="#{product.nome}">
+                <h:outputText value="#{product.nome}" />
+            </p:column>
+
+            <p:column headerText="Departamento" >
+                <h:outputText value="#{product.departamento}" />
+            </p:column>
+
+            <p:column headerText="Unidade" >
+                <h:outputText value="#{product.unidade}" />
+            </p:column>
+        </p:dataTable>
+          <p:panelGrid columns="1">
+                             
+
+                  <p:commandButton id="BotaoPesquisar"
+                                 icon="ui-icon-trash"
+                                 value="Carregar Lista" 
+                                 update="checkboxDT2"
+                                 ></p:commandButton>         
+                
+                      </p:panelGrid>
+            <p:panelGrid columns="3">
+                  <h:outputLabel value="Digite um lista a ser gravada " for="lista"></h:outputLabel>
+                  <p:inputText id="lista" value="#{EmployeeBeanMB.lista}" style="width:80%"></p:inputText>
+                <p:commandButton id="BotaoSalvar"
+                                 icon="ui-icon-trash"
+                                 value="Gravar" action="#{EmployeeBeanMB.salvar()}"
+                                 update="@form"
+                                 
+                                 ></p:commandButton>  
+            
+                 
+              </p:panelGrid>
+               <p:dataTable id="checkboxDT2" var="product2" value="#{EmployeeBeanMB.selectedEmployees}"
+                  
+                    selectionMode="single"  rowKey="#{product2.registro}"
+                     style="margin-bottom:0" paginator="true" rows="10"  rowSelectMode="add" >
+            
+                  <p:ajax event="rowSelect" listener="#{EmployeeBeanMB.onRowSelect}" update=":dt-products:msgs"/>           
+                  <p:ajax event="rowUnselect" listener="#{dtSelectionView.onRowUnselect}" update=":dt-products:msgs"/>
+            <p:column headerText="Code" >
+                <h:outputText value="#{product2.registro}"  />
+            </p:column>
+
+            <p:column headerText="Name"  >
+                <h:outputText value="#{product2.nome}" />
+            </p:column>
+
+            <p:column headerText="Departamento"  >
+                <h:outputText value="#{product2.departamento}" />
+            </p:column>
+
+            <p:column headerText="Unidade"   >
+                <h:outputText value="#{product2.unidade}" />
+              </p:column>
+        </p:dataTable>
+           
+          </h:form>  
+    </h:body>
+</html>

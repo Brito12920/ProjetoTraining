@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+ <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+            <p:menuitem value="Manu Principal" outcome="#{TelaMB.tela}" icon="pi pi-fw pi-home"/>
+           
+            <p:menuitem  value="#{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+        </p:breadCrumb>
+       </h:form>
+</h:head>
+
+<h:body>
+ <h:form>
+  <p:messages id="messages" />
+  <p:panelGrid columns="2">
+      
+        <p:outputLabel for="nome" value="Nome:" />
+        <p:inputText id="nome" value="#{LocalPdfMB.local.registroTreinamento}"/>
+        <br/>
+        <p:watermark for="nome" value="#{ConsultaEspecificaControleBean.texto1Buscar}" /> 
+
+      
+        <p:fileUpload listener="#{LocalPdfMB.handleFileUpload}"
+        mode="advanced" dragDropSupport="false"
+        update="messages" sizeLimit="1000000" fileLimit="3"
+        allowTypes="/(\.|\/)(pdf|jpe?g|png)$/" />
+
+          <p:commandButton value="Cadastrar" icon="ui-icon-star"
+        action="#{LocalPdfMB.cadastraLocal}" update="messages">
+        </p:commandButton>
+   
+
+      
+
+        
+          <h:outputLabel value="Imagem" for="Imagem"  style="width:80%"  > </h:outputLabel>
+          <p:autoComplete id="nomeImagem" value="#{LocalPdfMB.nomePdf}" forceSelection="true" onkeyup="this.value"
+                         completeMethod="#{LocalPdfMB.completarImagem}" scrollHeight="250"/>
+            <br/>
+          <p:watermark for="nomeImagem" value="#{ConsultaEspecificaControleBean.texto1Buscar}" /> 
+         
+         <p:commandButton value="Carregar" icon="ui-icon-star"
+                          action="#{LocalPdfMB.carregarImagem()}">
+        </p:commandButton>
+         
+         
+        <p:commandButton value="Exibir" icon="ui-icon-star"
+                         process="Imagem nomeImagem @this"
+                         update="@form">
+        </p:commandButton>
+          
+           <p:commandButton value="teste" icon="ui-icon-star"
+                            update="@form"
+                            action="#{LocalPdfMB.createPdf1()}">
+        </p:commandButton>
+        
+          <p:commandButton id="bntExcluir"
+                                 icon="ui-icon-trash"
+                                 value="Excluir" action="#{LocalMB.excluirModelo()}"
+                                 immediate="tabela"
+                                 update="@form"></p:commandButton> 
+         
+          </p:panelGrid>
+         
+         
+         
+ <h5>PDF</h5>
+    <p:media  id = "Imagem" value="C:/Treinamento/out.pdf" width="100%" height="600px">
+        Your browser can't display pdf, <h:outputLink
+            value="#{request.contextPath}/resources/demo/media/guide.pdf">click</h:outputLink> to download pdf instead.
+    </p:media>        
+  
+        
+ </h:form>
+</h:body>
+</html>

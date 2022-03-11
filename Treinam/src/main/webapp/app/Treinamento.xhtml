@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+      
+        
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+     <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+     <script>
+         .tabela {
+
+     border: 1px solid black;
+     color: orange;
+     background-color: orange;
+
+}
+     </script>
+     
+     
+      <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+            
+            /* Definição de estilos para toda a tabela*/
+
+
+ 
+
+/* Definição de estilos para linha de cabeçalho da tabela*/
+
+
+            
+        </style>
+     
+  </h:head>   
+    <h:body >
+           <p:fieldset legend="Cadastro de Instrutor de Treinamentos">
+
+        <h:form id="form_cadFuncionario">
+            <b:panel title="Cadastro de Instrutor de Treinamentos" look="warning" style="background: gainsboro; color: red;  ">
+            <p:messages/>
+         
+           <p:toolbarGroup>
+                <p:commandButton value="Cadastrar um novo instrutor" icon="pi pi-plus" update=":form_cadFuncionario:manage-product-content"
+                                              oncomplete="PF('dialogGerCliente').show()"
+                                              styleClass="ui-button-success" style="margin-right: .5rem" process="@this">
+                             
+                                 <p:resetInput target=":form_cadFuncionario:manage-product-content"/>
+                             </p:commandButton>
+                
+            </p:toolbarGroup>
+            
+          
+            <p:dataTable id="tabela" 
+                         resizableColumns="true"
+                         widgetVar="personTable"
+                         var="treinamento"
+                         value="#{TreinamentoMB.treinamentos}" 
+                         rowKey="#{treinamento.codigo}"
+                         rows="10"
+                         paginator="true"
+                         rowsPerPageTemplate="10,20,30"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} "
+                         styleClass="tabela"
+                          >
+                
+                               
+                <p:column headerText="Codigo" sortBy="#{treinamento.codigo}">
+                    <h:outputText value="#{treinamento.codigo}" />
+                </p:column>
+
+
+
+                <p:column headerText="Usuario" sortBy="#{treinamento.nome}" filterBy="#{treinamento.nome}">
+                    <h:outputText value="#{treinamento.nome}" />
+                </p:column>
+
+
+                <p:column headerText="Funcao" sortBy="#{treinamento.funcao}"  filterBy="#{treinamento.funcao}">
+                         <h:outputText value="#{treinamento.funcao}" />
+                     </p:column>
+
+                
+                <p:column headerText="Unidade" sortBy="#{treinamento.unidade}"  filterBy="#{treinamento.unidade}">
+                    <h:outputText value="#{treinamento.unidade}" />
+                </p:column>
+                
+               
+                                   
+                 <p:column style="width:32px;text-align: center">
+                             <p:commandButton icon="pi pi-pencil" update=":form_cadFuncionario:manage-product-content"
+                                              oncomplete="PF('dialogGerCliente').show()"
+                                               styleClass="rounded-button ui-button-info" process="@this">
+                                 <f:setPropertyActionListener value="#{treinamento}" target="#{TreinamentoMB.treina}"/>
+                                 <p:resetInput target=":form_cadFuncionario:manage-product-content"/>
+                             </p:commandButton>
+                         </p:column>   
+                  
+                                   
+                
+                </p:dataTable>
+                
+           
+                     </b:panel>
+            
+            <p:dialog id="modalDialog" header="Cadastro de Instrutor de Treinamentos" responsive="true"
+				widgetVar="dialogGerCliente" modal="true" height="800" width="1000"
+                                showEffect="side"  style="background-color: #90a4ae ">
+                <b:panel> 
+                <p:outputPanel id="manage-product-content" class="ui-fluid" >
+
+
+                    <b:panel title="Cadastro de Instrutor de Treinamentos" showCollapseLink="false" style="background: #DFDFDF  " collapsed="false" look="warning">
+                                                 
+                                                   
+                        <p:panelGrid columns="2" style="width: 90%">
+
+                            <h:outputLabel value="Codigo" for="codigo"   style="width:20%"></h:outputLabel>
+                            <p:inputText id="codigo" required="true" value="#{TreinamentoMB.treina.codigo}" style="width: 60%"> </p:inputText>
+
+                        </p:panelGrid>
+
+
+                        <p:panelGrid columns="2" style="width: 90%">
+
+                            <h:outputLabel value="Nome" for="nome"   style="width:20%"></h:outputLabel>
+                            <p:inputText id="Nome" required="true" value="#{TreinamentoMB.treina.nome}" style="width: 60%"> </p:inputText>
+
+                        </p:panelGrid>
+
+
+                        <p:panelGrid columns="2" style="width: 90%">
+                   
+                    <h:outputLabel value="Função" for="funcao"   style="width:20%"></h:outputLabel>
+                    <p:inputText id="Funcao" required="true" value="#{TreinamentoMB.treina.funcao}" style="width: 60%"> </p:inputText>
+                   
+                     </p:panelGrid>
+                  
+            
+           
+            <p:panelGrid columns="6">
+          
+                <p:commandButton id="bntSalvar"
+                                 icon="ui-icon-disk"
+                                 value="Salvar" action="#{TreinamentoMB.cadastraTreinamento()}"
+                                 styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton>
+               
+                
+                
+                <p:commandButton id="bntAlterar"
+                                 icon="ui-icon-star"
+                                 value="Alterar" action="#{TreinamentoMB.alterarTreinamento()}"
+                                 styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton>                 
+                <p:commandButton id="bntExcluir"
+                                 icon="ui-icon-trash"
+                                 value="Excluir" action="#{TreinamentoMB.excluirTreinamento()}"
+                                 styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton> 
+                 
+              </p:panelGrid>
+                            
+                    </b:panel>
+                   
+                  
+                </p:outputPanel>
+               </b:panel>  
+                
+                 <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+                
+               </p:dialog> 
+             <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+                     </h:form>
+       </p:fieldset>
+    </h:body>
+</html>

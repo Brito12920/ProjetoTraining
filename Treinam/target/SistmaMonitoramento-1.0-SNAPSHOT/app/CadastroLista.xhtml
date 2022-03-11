@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+             
+        <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+        <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+    </h:head>
+    <h:body >
+             <h:form id="form_cadModelo">
+            <p:messages/>
+            <p:growl id="messages" showDetail="true"/>
+                           
+            <p:panelGrid columns="1"  style="width: 50%">
+                                
+                 <b:selectOneMenu id="consultaUnit" value="#{ConsultaEspecificaListaBean.texto1Buscar}"     label="Selecione uma lista" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ListaBeanMB.listaFunc}" var="a" />
+                 </b:selectOneMenu>
+                
+
+                  <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por lista" action="#{ConsultaEspecificaListaBean.ordenarLista()}"
+                                  process="tabela consultaUnit @this"
+                                 update="@form"></p:commandButton>         
+                
+                 <p:commandButton id="bntlista"
+                                 icon="ui-pi-book"
+                                 value="Criar uma lista"  action="SelecionarFuncionarios"
+                                  process="tabela consultaUnit @this"
+                                 update="@form"></p:commandButton>         
+                                  
+                 </p:panelGrid>
+                   
+                
+            <p:dataTable id="tabela" var="lista" value="#{ConsultaEspecificaListaBean.listaFunc}"
+		paginator="true" rows="10" emptyMessage="Não há registros na lista"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="10,15,25,50,100"  rowKey="#{lista.registro}" selection="#{lista}" selectionMode="single" >	
+		<f:facet name="header">Lista de Departamento</f:facet>	
+	 	 
+                             
+                <p:column headerText="Codigo" sortBy="#{lista.codigo}">
+                    <h:outputText value="#{lista.codigo}" />
+                </p:column>
+
+
+
+                <p:column headerText="Registro" sortBy="#{lista.registro}">
+                    <h:outputText value="#{lista.registro}" />
+                </p:column>
+                   
+                <p:column headerText="Nome" sortBy="#{lista.nome}">
+                    <h:outputText value="#{lista.nome}" />
+                </p:column>
+                
+                <p:column headerText="Departamento" sortBy="#{lista.departamento}">
+                    <h:outputText value="#{lista.departamento}" />
+                </p:column>
+                
+                <p:column headerText="Unidade" sortBy="#{lista.unidade}">
+                    <h:outputText value="#{lista.unidade}" />
+                </p:column>
+                
+                <p:column headerText="Lista" sortBy="#{lista.lista}">
+                    <h:outputText value="#{lista.lista}" />
+                </p:column>
+                
+               
+              <p:column exportable="false">
+               
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                 oncomplete="PF('deleteProductDialog').show()">
+                    <f:setPropertyActionListener value="#{lista}" target="#{ListaBeanMB.lista}"/>
+                </p:commandButton>
+            </p:column>
+                  
+                                   
+                
+                </p:dataTable>
+                
+             <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                         message="Delete lista?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{ListaBeanMB.excluirLista()}"
+                             process="@this" update="@form tabela" oncomplete="PF('deleteProductDialog').hide()"/>
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteProductDialog').hide()" update="@form"/>
+        </p:confirmDialog>
+             <p:ajaxStatus styleClass="ajax-status">
+                    <f:facet name="start">
+                        <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+                    <f:facet  name="complete">
+                        <h:outputText value=""/>
+                    </f:facet>
+                </p:ajaxStatus> 
+           </h:form>
+  
+    </h:body>
+</html>

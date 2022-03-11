@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+  
+       <h:head>
+           
+           <b:navBar brand="Continental"  brandHref="#{TelaMB.tela}" inverse="true">
+          
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+    </b:navbarLinks>
+     </b:navBar>      
+     
+      
+        
+          <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />      
+    </h:head>
+         
+   
+    <h:body >
+          <p:growl id="messages" showDetail="true"/>   
+
+        <h:form id="form_cadModelo">
+         
+         
+                                           
+            <p:dataTable id="tabela" widgetVar="dtProducts" var="alternativa" value="#{CrudAlternativa.alternativas}"
+                     reflow="true" styleClass="products-table" selectionMode="single"
+                     selection="#{CrudAlternativa.selectedAlternativa}" rowKey="#{alternativa.codigo}" paginator="true"
+                     rows="10" rowSelectMode="add" paginatorPosition="bottom">	
+		<f:facet name="header">Lista de Avaliações</f:facet>	
+                <p:ajax event="rowSelect" listener="#{CrudAlternativa.onRowSelect}" update="messages" />
+                 <p:ajax event="rowUnselect" listener="#{CrudAlternativa.onRowUnselect}"/>     
+                   
+                
+                <p:column headerText="Avaliaca" sortBy="#{alternativa.cod_obt}" filterBy="#{alternativa.cod_obt}">
+                    <h:outputText value="#{alternativa.cod_obt}" />
+                </p:column>
+                   
+                <p:column headerText="Descrição" sortBy="#{alternativa.desc_obt}" filterBy="#{alternativa.desc_obt}" >
+                    <h:outputText value="#{alternativa.desc_obt}" />
+                </p:column>
+                
+                 <p:column headerText="Enunciado" sortBy="#{alternativa.descricao}" filterBy="#{alternativa.descricao}">
+                     <h:outputText value="#{alternativa.descricao}" />
+                </p:column>
+                 
+                 <p:column headerText="Nome da avaliação do Treinamento " sortBy="#{alternativa.nomeAvaliacao}" filterBy="#{alternativa.nomeAvaliacao}">
+                     <h:outputText value="#{alternativa.nomeAvaliacao}" />
+                </p:column>
+                 
+                <p:column exportable="false">
+                <p:commandButton icon="pi pi-pencil" update=":form_cadModelo:manage-product-content"
+                                 oncomplete="PF('dialogGerCliente').show()"
+                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{alternativa}" target="#{CrudAlternativa.selectedAlternativa}"/>
+                    <p:resetInput target=":form_cadModelo:manage-product-content"/>
+                </p:commandButton>
+                </p:column>
+                 
+                
+                 <p:column exportable="false">  
+                       <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                  oncomplete="PF('deleteProductDialog').show()">
+                           <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}"/>
+                 </p:commandButton>   
+              </p:column>      
+                                   
+                
+                </p:dataTable>
+                
+            
+             <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                              message="Tem certeza que deseja excluir essa avaliação ? #{ObtMB.obt.obtModelo}" header="Confirm" severity="warn">
+                  <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{ObtMB.deleteSelectedFunc()}"
+                       update="@form tabela" process="tabela @this"  oncomplete="PF('deleteProductDialog').hide()"/>
+                
+            <p:commandButton value="No"  type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteProductDialog').hide()" update="tabela" process="tabela @this"/>
+        </p:confirmDialog>
+            
+            
+            
+      
+            <p:dialog id="modalDialog" header="Alteração de Avaliações"
+				widgetVar="dialogGerCliente" modal="true" height="400" width="800"
+				showEffect="side" hideEffect="explode" style="background-color: #90a4ae ">
+                <p:outputPanel id="manage-product-content" class="ui-fluid" >
+                                  
+                                  
+                    <b:panel title="Dados da descrição da Avaliação (Alteração global)" showCollapseLink="false"  collapsed="true" look="warning">
+                                       
+                                        
+                                        <h:outputText value="Codigo da avaliação "    />
+                                        <p:inputText id="cod" value="#{CrudAlternativa.selectedAlternativa.cod_obt}"/>
+                                         
+                                         <h:outputText value="Nome: "    />
+                                         <p:inputTextarea id="name" value="#{CrudAlternativa.selectedAlternativa.desc_obt}"/>
+                                    
+                                         <h:outputText value="Descrição : "    />
+                                         <p:inputTextarea id="descricao" value="#{CrudAlternativa.selectedAlternativa.cod_perg1}"/>
+                                        
+                                         <h:outputText value="Revisão: "    />
+                                         <p:inputTextarea id="Rev" value="#{CrudAlternativa.selectedAlternativa.revisao}"/>
+                                         
+                                          <h:outputText value="Nome da Avaliação do Treinador  : #{CrudAlternativa.selectedAlternativa.nomeAvaliacao}" />  
+                                         
+                                         <p:panelGrid  columns="1">                                      
+                                         <b:selectOneMenu value="#{CrudAlternativa.selectedAlternativa.nomeAvaliacao}" style="width:100px" select2="true" required="true" label="Escolha o noma para avaliação final">
+                                             <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                             <f:selectItems value="#{CrudAlternativa.nomeAliacao}"   var="c" />
+                                         </b:selectOneMenu>
+                                         
+                                         
+                                             <b:commandButton value="Alterar Dados da Avaliação" action="#{CrudAlternativa.updateGlobal()}" ajax="true" update="@none" look="info" style="width:100px"/>  
+                                        </p:panelGrid>
+                       </b:panel>
+                    
+                       <b:panel title="Configuração avaliação" showCollapseLink="true" show-collapse-link="true"  collapsed="true"   look="warning">
+                                        <h:outputText value="Quantidade Pergutas "    />
+                                        <p:inputText id="quantPerg" value="#{CrudAlternativa.selectedAlternativa.quantPeguntas}" />
+                                         
+                                         <h:outputText value="Quantidade Alternativa escolha: "    />
+                                         <p:inputText id="quantAltEscolha" value="#{CrudAlternativa.selectedAlternativa.alternativaEscolha}"/>
+                                    
+                                         <h:outputText value="Unidade : "    />
+                                         <p:inputText id="Unidade" value="#{CrudAlternativa.selectedAlternativa.unidade}"/>
+                                         
+                                         
+                                         
+                                         <br></br>
+                                         <b:commandButton value="Alterar Dados da Avaliação" ajax="true" action="#{CrudAlternativa.update()}" update="@form" look="info" style="width:100px"/>  
+			</b:panel>
+                        
+                         <b:panel title="Alternativas" showCollapseLink="true" show-collapse-link="true"  collapsed="true"   look="warning">
+                                       
+                                        <h:outputText value="Enunciado: "    />
+                                        <p:inputTextarea id="descAvaliacao" value="#{CrudAlternativa.selectedAlternativa.descricao}"/>
+                             
+                                        <h:outputText value="Alternativas A "    />
+                                        <p:inputTextarea id="AltA" value="#{CrudAlternativa.selectedAlternativa.alternativaA}"/>
+                                         
+                                         <h:outputText value="Alternativas B "    />
+                                         <p:inputTextarea id="AltB" value="#{CrudAlternativa.selectedAlternativa.alternativaB}"/>
+                                    
+                                         <h:outputText value="Alternativas C"    />
+                                         <p:inputTextarea id="AltC" value="#{CrudAlternativa.selectedAlternativa.alternativaC}"/>
+                                         
+                                         <h:outputText value="Alternativas D"    />
+                                         <p:inputTextarea id="AltD" value="#{CrudAlternativa.selectedAlternativa.alternativaD}"/>
+                                         
+                                         <h:outputText value="Alternativas E"    />
+                                         <p:inputTextarea id="AltE" value="#{CrudAlternativa.selectedAlternativa.alternativaE}"/>
+                                         
+                                         <h:outputText value="Alternativas F"    />
+                                         <p:inputTextarea id="AltF" value="#{CrudAlternativa.selectedAlternativa.alternativaF}"/>
+                                         
+                                         <h:outputText value="Alternativas G"    />
+                                         <p:inputTextarea id="AltG" value="#{CrudAlternativa.selectedAlternativa.alternativaG}"/>
+                                         
+                                         <h:outputText value="Alternativas H"    />
+                                         <p:inputTextarea id="AltH" value="#{CrudAlternativa.selectedAlternativa.alternativaH}"/>
+                                         
+                                         <h:outputText value="Alternativas I"    />
+                                         <p:inputTextarea id="AltI" value="#{CrudAlternativa.selectedAlternativa.alternativaI}"/>
+                                         
+                                         <h:outputText value="Alternativas J"    />
+                                         <p:inputTextarea id="AltJ" value="#{CrudAlternativa.selectedAlternativa.alternativaJ}"/>
+                                         
+                                          <br></br>
+                                         <b:commandButton value="Alterar Dados da Avaliação" ajax="true" update="@none" look="info" style="width:100px"/>  
+			 </b:panel>
+                    
+                             <b:panel title="Alternativas corretas" showCollapseLink="true" show-collapse-link="true" collapsed="true"    look="warning">
+                                        <h:outputText value="Alternativas A "    />
+                                        <p:inputText id="CoAltA" value="#{CrudAlternativa.selectedAlternativa.corretoA}"/>
+                                         
+                                         <h:outputText value="Alternativas B "    />
+                                         <p:inputText id="CoAltB" value="#{CrudAlternativa.selectedAlternativa.corretoB}"/>
+                                    
+                                         <h:outputText value="Alternativas C"    />
+                                         <p:inputText id="CoAltC" value="#{CrudAlternativa.selectedAlternativa.corretoC}"/>
+                                         
+                                         <h:outputText value="Alternativas D"    />
+                                         <p:inputText id="CoAltD" value="#{CrudAlternativa.selectedAlternativa.corretoD}"/>
+                                         
+                                         <h:outputText value="Alternativas E"    />
+                                         <p:inputText id="CoAltE" value="#{CrudAlternativa.selectedAlternativa.corretoE}"/>
+                                         
+                                         <h:outputText value="Alternativas F"    />
+                                         <p:inputText id="CoAltF" value="#{CrudAlternativa.selectedAlternativa.corretoF}"/>
+                                         
+                                         <h:outputText value="Alternativas G"    />
+                                         <p:inputText id="CoAltG" value="#{CrudAlternativa.selectedAlternativa.corretoG}"/>
+                                         
+                                         <h:outputText value="Alternativas H"    />
+                                         <p:inputText id="CoAltH" value="#{CrudAlternativa.selectedAlternativa.corretoH}"/>
+                                         
+                                         <h:outputText value="Alternativas I"    />
+                                         <p:inputText id="CoAltI" value="#{CrudAlternativa.selectedAlternativa.corretoI}"/>
+                                         
+                                         <h:outputText value="Alternativas J"    />
+                                         <p:inputText id="CoAltJ" value="#{CrudAlternativa.selectedAlternativa.corretoJ}"/>
+                                         
+                                           <br></br>
+                                         <b:commandButton value="Alterar Dados da Avaliação" ajax="true" update="@none" look="info" style="width:100px"/>  
+			 </b:panel>
+                                     <b:panel title="Imagens" showCollapseLink="true" show-collapse-link="true"  collapsed="true"   look="warning">
+                                        
+                                        <h:outputText value="Imagem pergunta "    />
+                                        <p:inputText id="ImagemPergunta" value="#{CrudAlternativa.selectedAlternativa.imagemPerg}"/>  
+                                        
+                                        <h:outputText value="Imagem A "    />
+                                        <p:inputText id="ImagemA" value="#{CrudAlternativa.selectedAlternativa.imagem1}"/>
+                                         
+                                         <h:outputText value="Imagem B "    />
+                                         <p:inputText id="ImagemB" value="#{CrudAlternativa.selectedAlternativa.imagem2}"/>
+                                    
+                                         <h:outputText value="Imagem C"    />
+                                         <p:inputText id="ImagemC" value="#{CrudAlternativa.selectedAlternativa.imagem3}"/>
+                                         
+                                         <h:outputText value="Imagem D"    />
+                                         <p:inputText id="ImagemD" value="#{CrudAlternativa.selectedAlternativa.imagem4}"/>
+                                         
+                                         <h:outputText value="Imagem E"    />
+                                         <p:inputText id="ImagemE" value="#{CrudAlternativa.selectedAlternativa.imagem5}"/>
+                                         
+                                         <h:outputText value="Imagem F"    />
+                                         <p:inputText id="ImagemF" value="#{CrudAlternativa.selectedAlternativa.imagem6}"/>
+                                         
+                                         <h:outputText value="Imagem G"    />
+                                         <p:inputText id="ImagemG" value="#{CrudAlternativa.selectedAlternativa.imagem7}"/>
+                                         
+                                         <h:outputText value="Imagem H"    />
+                                         <p:inputText id="ImagemH" value="#{CrudAlternativa.selectedAlternativa.imagem8}"/>
+                                         
+                                         <h:outputText value="Imagem I"    />
+                                         <p:inputText id="ImagemI" value="#{CrudAlternativa.selectedAlternativa.imagem9}"/>
+                                         
+                                         <h:outputText value="Imagem J"    />
+                                         <p:inputText id="ImagemJ" value="#{CrudAlternativa.selectedAlternativa.imagem10}"/>
+                                         
+                                         <br></br>
+                                         <b:commandButton value="Alterar Dados da Avaliação" ajax="true" update="@none" look="info" style="width:100px"/>  
+			 </b:panel>
+                    
+                         
+                        </p:outputPanel>
+                
+                                 <b:commandButton value="Excluir Registro" ajax="true" update="@none" look="danger" style="width:100px"/>
+                                  <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+			</p:dialog>
+             <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+                     </h:form>
+          </h:body>
+</html>

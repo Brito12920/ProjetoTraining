@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+       <h:outputStylesheet name="estilo.css" library="css" />
+        <h:form>
+        <title>Sistema de Avaliação</title>
+        <p:breadCrumb>
+            <p:menuitem value="Manu Principal" outcome="#{TelaMB.tela}" icon="pi pi-fw pi-home"/>
+           
+            <p:menuitem  value="#{FuncionarioMB.login.login}"  icon="pi pi-fw pi-user"/>
+        </p:breadCrumb>
+          <p:messages/>
+       </h:form>
+    </h:head>
+    <h:body>
+        <h:form>
+        <p:toolbar style="margin-top: 30">
+            <p:toolbarGroup>
+                
+              
+                <p:commandButton value="Pesquisa" />
+            </p:toolbarGroup>
+            <p:toolbarGroup align="right">
+                <p:button value="Novo" outcome="CadastroFuncionarios"  />
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:panelGrid columns="2" id="Painel" style="width: 100%; margin-top: 20px"  columnClasses="rotulo, campo">
+            <p:outputLabel  value="Registro" for="registro" />
+            <p:inputText id="registro" value="#{FuncionarioMB.funcionarios.registro}"> </p:inputText> />
+            
+            <p:outputLabel  value="Nome" for="nome" />
+            <p:inputText id="nome" size="20" />
+        </p:panelGrid>
+            
+              <p:dataTable value="#{FuncionarioMB.func}" var="funcionario" sortBy="#{funcionario.nome}" rows="10" paginator="true"
+                         paginatorPosition="bottom" rowsPerPageTemplate="10, 20, 30" >
+                
+                <p:column headerText="Registro" style="text-align: center" width="90" sortBy="#{funcionario.registro}" >
+                    <h:outputText value="#{funcionario.registro}"  />
+                </p:column>
+                
+                <p:column headerText="Nome" sortBy="#{funcionario.nome}">
+                    <h:outputText value="#{funcionario.nome}" />
+                </p:column>
+                
+                
+                <p:column headerText="Funcao">
+                    <h:outputText value="#{funcionario.funcao}" />
+                </p:column>
+                
+                <p:column headerText="Departamento" style="text-align: center">
+                    <h:outputText value="#{funcionario.departamento}"  />
+                </p:column>
+                
+                <p:column headerText="Unidade" style="text-align: center" width="90">
+                    <h:outputText value="#{funcionario.unidade}"  />
+                </p:column>
+                
+                  <p:column style="width: 80px; text-align: center" >
+                      <p:commandButton value="Sobre" action="#{FuncionarioMB.sobre()}" process="@this"  update="@form">
+                          <f:setPropertyActionListener value="#{codigo}" target="#{FuncionarioMB.funcionarios}" />
+                      </p:commandButton> 
+                      <p:commandButton icon="ui-icon-trash" title="Ecluir"/>
+                  </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

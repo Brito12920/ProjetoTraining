@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        
+        <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+        
+             <link rel="stylesheet" type="text/css" href="css/estilo.css" />    
+             <style type="text/css">
+           .cheap {
+                      background-color:  #C8E6C9 !important;
+                      background-image: none !important;
+                      color: #000 !important;
+                      
+              }
+              .repro {
+                  background-color: #ee2200  !important;
+                  background-image: none !important;
+                  color: #FFFFFF !important;
+
+              }
+              .progra {
+                  background-color: #DFDFDF !important;
+                  background-image: none !important;
+                  color: #000 !important;
+
+              }   
+
+              .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              } 
+            
+        </style>
+        
+        <p:growl id="messages" showDetail="true"/>
+    </h:head>
+    <h:body>
+        
+        <h:form id="i18n">
+             
+             <b:messages/>
+        
+             <b:dataTable value="#{ConsultaEspecificaControleBean.controles2}"
+                          excel="true"
+                          csv="true"
+                          pdf="true"
+                          columnVisibility="true"
+                          copy="true"
+                          print="true"
+                          var="controle"
+                          scroll-x="true"
+                          responsive="true"
+                          paginated="true"
+                           
+                          >
+                 <b:dataTableColumn value="#{controle.codigo}" />
+                 <b:dataTableColumn value="#{controle.codigoObt}" label="Chave indicadora"  />
+                 <b:dataTableColumn value="#{controle.registroTreinamento}"  label="Registro de Treinamento" order="asc"  />
+                 <b:dataTableColumn value="#{controle.registro}"  />
+                 <b:dataTableColumn value="#{controle.nome}" label="nome"/>
+                 <b:dataTableColumn value="#{controle.data_inclusao}"  label="Data Inclusão" />
+                 <b:dataTableColumn value="#{controle.hora_inclusao}" label="Hora Inclusão"/>
+                 <b:dataTableColumn value="#{controle.status}"  label="Status" />
+                 <b:dataTableColumn value="#{controle.data_curso}"  label="Data da avaliação" />  
+                 <b:dataTableColumn value="#{controle.tempo}"  label="Tempo utilizado" /> 
+                 <b:dataTableColumn value="#{controle.dataValidade}"  label="Validade" />
+                 <b:dataTableColumn value="#{controle.obtModelo}"  label="Modelo da avaliação" /> 
+                 <b:dataTableColumn value="#{controle.obtModeloSub}"  label="Subcategoria do modelo" />
+                 <b:dataTableColumn value="#{controle.departamento}" label="Departamento" />
+                 <b:dataTableColumn value="#{controle.unidade}"  label="Unidade" />
+                 <b:dataTableColumn value="#{controle.mapaProcesso}"  label="Mapa de Processo" />
+                 <b:dataTableColumn value="#{controle.subProcesso}"  label="Mapa Sub-processo" />
+                 <b:dataTableColumn value="#{controle.gestor}"  label="Gestor" />
+                 <b:dataTableColumn value="#{controle.treinamento}"  label="Treinamento" />
+                 <b:dataTableColumn value="#{controle.tipoTreinamento}"  label="Tipo Treinamento" />
+                 <b:dataTableColumn value="#{controle.nomeTrainamento}"  label="Nome do Treinamento" />
+                 <b:dataTableColumn value="#{controle.desc_treinamento}"  label="Descrição do Treinamento" />
+                 <b:dataTableColumn value="#{controle.tema}"  label="Tema" />
+                 <b:dataTableColumn value="#{controle.obs}"  label="Observações" />
+                 <b:dataTableColumn value="#{controle.tipo}"  label="Tipo de avaliação" /> 
+                 <b:dataTableColumn value="#{controle.custoTreinamento}"  label="Custo" />
+                 <b:dataTableColumn value="#{controle.avaliacaoReacao}"  label="Avaliação de Reação" />
+                 <b:dataTableColumn value="#{controle.avalicaoEficacia}"  label="Avaliação de Eficácia" />
+                 <b:dataTableColumn value="#{controle.dataAvaliaEficacia}"  label="Data avaliação Eficácia"/> 
+                 <b:dataTableColumn value="#{controle.certificado}" label="Certificao"/>
+                 <b:dataTableColumn value="#{controle.numeroDocumento}"  label="Numero Documento" />
+                 
+             </b:dataTable>
+                    
+                                
+            </h:form>
+    </h:body>
+</html>
+

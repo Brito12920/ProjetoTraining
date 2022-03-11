@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+      
+        
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+        
+         <p:messages/>
+          <style>
+            .ajax-status{
+                width: 35px;
+                height: 35px;
+                position: fixed;
+                right: 1060px;  
+                top: 560px;
+            }
+            /* reset on the showcase style*/
+           .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+        text-align: center;
+    }
+
+    .customPanelGrid .ui-panelgrid-content {
+        align-items: center;
+    }
+    .stilo{
+        background: #F5F5F5; 
+        color: #BEBEBE;
+        border-color: #F5F5F5;
+        .panel-heading {
+        background-color: #ececb0 !important;
+}
+     font-size: 12px;
+     
+   
+     
+    }
+   
+        </style>
+         <h:outputStylesheet name="estilo.css" library="css" />
+         <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+    </h:head>
+   
+    <h:body >
+        <b:panel title="Cadastro de Avaliação" look="warning"  >
+        <b:form id="form_cadControle" >
+        
+            
+           
+                
+                  
+            
+                      <b:panel style="background-color: #BEBEBE; width: 70%;" >       
+                 <h:outputLabel value="Tempo" for="tempo"    > </h:outputLabel>
+                 <p:inputText id="tempo" value="#{ControleMB.control.tempo}" style="width: 100%"  required="true"  
+									requiredMessage="Campo Tempo deve ser preenchido." 
+									converterMessage="Campo Tempo é Numérico."  > 
+                     <f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+                 </p:inputText>                 
+                 </b:panel>     
+                
+                <b:panel style="background-color: #BEBEBE; width: 100%;" >
+                    <b:panelGrid columns="2" >
+            
+            
+                   
+               
+                        <b:selectOneMenu value="#{ControleMB.control.mapaProcesso}" select2="true"  label="Mapa de Processo" >
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItems value="#{ControleMB.listaMapaProcesso}" var="a" />
+                        </b:selectOneMenu>
+
+                        <b:selectOneMenu value="#{ControleMB.control.subProcesso}" select2="true"   label="Mapa de Sub-Processo" >
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItems value="#{ControleMB.listaSubprocesso}" var="b" />
+                        </b:selectOneMenu>
+
+
+                        <b:selectOneMenu value="#{ControleMB.control.gestor}" select2="true"   label="Gestor" >
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItems value="#{ControleMB.listaGestor}" var="c" />
+                        </b:selectOneMenu>
+                 
+
+                        <b:selectOneMenu value="#{ControleMB.control.treinamento}" select2="true"   label="Intrutor/Agente Multiplicador" >
+                            <f:selectItem itemLabel="(Please select)" itemValue="" />
+                            <f:selectItems value="#{ControleMB.listaTreinamento}" var="d" />
+                        </b:selectOneMenu>
+                 
+                        
+                         <b:selectOneMenu value="#{ControleMB.control.status}" select2="true"  label="Modelo" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaModelo}" var="f" />
+                 </b:selectOneMenu>
+                 
+                        
+                  <b:selectOneMenu value="#{ControleMB.control.tipoTreinamento}"  select2="true"    label="Tipo de Treinamento  " >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaTipoTreinamento}" var="e" />
+                 </b:selectOneMenu>  
+                 
+                    <b:selectOneMenu value="#{ControleMB.control.tipo}" select2="true"   label="Tipo" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaTipo}" var="f" />
+                 </b:selectOneMenu>     
+                        
+                 </b:panelGrid>
+                </b:panel>
+                 
+                
+                <b:panel style="background-color: #BEBEBE; width: 100%;" >
+                <b:panelGrid columns="2">
+               
+                    <b:panel>
+                    <h:outputLabel value="Nome do Treinamento" for="nomeTreinamento"  style="width:20%"  > </h:outputLabel>
+                 <p:selectOneMenu value="#{ControleMB.control.nomeTrainamento}"  editable="true" style="width:100%;" label="Nome do Treinamento" >
+                     <f:selectItem itemLabel="(Please select)" itemValue="" />
+                     <f:selectItems value="#{ControleMB.listaNomeTreinamento}" var="f" />
+                 </p:selectOneMenu>
+                
+                    </b:panel>
+                 <b:panel>
+                   <p:commandButton id="bntDescricao"
+                                 icon="ui-icon-disk"
+                                 value="Buscar descrição" action="#{ControleMB.ordenarNome()}"
+                                 update="desc_treinamento"
+                                 styleClass="ui-button-warning" style="width:20%;"
+                                   ></p:commandButton>
+                 
+                  <br></br>
+                 <h:outputLabel value="Descrição do Treinamento" for="desc_treinamento"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="desc_treinamento" value="#{ControleMB.control.desc_treinamento}" style="width: 90%" > 
+                     <p:ajax  listener="#{ControleMB.ordenarNome()}"  />
+                 </p:inputText>
+                 </b:panel>
+                </b:panelGrid>
+                </b:panel>
+                <br></br>
+                
+                <b:panel style="background-color: #BEBEBE; width: 100%;" >
+                <b:panelGrid columns="1">
+                 
+                     <b:panel>     
+                 <h:outputLabel value="Tema" for="tema"  style="width:100%"  > </h:outputLabel>
+                 <p:inputText id="tema" value="#{ControleMB.control.tema}" style="width: 100%"> </p:inputText>
+                </b:panel>
+                
+                   
+                     <b:panel>   
+                  <h:outputLabel value="Observações" for="observacoes"  style="width:100%"  > </h:outputLabel>
+               
+                 <p:inputTextarea  id="observacoes" autoResize="true" style="width:100%" value="#{ControleMB.control.obs}">
+                  
+                       
+                 </p:inputTextarea>
+               </b:panel>  
+                
+                 
+                 </b:panelGrid>
+                 </b:panel>
+                 
+                <b:panel style="background-color: #BEBEBE; width: 100%;" >
+                <b:panelGrid columns="2">
+                    <b:panel>
+                    <h:outputLabel value="Número do Documento" for="numeroDocumento"  style="width:60%"  > </h:outputLabel>
+                
+                     <p:autoComplete id="compleNumeroDoc" value="#{ControleMB.control.numeroDocumento}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ControleMB.completarNumeroDocumento(consulta)}" scrollHeight="250"/>
+                     </b:panel>
+                     <b:panel style="width:100%" >
+                   <p:commandButton id="add"
+                                 icon="ui-icon-disk"
+                                 value="Add" 
+                                 style="width: 40%"
+                                 action="#{ControleMB.adicionarNumeroDoc()}"
+                                 update="form_cadControle:numeroDocumento"
+                                styleClass="ui-button-warning"
+                                   ></p:commandButton>
+                 
+                 <h:outputLabel value="Número do Documento" for="tema"  style="width:100%"  > </h:outputLabel>
+                 <p:inputText id="numeroDocumento" value="#{ControleMB.adicionarNumero}" style="width: 100%"> </p:inputText>
+                  <p:watermark id="doc" for="numeroDocumento" value="#{ControleMB.adicionarNumero}" /> 
+                 </b:panel>
+                 
+                 </b:panelGrid>
+                  </b:panel>  
+                <b:panel style="background-color: #BEBEBE; width: 100%;" >
+                 <b:panelGrid columns="4">
+                 
+                 <b:panel>
+                 <h:outputLabel value="Custro do Treinamento" for="custo"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="custo" value="#{ControleMB.control.custoTreinamento}" style="width: 90%"> </p:inputText> 
+                 </b:panel>
+                
+                               
+                 <b:panel>
+                 <h:outputLabel value="Fornecedor" for="fornecedor"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="fornecedor" value="#{ControleMB.control.fornecedor}" style="width: 90%"> </p:inputText>
+                </b:panel>
+                                
+                 <b:panel>
+                 <h:outputLabel value="Data da Inclusão" for="dataInclusao"  style="width:20%"  > </h:outputLabel>
+                 <p:inputMask id="dataInclusao" value="#{ControleMB.control.data_inclusao}" mask="99/99/9999"/>
+                 </b:panel>
+                 
+                 <b:panel>
+                <h:outputLabel value="Data do curso" for="dadaCurso"  style="width:20%"  > </h:outputLabel>
+                <p:inputMask id="dadaCurso" value="#{ControleMB.control.data_curso}" mask="99/99/9999"/>             
+                </b:panel>         
+                
+                 <b:panel>
+                 <h:outputLabel value="Data de validade" for="dataValidade"  style="width:20%"  > </h:outputLabel>
+                 <p:inputMask id="dataValidade" value="#{ControleMB.control.dataValidade}" mask="99/99/9999"/>                 
+                </b:panel>        
+                 
+                               
+                 <b:panel>
+                 <h:outputLabel value="Avaliação de reação" for="avaliacaoReacao"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="avaliacaoReacao" value="#{ControleMB.control.avaliacaoReacao}" style="width: 40%"> </p:inputText>
+                 <span class="fa fa-500px"></span>
+                </b:panel>
+                 
+                 <b:panel>
+                 <h:outputLabel value="criterio Kpi de Avalicao de Eficacia" for="criterio_kpi_avalicao_eficacia"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="criterio_kpi_avalicao_eficacia" value="#{ControleMB.control.criterio_kpi_avalicao_eficacia}" style="width: 40%"> </p:inputText>
+                </b:panel>
+                 
+                 <b:panel>
+                 <h:outputLabel value="Avaliação de Eficácia" for="avaliaEficacia"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="avaliaEficacia" value="#{ControleMB.control.avalicaoEficacia}" style="width: 40%"> </p:inputText>
+                </b:panel>
+                 
+                 <b:panel>
+                 <h:outputLabel value="Data da Avaliação de Eficácia" for="dataAvaliaEficacia"  style="width:20%"  > </h:outputLabel>
+                 <p:inputMask id="dataAvaliaEficacia" value="#{ControleMB.control.dataAvaliaEficacia}" mask="99/99/9999"/>  
+                 </b:panel>
+                 
+                 <b:panel>
+                 <h:outputLabel value="Certificado" for="certificado"  style="width:20%"  > </h:outputLabel>
+                 <p:inputText id="certificado" value="#{ControleMB.control.certificado}" style="width: 40%"> </p:inputText>
+                </b:panel>
+               
+                 </b:panelGrid>                 
+                </b:panel>
+                    
+          
+
+                
+            
+               
+                 
+               
+                
+                <b:panel style="background-color: #BEBEBE; width: 70%;">
+                         
+                      <b:panelGrid columns="3">
+                      <h:outputLabel value="Digite uma lista" onfocus="true"></h:outputLabel>
+             
+               
+            
+                <p:autoComplete id="consultaUnit" value="#{ControleMB.texto1Buscar}" forceSelection="true" onkeyup="this.value"
+                                 completeMethod="#{ListaBeanMB.completarLista}"  autocomplete="true" scrollHeight="250"/>
+                
+
+                  <p:commandButton id="bntPesquisarMapa"
+                                 icon="ui-icon-trash"
+                                 value="Pesquisar por lista" action="#{ControleMB.ordenarLista()}"
+                                 process="tabela consultaUnit @this"
+                                 styleClass="ui-button-warning"  
+                                 update="tabela"></p:commandButton>  
+                  </b:panelGrid>
+                          </b:panel>
+             
+                  
+                 
+            <b:panel style=" width:100%">
+             
+                     <b:panelGrid columns="2">
+                
+                         <b:panel style="background-color: #BEBEBE; width: 100%;">
+                         <p:commandButton id="bntSalvar"
+                                 icon="ui-icon-disk"
+                                 value="Salvar" action="#{ControleMB.salvar()}"
+                                 update="@form" 
+                                 styleClass="ui-button-warning"
+                                   ></p:commandButton>
+                     </b:panel>
+                        
+                          </b:panelGrid>
+                   
+                </b:panel>    
+                
+                
+            
+            
+            <p:dataTable  id="tabela" var="lista" value="#{ControleMB.listaFunc}">
+            <p:column headerText="Codigo">
+                <h:outputText value="#{lista.codigo}" />
+            </p:column>
+
+            <p:column headerText="Registro">
+                <h:outputText value="#{lista.registro}" />
+            </p:column>
+
+            <p:column headerText="Nome">
+                <h:outputText value="#{lista.nome}" />
+            </p:column>
+
+            <p:column headerText="Departamento">
+                <h:outputText value="#{lista.departamento}" />
+            </p:column>
+                      
+            <p:column headerText="Unidade">
+                <h:outputText value="#{lista.unidade}" />
+            </p:column>  
+                      
+              <p:column headerText="Lista">
+                <h:outputText value="#{lista.lista}" />
+            </p:column>            
+        </p:dataTable>
+             
+                    <p:ajaxStatus styleClass="ajax-status">
+               <f:facet name="start">
+                   <h:graphicImage library="resource"  value="load.gif"/>
+                    </f:facet>
+               <f:facet  name="complete">
+                   <h:outputText value=""/>
+               </f:facet>
+           </p:ajaxStatus> 
+             
+             
+                    </b:form>
+     </b:panel>
+     
+    </h:body>
+</html>

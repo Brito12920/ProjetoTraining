@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+          
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+       <div class="card">
+    <h:form>
+        
+                      <b:panel title="Avaliação do Treinador" look="warning" style="background: black; color: orange;  ">
+        <p:growl id="messages" showDetail="true"/>
+
+        <h3 align="center" class="p-mt-0">AVALIAÇÃO DO TREINADOR</h3>
+        <br/>
+        <h5 align="center" class="p-mt-0">Avaliação: #{RatingView.obtModelo} Chave indentificadora: #{RatingView.codigoObt}  </h5>
+        <h5 align="center" class="p-mt-0">Sua avaliação é muito importante para nós.</h5>
+        <h5 align="center" class="p-mt-0">Responda esta avaliação, dando sua opinião para contribuir para nossa melhoria contínua..</h5>
+        <p:panelGrid columns="2"  style="width: 100%">
+        <h4 class="p-mt-0">DOCUMENTAÇÃO DE TREINAMENTO</h4>
+        <h5 class="p-mt-0">Em relação a documentação abaixo,</h5>
+        <h5 class="p-mt-0">avalie se foi apresentada de forma clara e se foi mostrada a função no processo</h5>
+       
+        
+          
+        </p:panelGrid>
+        <br/>
+        
+        <div class="card">
+        
+            
+            
+            
+            <p:dataTable var="desc" value="#{CadastroDecAvalicaoMB.descricaoAvalicacoes}"   style="font-size: 12px">
+            
+                
+            <p:column headerText="Categoria">
+                <h:outputText value="#{desc.categoria}" />
+            </p:column>     
+             
+            <p:column headerText="Descrição da categoria ">
+                <h:outputText value="#{desc.desc_categoria}" />
+            </p:column>      
+                
+            <p:column headerText="Descrição da Avaliação">
+                <h:outputText value="#{desc.descricao}" />
+            </p:column>
+
+            
+            <p:column headerText="Quantity">
+                    <f:facet name="header">
+                        <h:outputText value="#{desc.descricao}" />
+                    </f:facet>
+                <p:rating value="#{desc.nota}" disabled="false"  style="color: orange"/>
+                </p:column>
+        </p:dataTable>
+    </div>
+        
+              
+        <p:commandButton id="bntPesquisarMapa"
+                                 icon=".ui-icon-circle-check"
+                                 value="Concluir avaliação" action="#{CadastroDecAvalicaoMB.gravarAvaliacao()}"
+                                styleClass="ui-button-success"
+                                 update="@form"></p:commandButton>    
+         </b:panel>
+             
+    </h:form>
+</div>
+    </h:body>
+</html>
+

@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        
+        <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{funcionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+        
+             <link rel="stylesheet" type="text/css" href="css/estilo.css" />    
+             <style type="text/css">
+           .cheap {
+                      background-color:  #C8E6C9 !important;
+                      background-image: none !important;
+                      color: #000 !important;
+                      
+              }
+              .repro {
+                  background-color: #ee2200  !important;
+                  background-image: none !important;
+                  color: #FFFFFF !important;
+
+              }
+              .progra {
+                  background-color: #DFDFDF !important;
+                  background-image: none !important;
+                  color: #000 !important;
+
+              }   
+
+              .ajax-status{
+                  width: 35px;
+                  height: 35px;
+                  position: fixed;
+                  right: 1060px;  
+                  top: 560px;
+              } 
+            
+        </style>
+        
+        <p:growl id="messages" showDetail="true"/>
+    </h:head>
+    <h:body>
+        
+        <b:form id="form">
+            <b:panel>
+             <b:messages/>
+         
+             <p:dataTable id="tabela" var="obt" value="#{ObtMB.listaObt}" styleClass="products-table" style="margin-bottom:0" reflow="true" 
+                          selection="#{ObtMB.obt}" rowKey="#{obt.codigo}" paginator="true" rows="12" 
+                          rowSelectMode="add" paginatorPosition="bottom" rowStyleClass="#{obt.status eq 'Cancelado' ? 'repro' : obt.status eq 'Programado' ? 'progra' : 'cheap'}">   
+
+
+                 <p:column style="width:32px;text-align: center">
+                     <p:commandButton icon="pi pi-pencil" update=":form:manage-product-content"
+                                      oncomplete="PF('dialogGerCliente').show()"
+                                      styleClass="edit-button rounded-button ui-button-success" process="@this">
+                         <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}"/>
+                         <p:resetInput target=":form:manage-product-content"/>
+                     </p:commandButton>
+                 </p:column>   
+
+                 <p:column headerText="Consultar Avaliação" style="width:90px;text-align: center" >
+                     <p:commandButton id="conferir" update="@form" styleClass="ui-button-warning"  action="/avaliacoes/QuestionarioConferir?faces-redirect=true" icon="pi pi-book" title="Consultar Avaliação" process="@this"  rendered="#{obt.status eq 'Concluido'}" >
+                         <p:ajax  update="tabela"  />
+                         <f:setPropertyActionListener value="#{obt}" target="#{ObtMB.obt}" />
+                     </p:commandButton>
+
+                 </p:column>  
+                 <p:column headerText="Codigo" sortBy="#{obt.codigo}" filterBy="#{obt.codigo}" style="width:200px"  resizable="true">    
+                     <h:outputText value="#{obt.codigo}" />
+                 </p:column>
+
+                 <p:column headerText="Registro de Treinamento" sortBy="#{obt.registroTreinamento}" filterBy="#{obt.registroTreinamento}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.registroTreinamento}" />
+                 </p:column>
+
+                 <p:column headerText="Nota" sortBy="#{obt.nota}" filterBy="#{obt.nota}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.nota}" />
+                 </p:column> 
+                 
+                 <p:column headerText="Nome da Avaliação" sortBy="#{obt.obtModelo}" filterBy="#{obt.obtModelo}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.obtModelo}" />
+                 </p:column>    
+
+                 <p:column headerText="Data" sortBy="#{obt.data}" filterBy="#{obt.data}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.data}" />
+                 </p:column>
+
+                 <p:column headerText="Hora" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.hora}" />
+                 </p:column>
+
+                 <p:column headerText="Registro"  sortBy="#{obt.re}" filterBy="#{obt.re}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.re}" />
+                 </p:column>     
+
+                 <p:column headerText="Nome" sortBy="#{obt.nome}" filterBy="#{obt.nome}" style="width:400px"  resizable="true">
+                     <h:outputText value="#{obt.nome}" />
+                 </p:column>       
+
+                 <p:column headerText="Departamento" sortBy="#{obt.departamento}" filterBy="#{obt.departamento}"  style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.departamento}" />
+                 </p:column>  
+
+                 <p:column headerText="Tipo" sortBy="#{obt.tipo}" filterBy="#{obt.tipo}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.tipo}" />
+                 </p:column>      
+
+                 <p:column headerText="Chave de Controle" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.codigoObt}" />
+                 </p:column>    
+
+                 
+
+                 <p:column headerText="Quantidade de Questões" sortBy="#{obt.quantPeguntas}" filterBy="#{obt.quantPeguntas}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.quantPeguntas}" />
+                 </p:column>    
+
+                 <p:column headerText="Quantidade erros" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.quantErros}" />
+                 </p:column>    
+
+
+                 <p:column headerText="Assinatura Funcionário" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.assinturaFunc}" />
+                 </p:column>    
+
+                 <p:column headerText="Assinatura do Facilitador Treinamento" style="width:400px"  resizable="true">
+                     <h:outputText value="#{obt.assinaturaFac}" />
+                 </p:column>    
+
+                 <p:column headerText="Assinatura do Aprovador" style="width:400px"  resizable="true">
+                     <h:outputText value="#{obt.assinaturaSup}" />
+                 </p:column>   
+
+                 <p:column headerText="Revisão" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.revisao}" />
+                 </p:column>    
+
+                 <p:column headerText="Unidade" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.unidade}" />
+                 </p:column>    
+
+                 <p:column headerText="Status" sortBy="#{obt.status}" filterBy="#{obt.status}" style="width:200px"  resizable="true">
+                     <h:outputText value="#{obt.status}" />
+                 </p:column>    
+
+
+             </p:dataTable>
+
+
+
+
+             <p:dialog id="modalDialog" header="Alteração de Avaliações" responsive="true"
+                       widgetVar="dialogGerCliente" modal="true" height="800" width="1000"
+                       showEffect="side"  style="background-color: #90a4ae ">
+                 <b:panel> 
+                     <p:outputPanel id="manage-product-content" class="ui-fluid" >
+
+
+                         <b:panel title="Alterar dados individuais" showCollapseLink="false" style="background: #DFDFDF  " collapsed="false" look="warning">
+                             <b:panelGrid columns="2">
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Codigo" for="codigo"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="codigo" value="#{ObtMB.obt.codigo}"  style="width: 40%"> </p:inputText>
+                                 </b:panel>  
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Registro Treinamento" for="registroTreina"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="registroTreina" value="#{ObtMB.obt.registroTreinamento}"  style="width: 40%"> </p:inputText>
+                                 </b:panel>  
+
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="registro" for="registro"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="registro" value="#{ObtMB.obt.re}" style="width: 40%"> </p:inputText>
+                                 </b:panel>    
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+
+                                     <b:selectOneMenu value="#{ObtMB.obt.departamento}" style="width:50%;margin: 10px" label="Departamento" >
+                                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                         <f:selectItems value="#{ControleMB.listaDepartamento}" var="d" />
+                                     </b:selectOneMenu>    
+                                 </b:panel>   
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="data" for="data"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="data" value="#{ObtMB.obt.data}" style="width: 40%"> </p:inputText>
+                                 </b:panel> 
+
+                             </b:panelGrid>
+                             <b:panelGrid columns="1">  
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <b:selectOneMenu value="#{ObtMB.obt.tipo}" style="width:50%;margin: 10px"    label="Tipo" >
+                                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                         <f:selectItems value="#{ControleMB.listaModelo}" var="f" />
+                                     </b:selectOneMenu>    
+                                 </b:panel>    
+
+
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="nota" for="nota"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="nota" value="#{ObtMB.obt.nota}" style="width: 40%"> </p:inputText>
+                                 </b:panel>  
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Quantidade de erros" for="quantErro"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="qtErro" value="#{ObtMB.obt.quantErros}" style="width: 40%"> </p:inputText>
+                                 </b:panel>      
+                             </b:panelGrid>
+
+                             <b:panelGrid columns="1">
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+
+                                     <b:selectOneMenu value="#{ObtMB.obt.obtModelo}"   label="Nome do Treinamento" >
+                                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                                         <f:selectItems value="#{ControleMB.listaNomeTreinamento}" var="treinamento" />
+                                     </b:selectOneMenu>
+                                 </b:panel>   
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="nome" for="nome"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="nome" value="#{ObtMB.obt.nome}" style="width: 40%"> </p:inputText>
+                                 </b:panel>        
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Revisão" for="revisao"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="revisao" value="#{ObtMB.obt.revisao}" style="width: 40%"> </p:inputText>
+                                 </b:panel>      
+
+
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Assinatura do Funcionário" for="assinaFunc"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="assinaFunc" value="#{ObtMB.obt.assinturaFunc}" style="width: 40%"> </p:inputText>
+                                 </b:panel>        
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Assinatura do facilitador Treinamento" for="assinaTreina"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="assinaTreina" value="#{ObtMB.obt.assinaturaFac}" style="width: 40%"> </p:inputText>
+                                 </b:panel>     
+
+                                 <b:panel style="background-color:  #DFDFDF">            
+                                     <h:outputLabel value="Assinatura do Supervisor" for="assinaSup"  style="width:50%"  > </h:outputLabel>
+                                     <p:inputText id="assinaSup" value="#{ObtMB.obt.assinaturaSup}" style="width: 40%"> </p:inputText>
+                                 </b:panel>      
+
+                             </b:panelGrid>
+
+                         </b:panel>
+                         <p:panelGrid columns="6">
+
+                             <p:commandButton id="bntAlterar"
+                                              icon="ui-icon-star"
+                                              value="Alterar" action="#{ObtMB.update()}"
+                                              update="@form"
+                                              styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                              onclick="PF('dialogGerCliente').hide()"
+                                              >
+                                 <p:ajax  update="tabela"  /> 
+
+                             </p:commandButton>                 
+                             <p:commandButton id="bntExcluir"
+                                              icon="ui-button-danger"
+                                              value="Excluir Registro" action="#{ObtMB.delete()}"
+                                              immediate="tabela"
+                                              styleClass="ui-button-danger"
+                                              update="@form"
+                                              onclick="PF('dialogGerCliente').hide()"
+                                              >
+                             </p:commandButton> 
+
+                             <p:commandButton id="bntExcluirAvaliacao"
+                                              icon="ui-button-danger"
+                                              value="Excluir Avaliação" action="#{ObtMB.deleteAvaliacao()}"
+                                              immediate="tabela"
+                                              styleClass="ui-button-raised ui-button-danger ui-button-flat"
+                                              update="@form">
+                             </p:commandButton> 
+
+
+                         </p:panelGrid>
+
+                     </p:outputPanel>
+                 </b:panel>  
+
+             </p:dialog> 
+            </b:panel> 
+            <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                             message="Tem certeza que deseja excluir esse registro ? #{ObtMB.obt.codigoObt}" header="Confirm" severity="warn">
+                <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{ObtMB.teste()}"
+                                 update="@form tabela" process="tabela @this"  oncomplete="PF('deleteProductDialog').hide()"/>
+
+                <p:commandButton value="No"  type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteProductDialog').hide()" update="tabela" process="tabela @this"/>
+            </p:confirmDialog>
+        </b:form>
+    </h:body>
+</html>
+

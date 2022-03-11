@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Sistema de Avaliação</title>
+       
+    </h:head>
+    <h:body >
+        <h:form >
+            <h:messages/>  
+        <p:growl id="msg"/>
+        <h5>Remote</h5>
+        <p:inputText value="#{SelectBooleanView.ordem}"/>  
+        <p:commandButton id="inicii"
+                                 icon="ui-icon-disk"
+                                 value="Iniciar" action="#{SelectBooleanView.carregar()}"
+                                 update="@form imagemTit imagemTit2"
+                                   ></p:commandButton>
+        <p:commandButton id="proximo"
+                                 icon="ui-icon-disk"
+                                 value="Proxima" action="#{SelectBooleanView.carregarProxi()}"
+                                 update="@form"
+                                   ></p:commandButton>
+           <p:commandButton id="voltar"
+                                 icon="ui-icon-disk"
+                                 value="Voltar" action="#{SelectBooleanView.carregarRev()}"
+                                 update="@form"
+                                   ></p:commandButton>
+         <p:commandButton id="Confirmar"
+                                 icon="ui-icon-disk"
+                                 value="Alterar" action="#{SelectBooleanView.marcaAtivoA()}"
+                                 update="@form"
+                                   ></p:commandButton>
+        <p:panelGrid columns="2" style="width: 90%">
+       
+        <p:inputTextarea  id="titulo" autoResize="true" value="#{SelectBooleanView.pergunta.descricao}" style="width:90%" >
+                     
+                 </p:inputTextarea>   
+        <p:galleria id="imagemTit" value="#{SelectBooleanView.image}" var="image" panelWidth="200"
+          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%">
+            <p:graphicImage  id="imagemTit2" value="#{image}"
+                          alt="Image Description for #{image}" title="#{image}" style="width: 90%"  />
+      </p:galleria>
+           
+            </p:panelGrid>
+        
+          
+
+        <p:panelGrid columns="2" style="width: 90%">
+
+         <h:panelGroup rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" >
+
+            <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuA}"   itemLabel="A" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" >
+                <p:ajax update="msg" listener="#{SelectBooleanView.addMessage()}"   event="click"/>
+            </p:selectBooleanCheckbox>
+            <p:inputTextarea  id="A" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaA}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" >
+
+            </p:inputTextarea>   
+
+            
+            
+            
+                <p:imageSwitch effect="zoom" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}">
+        <ui:repeat value="#{SelectBooleanView.image1}" var="image" >
+            <p:graphicImage  value="#{image}" width="10%" height="10%"/>
+        </ui:repeat>
+    </p:imageSwitch>
+      
+                <p:commandButton type="button" value="Show" onclick="PF('dlg').show()" icon="pi pi-home" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}" />
+
+    <p:dialog header="Images" widgetVar="dlg" modal="true"
+              draggable="false" resizable="false" showEffect="fade" hideEffect="fade" rendered="#{SelectBooleanView.pergunta.alternativaA != ''}">
+
+        <p:imageSwitch effect="fade">
+            <ui:repeat value="#{SelectBooleanView.image1}" var="image">
+                <p:graphicImage  value="#{image}"/>
+            </ui:repeat>
+        </p:imageSwitch>
+    </p:dialog>
+            </h:panelGroup>
+            
+
+            <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuB}" itemLabel="B" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}" >
+                <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+            </p:selectBooleanCheckbox>
+            <p:inputTextarea  id="B" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaB}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}">
+
+            </p:inputTextarea>   
+
+            <p:galleria value="#{SelectBooleanView.image2}" var="image" panelWidth="200"
+                        panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}">
+                <p:graphicImage value="#{image}"
+                                alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaB != ''}" />
+            </p:galleria>
+
+
+            
+
+
+              <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuC}" itemLabel="C" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}">
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="C" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaC}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}">
+
+              </p:inputTextarea>   
+
+
+              <p:galleria value="#{SelectBooleanView.image3}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}">
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaC != ''}" />
+              </p:galleria>
+
+            
+            
+            
+            
+              <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuD}" itemLabel="D" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+            <p:inputTextarea  id="D" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaD}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}">
+
+              </p:inputTextarea>   
+
+
+              <p:galleria value="#{SelectBooleanView.image4}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" >
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%"  rendered="#{SelectBooleanView.pergunta.alternativaD != ''}" />
+              </p:galleria>
+
+            
+            
+            
+              <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuE}" itemLabel="E" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="E" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaE}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}">
+
+              </p:inputTextarea>  
+
+              <p:galleria value="#{SelectBooleanView.image5}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}">
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaE != ''}" />
+              </p:galleria>
+             
+            
+            
+            
+            
+              <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuF}" itemLabel="F" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="F" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaF}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}">
+
+              </p:inputTextarea>   
+
+              <p:galleria value="#{SelectBooleanView.image6}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}">
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaF != ''}" />
+              </p:galleria>
+              
+            
+            
+            
+            
+            
+            <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuG}" itemLabel="G" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="G" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaG}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}">
+
+              </p:inputTextarea>   
+
+              <p:galleria value="#{SelectBooleanView.image7}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}">
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaG != ''}" />
+              </p:galleria>
+             
+            
+            
+            
+            
+            
+            <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuH}" itemLabel="H" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="H" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaH}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}">
+
+              </p:inputTextarea>   
+
+              <p:galleria value="#{SelectBooleanView.image8}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}">
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaH != ''}" />
+              </p:galleria>
+            
+            
+            
+            
+            
+            <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuI}" itemLabel="I" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="I" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaI}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}">
+
+              </p:inputTextarea>   
+
+              <p:galleria value="#{SelectBooleanView.image9}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaI != ''}">
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%"  rendered="#{SelectBooleanView.pergunta.alternativaI != ''}" />
+              </p:galleria>
+             
+            
+            
+            
+            
+            
+            <p:selectBooleanCheckbox value="#{SelectBooleanView.respondeu.respondeuJ}" itemLabel="J" style="width:10%" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" >
+                  <p:ajax update="msg" listener="#{SelectBooleanView.addMessage}"/>
+              </p:selectBooleanCheckbox>
+              <p:inputTextarea  id="J" autoResize="true" value="#{SelectBooleanView.pergunta.alternativaJ}" style="width:90%" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" >
+
+              </p:inputTextarea> 
+
+              <p:galleria value="#{SelectBooleanView.image10}" var="image" panelWidth="200"
+                          panelHeight="163" showCaption="false" style="float:right;height: 90px; width: 40%" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}" >
+                  <p:graphicImage value="#{image}"
+                                  alt="Image Description for #{image}" title="#{image}" style="width: 90%" rendered="#{SelectBooleanView.pergunta.alternativaJ != ''}"/>
+              </p:galleria>
+
+            </p:panelGrid>
+                
+            
+             
+        </h:form>
+     
+    </h:body>
+</html>

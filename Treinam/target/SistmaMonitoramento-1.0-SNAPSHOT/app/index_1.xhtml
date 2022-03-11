@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+        <title>Benigno Sales - Exemplo Login - Página Inicial</title>         
+       
+    </h:head>
+    <h:body>
+        <h5>Icon</h5>
+       
+          
+         
+           
+        <p:dialog modal="true" visible="true" width="250" height="150"  position="right,top"  header="Acessar o Sistema" showHeader="false" resizable="false">
+            <h:form id="formLogoff">
+                <h:panelGrid cellspacing="10">
+                    <h:panelGroup>
+                      <p:avatar icon="pi pi-user" styleClass="p-mr-2" size="large" style="background-color:#2196F3; color: #ffffff"/>
+                      <h:outputLabel value=" #{loginBean.login} Seja Bem-vindo " for="Imagem"  style="width:20%"  > </h:outputLabel>
+                   </h:panelGroup>
+                      <p:commandButton value="Sair" action="#{loginBean.logOff()}"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+
+</html>

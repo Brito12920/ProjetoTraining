@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+      
+        
+         <b:navBar brand="Continental" brandHref="#{TelaMB.tela}" inverse="true">
+ 
+         
+     <b:navbarLinks>
+    <b:navLink value="Home" href="#{TelaMB.tela}"></b:navLink>    
+   
+    
+    <b:navLink value="Olá bem vindo, #{FuncionarioMB.login.login}"></b:navLink>
+         
+   </b:navbarLinks>
+    
+</b:navBar>
+     <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+     <script>
+         .tabela {
+
+     border: 1px solid black;
+     color: orange;
+     background-color: orange;
+
+}
+     </script>
+     
+  </h:head>   
+    <h:body >
+           <p:fieldset legend="Cadastro de Usuario">
+
+        <h:form id="form_cadFuncionario">
+            <b:panel title="Cadastro de usuários" look="warning" style="background: gainsboro; color: red;  ">
+            <p:messages/>
+         
+           <p:toolbarGroup>
+                <p:commandButton value="Cadastrar um novo usuário" icon="pi pi-plus" update=":form_cadFuncionario:manage-product-content"
+                                              oncomplete="PF('dialogGerCliente').show()"
+                                              styleClass="ui-button-success" style="margin-right: .5rem" process="@this">
+                             
+                                 <p:resetInput target=":form_cadFuncionario:manage-product-content"/>
+                             </p:commandButton>
+                
+            </p:toolbarGroup>
+            
+          
+            <p:dataTable id="tabela" 
+                         resizableColumns="true"
+                         widgetVar="personTable"
+                         var="usuario"
+                         value="#{UsuarioBean.listUsuario}" 
+                         rowKey="#{usuario.codigo}"
+                         rows="10"
+                         paginator="true"
+                         rowsPerPageTemplate="10,20,30"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} "
+                         styleClass="tabela"
+                          >
+                
+                               
+                <p:column headerText="Codigo" sortBy="#{usuario.codigo}">
+                    <h:outputText value="#{usuario.codigo}" />
+                </p:column>
+
+
+
+                <p:column headerText="Usuario" sortBy="#{usuario.usuario}" filterBy="#{usuario.usuario}">
+                    <h:outputText value="#{usuario.usuario}" />
+                </p:column>
+
+
+                <p:column headerText="Departamento" sortBy="#{usuario.departamento}"  filterBy="#{usuario.departamento}">
+                         <h:outputText value="#{usuario.departamento}" />
+                     </p:column>
+
+                
+                <p:column headerText="Unidade" sortBy="#{usuario.unidade}"  filterBy="#{usuario.unidade}">
+                    <h:outputText value="#{usuario.unidade}" />
+                </p:column>
+                
+                <p:column headerText="Tipo" sortBy="#{usuario.tipo}"  filterBy="#{usuario.tipo}">
+                    <h:outputText value="#{usuario.tipo}"  />
+                </p:column>
+                
+                <p:column headerText="Password" sortBy="#{usuario.senha}">
+                    <h:outputText value="#{usuario.senha}"  />
+                </p:column>
+
+                                   
+                 <p:column style="width:32px;text-align: center">
+                             <p:commandButton icon="pi pi-pencil" update=":form_cadFuncionario:manage-product-content"
+                                              oncomplete="PF('dialogGerCliente').show()"
+                                               styleClass="rounded-button ui-button-info" process="@this">
+                                 <f:setPropertyActionListener value="#{usuario}" target="#{UsuarioBean.usuario}"/>
+                                 <p:resetInput target=":form_cadFuncionario:manage-product-content"/>
+                             </p:commandButton>
+                         </p:column>   
+                  
+                                   
+                
+                </p:dataTable>
+                
+           
+                     </b:panel>
+            
+            <p:dialog id="modalDialog" header="Cadastro de Usuário" responsive="true"
+				widgetVar="dialogGerCliente" modal="true" height="800" width="1000"
+                                showEffect="side"  style="background-color: #90a4ae ">
+                <b:panel> 
+                <p:outputPanel id="manage-product-content" class="ui-fluid" >
+
+
+                    <b:panel title="Cadastro de Usuário" showCollapseLink="false" style="background: #DFDFDF  " collapsed="false" look="warning">
+                                                 
+                                                   
+               
+                            <p:panelGrid columns="2" style="width: 90%">
+                   
+                    <h:outputLabel value="Usuario" for="usuario"   style="width:20%"></h:outputLabel>
+                    <p:inputText id="usuario" required="true" value="#{UsuarioBean.usuario.usuario}" style="width: 60%"> </p:inputText>
+                   
+                            </p:panelGrid>
+               
+                        <p:panelGrid columns="1" style="width: 90%">
+                     <b:panel style="background-color:  #DFDFDF">               
+                         <b:selectOneMenu value="#{UsuarioBean.usuario.departamento}" required="true" style="width:50%;margin: 10px" label="Departamento" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaDepartamento}" var="d" />
+                        
+                         </b:selectOneMenu> 
+                
+                      </b:panel> 
+                    </p:panelGrid>  
+                        <p:panelGrid columns="1" style="width: 90%">
+                                       
+                     <b:panel style="background-color:  #DFDFDF">               
+                     <b:selectOneMenu value="#{UsuarioBean.usuario.unidade}" required="true" style="width:50%;margin: 10px" label="Unidade" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{ControleMB.listaUnidade}" var="u" />
+                        </b:selectOneMenu> 
+                
+                      </b:panel> 
+                     </p:panelGrid>
+                    
+                      
+                        <p:panelGrid columns="1" style="width: 90%">
+                    <b:selectOneMenu value="#{UsuarioBean.usuario.tipo}" style="width:50%;margin: 10px" required="true" label="Tipo" >
+                         <f:selectItem itemLabel="(Please select)" itemValue="" />
+                         <f:selectItems value="#{UsuarioBean.listaTipo}" var="t" />
+                        </b:selectOneMenu> 
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" style="width: 90%">
+                    <h:outputLabel value="Password" for="password"  style="width:40%" ></h:outputLabel>
+                    <p:inputText id="password" value="#{UsuarioBean.usuario.senha}" required="true"></p:inputText>
+
+                   
+                </p:panelGrid>
+            
+           
+            <p:panelGrid columns="6">
+          
+                <p:commandButton id="bntSalvar"
+                                 icon="ui-icon-disk"
+                                 value="Salvar" action="#{UsuarioBean.cadastraUser()}"
+                                 styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton>
+               
+                
+                
+                <p:commandButton id="bntAlterar"
+                                 icon="ui-icon-star"
+                                 value="Alterar" action="#{UsuarioBean.alterarUser()}"
+                                 styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton>                 
+                <p:commandButton id="bntExcluir"
+                                 icon="ui-icon-trash"
+                                 value="Excluir" action="#{UsuarioBean.excluirUser()}"
+                                 styleClass="ui-button-warning"
+                                 update="@form"></p:commandButton> 
+                 
+              </p:panelGrid>
+                            
+                    </b:panel>
+                   
+                  
+                </p:outputPanel>
+               </b:panel>  
+                 
+               </p:dialog> 
+                     </h:form>
+       </p:fieldset>
+    </h:body>
+</html>
